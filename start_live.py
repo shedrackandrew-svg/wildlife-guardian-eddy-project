@@ -183,6 +183,20 @@ def main() -> int:
     region = os.getenv("NGROK_REGION", "us")
     authtoken = os.getenv("NGROK_AUTHTOKEN", "").strip()
 
+    if port == 5500:
+        print(
+            "Blocked configuration: LIVE_PORT=5500 is not allowed. "
+            "Port 5500 is typically used by static Live Server and causes incorrect links. "
+            "Set LIVE_PORT=8000 and run again."
+        )
+        return 1
+
+    if port != 5500 and _is_port_open(5500):
+        print(
+            "Notice: port 5500 is active on this machine (likely VS Code Live Server). "
+            "This launcher tunnels port 8000 only. Use the printed tunnel URL, not localhost:5500."
+        )
+
     # Ensure common project directories exist before serving.
     Path("data/images").mkdir(parents=True, exist_ok=True)
     Path("data/animal_profiles").mkdir(parents=True, exist_ok=True)
@@ -215,6 +229,7 @@ def main() -> int:
 
         print("\n=== Wildlife Guardian Live URL ===")
         print(public_url)
+        print("Local API:", f"http://127.0.0.1:{port}")
         print("Dashboard:", f"{public_url}/")
         print("Live share:", f"{public_url}/live")
         print("Admin:", f"{public_url}/admin")
