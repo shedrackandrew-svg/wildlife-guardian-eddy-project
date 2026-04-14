@@ -8,6 +8,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from urllib.parse import urlparse
 from urllib.request import urlopen
 
 from dotenv import load_dotenv
@@ -95,7 +96,28 @@ def _extract_public_url(line: str) -> str:
     candidate = match.group(0)
     if "localhost.run/docs" in candidate:
         return ""
-    return candidate
+
+    host = urlparse(candidate).netloc.lower()
+    if not host:
+        return ""
+
+    # Reject static localhost.run helper pages and only keep real tunnel domains.
+    if host.endswith("localhost.run") and not host.endswith(".lhr.life"):
+        return ""
+
+    if host in {"admin.localhost.run", "localhost.run"}:
+        return ""
+
+    if host.endswith("pinggy.link"):
+        return candidate
+
+    if host.endswith(".lhr.life"):
+        return candidate
+
+    if host.endswith("ngrok-free.app") or host.endswith("ngrok.io"):
+        return candidate
+
+    return ""
 
 
 def _start_localhostrun(port: int) -> tuple[str, subprocess.Popen[str]]:
