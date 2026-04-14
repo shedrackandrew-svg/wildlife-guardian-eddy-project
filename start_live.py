@@ -185,11 +185,10 @@ def main() -> int:
 
     if port == 5500:
         print(
-            "Blocked configuration: LIVE_PORT=5500 is not allowed. "
-            "Port 5500 is typically used by static Live Server and causes incorrect links. "
-            "Set LIVE_PORT=8000 and run again."
+            "LIVE_PORT=5500 detected. Auto-correcting to LIVE_PORT=8000 because "
+            "port 5500 is typically a static Live Server and causes wrong tunnel links."
         )
-        return 1
+        port = 8000
 
     if port != 5500 and _is_port_open(5500):
         print(
