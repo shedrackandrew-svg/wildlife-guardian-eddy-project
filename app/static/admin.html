@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wildlife Guardian Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <main class="layout single">
+      <section class="panel telemetry">
+        <div class="panel-head">
+          <h1>Admin Console</h1>
+          <p>Manage animal records, bootstrap species files, and share the public live link.</p>
+          <div class="quick-links">
+            <a href="/">Dashboard</a>
+            <a href="/live" target="_blank" rel="noopener">Public Live View</a>
+          </div>
+        </div>
+
+        <div class="stack">
+          <h2>Admin Access</h2>
+          <div class="lookup-row">
+            <input id="adminToken" type="text" placeholder="Enter ADMIN_TOKEN (leave blank if disabled)" />
+            <button id="saveToken">Save Token</button>
+          </div>
+          <div id="adminStatus" class="profile-box">Token not set for this browser session.</div>
+        </div>
+
+        <div class="stack">
+          <h2>Species Profiles</h2>
+          <div class="lookup-row">
+            <input id="searchSpecies" type="text" placeholder="Search species" />
+            <button id="refreshList">Refresh</button>
+          </div>
+          <ul id="profilesList"></ul>
+        </div>
+
+        <div class="stack">
+          <h2>Edit Profile</h2>
+          <form id="profileForm" class="admin-form">
+            <input name="species_name" placeholder="species_name" required />
+            <input name="scientific_name" placeholder="scientific_name" />
+            <input name="family" placeholder="family" />
+            <input name="conservation_status" placeholder="conservation_status" />
+            <input name="diet" placeholder="diet" />
+            <input name="average_lifespan_years" placeholder="average_lifespan_years" />
+            <input name="top_speed_kmh" placeholder="top_speed_kmh" type="number" />
+            <input name="habitats" placeholder="habitats (comma-separated)" />
+            <input name="regions" placeholder="regions (comma-separated)" />
+            <input name="aliases" placeholder="aliases (comma-separated)" />
+            <textarea name="facts" placeholder="facts (one per line)"></textarea>
+            <textarea name="safety_notes" placeholder="safety_notes"></textarea>
+            <div class="actions">
+              <button type="submit">Save Profile</button>
+              <button type="button" id="deleteProfile">Delete Species</button>
+              <button type="button" id="bootstrapProfiles">Bootstrap From Labels</button>
+            </div>
+          </form>
+          <div id="saveStatus" class="profile-box">Select a species from the list or enter a new one.</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/admin.js" type="module"></script>
+  </body>
+</html>

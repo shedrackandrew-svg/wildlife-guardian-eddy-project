@@ -1,0 +1,27 @@
+{
+  "species_name": "camel",
+  "scientific_name": "Camelus dromedarius / Camelus bactrianus",
+  "family": "Camelidae",
+  "conservation_status": "Domesticated / Critically Endangered wild Bactrian",
+  "habitats": [
+    "Desert",
+    "Semi-arid steppe"
+  ],
+  "regions": [
+    "Middle East",
+    "North Africa",
+    "Central Asia"
+  ],
+  "diet": "Herbivore",
+  "average_lifespan_years": "40-50",
+  "top_speed_kmh": 65,
+  "facts": [
+    "Adapted for long water scarcity",
+    "Humps store fat, not water"
+  ],
+  "safety_notes": "Handle domesticated camels calmly; avoid startling.",
+  "aliases": [
+    "dromedary",
+    "bactrian camel"
+  ]
+}

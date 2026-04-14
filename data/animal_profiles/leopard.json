@@ -1,0 +1,27 @@
+{
+  "species_name": "leopard",
+  "scientific_name": "Panthera pardus",
+  "family": "Felidae",
+  "conservation_status": "Vulnerable",
+  "habitats": [
+    "Forest",
+    "Savanna",
+    "Mountain"
+  ],
+  "regions": [
+    "Africa",
+    "Middle East",
+    "Asia"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "12-17",
+  "top_speed_kmh": 58,
+  "facts": [
+    "Highly adaptable predator",
+    "Can drag prey into trees"
+  ],
+  "safety_notes": "Do not corner or surprise; avoid moving alone at night.",
+  "aliases": [
+    "african leopard"
+  ]
+}

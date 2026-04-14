@@ -1,0 +1,27 @@
+{
+  "species_name": "wolf",
+  "scientific_name": "Canis lupus",
+  "family": "Canidae",
+  "conservation_status": "Least Concern",
+  "habitats": [
+    "Forest",
+    "Tundra",
+    "Steppe"
+  ],
+  "regions": [
+    "North America",
+    "Europe",
+    "Asia"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "8-13",
+  "top_speed_kmh": 60,
+  "facts": [
+    "Pack social structure",
+    "Communicate by howl and scent"
+  ],
+  "safety_notes": "Rarely dangerous to humans, but avoid habituating wildlife.",
+  "aliases": [
+    "gray wolf"
+  ]
+}

@@ -1,0 +1,252 @@
+:root {
+  --bg-ink: #0e1f16;
+  --bg-olive: #1b3a2a;
+  --panel: rgba(246, 250, 238, 0.92);
+  --accent: #ffe600;
+  --accent-2: #ff7a00;
+  --text: #102117;
+  --muted: #3a4a40;
+  --line: rgba(16, 33, 23, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 15% 20%, #2f5b42 0%, var(--bg-ink) 44%),
+    radial-gradient(circle at 85% 80%, #3f2f17 0%, #0f2217 40%);
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.4fr 1fr;
+  padding: 1rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+}
+
+.panel-head {
+  padding: 1rem 1.2rem 0.8rem;
+}
+
+.panel-head h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 3.2vw, 2.2rem);
+  letter-spacing: 0.03em;
+}
+
+.panel-head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+
+.quick-links {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.quick-links a {
+  display: inline-block;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  text-decoration: none;
+  color: var(--text);
+  background: #fbfdf7;
+  font-size: 0.88rem;
+}
+
+.video-wrap {
+  position: relative;
+  margin: 0 1rem;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid #0f2217;
+  background: #000;
+}
+
+#video,
+#overlay {
+  display: block;
+  width: 100%;
+  max-height: 56vh;
+  object-fit: cover;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.7rem 1.1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  cursor: pointer;
+  color: #102117;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(255, 122, 0, 0.3);
+}
+
+.results {
+  padding: 0 1rem 1rem;
+}
+
+pre {
+  margin: 0;
+  background: #0e1f16;
+  color: #d7f3db;
+  padding: 0.85rem;
+  border-radius: 10px;
+  min-height: 96px;
+  white-space: pre-wrap;
+}
+
+.telemetry {
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.stack {
+  background: #f4f8ef;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.8rem;
+}
+
+.stack h2 {
+  margin: 0 0 0.5rem;
+}
+
+.lookup-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+
+input[type="text"] {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.6rem 0.9rem;
+  font-family: "IBM Plex Mono", monospace;
+  background: #fdfef9;
+  color: var(--text);
+}
+
+.profile-box {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fdfef9;
+  padding: 0.7rem;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.profile-box h3 {
+  margin: 0 0 0.5rem;
+}
+
+.profile-box p {
+  margin: 0.25rem 0;
+}
+
+.profile-box ul {
+  margin-top: 0.4rem;
+}
+
+.layout.single {
+  grid-template-columns: minmax(320px, 900px);
+  justify-content: center;
+}
+
+.admin-form {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.admin-form textarea {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65rem;
+  font-family: "IBM Plex Mono", monospace;
+  min-height: 90px;
+  resize: vertical;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #204d32;
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+li {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  #video,
+  #overlay {
+    max-height: 42vh;
+  }
+}

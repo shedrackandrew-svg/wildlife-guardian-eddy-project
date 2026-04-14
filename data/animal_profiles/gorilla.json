@@ -1,0 +1,22 @@
+{
+  "species_name": "gorilla",
+  "scientific_name": "Gorilla gorilla / Gorilla beringei",
+  "family": "Hominidae",
+  "conservation_status": "Endangered / Critically Endangered",
+  "habitats": [
+    "Tropical forest",
+    "Montane forest"
+  ],
+  "regions": [
+    "Central Africa"
+  ],
+  "diet": "Herbivore",
+  "average_lifespan_years": "35-45",
+  "top_speed_kmh": 40,
+  "facts": [
+    "Largest living primates",
+    "Complex social behavior"
+  ],
+  "safety_notes": "Keep distance and avoid eye contact in close encounters.",
+  "aliases": []
+}

@@ -1,0 +1,23 @@
+{
+  "species_name": "owl",
+  "scientific_name": "Strigiformes (order)",
+  "family": "Various families",
+  "conservation_status": "Varies by species",
+  "habitats": [
+    "Forest",
+    "Grassland",
+    "Desert"
+  ],
+  "regions": [
+    "Worldwide"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "5-20",
+  "top_speed_kmh": 80,
+  "facts": [
+    "Silent flight from specialized feathers",
+    "Mostly nocturnal hunters"
+  ],
+  "safety_notes": "Limit flashlight use near roosting owls.",
+  "aliases": []
+}

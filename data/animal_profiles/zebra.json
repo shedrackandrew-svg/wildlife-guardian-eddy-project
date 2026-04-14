@@ -1,0 +1,23 @@
+{
+  "species_name": "zebra",
+  "scientific_name": "Equus quagga / Equus zebra",
+  "family": "Equidae",
+  "conservation_status": "Near Threatened",
+  "habitats": [
+    "Savanna",
+    "Grassland"
+  ],
+  "regions": [
+    "Eastern Africa",
+    "Southern Africa"
+  ],
+  "diet": "Herbivore",
+  "average_lifespan_years": "20-25",
+  "top_speed_kmh": 65,
+  "facts": [
+    "Stripe patterns are unique",
+    "Travel in social herds"
+  ],
+  "safety_notes": "Avoid close approach; they can bite and kick.",
+  "aliases": []
+}

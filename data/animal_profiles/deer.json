@@ -1,0 +1,26 @@
+{
+  "species_name": "deer",
+  "scientific_name": "Cervidae (family)",
+  "family": "Cervidae",
+  "conservation_status": "Varies by species",
+  "habitats": [
+    "Forest",
+    "Grassland",
+    "Wetland"
+  ],
+  "regions": [
+    "Worldwide except Antarctica"
+  ],
+  "diet": "Herbivore",
+  "average_lifespan_years": "6-20",
+  "top_speed_kmh": 80,
+  "facts": [
+    "Many species shed antlers annually",
+    "Strong crepuscular activity"
+  ],
+  "safety_notes": "Drive cautiously in deer crossing zones.",
+  "aliases": [
+    "stag",
+    "doe"
+  ]
+}

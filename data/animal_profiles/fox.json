@@ -1,0 +1,28 @@
+{
+  "species_name": "fox",
+  "scientific_name": "Vulpes vulpes and related",
+  "family": "Canidae",
+  "conservation_status": "Least Concern (common species)",
+  "habitats": [
+    "Forest",
+    "Grassland",
+    "Urban edge"
+  ],
+  "regions": [
+    "North America",
+    "Europe",
+    "Asia",
+    "North Africa"
+  ],
+  "diet": "Omnivore",
+  "average_lifespan_years": "3-10",
+  "top_speed_kmh": 50,
+  "facts": [
+    "Adapt well to urban environments",
+    "Excellent hearing"
+  ],
+  "safety_notes": "Do not feed wildlife in populated zones.",
+  "aliases": [
+    "red fox"
+  ]
+}

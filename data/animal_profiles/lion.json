@@ -1,0 +1,25 @@
+{
+  "species_name": "lion",
+  "scientific_name": "Panthera leo",
+  "family": "Felidae",
+  "conservation_status": "Vulnerable",
+  "habitats": [
+    "Savanna",
+    "Grassland"
+  ],
+  "regions": [
+    "Sub-Saharan Africa",
+    "India"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "10-16",
+  "top_speed_kmh": 80,
+  "facts": [
+    "Social cats living in prides",
+    "Roars can be heard up to 8 km"
+  ],
+  "safety_notes": "Do not approach on foot; maintain protected observation distance.",
+  "aliases": [
+    "african lion"
+  ]
+}

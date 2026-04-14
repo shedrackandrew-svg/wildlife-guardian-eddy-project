@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: wildlife-guardian
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    autoDeploy: true
+    envVars:
+      - key: APP_NAME
+        value: Wildlife Guardian
+      - key: DATABASE_URL
+        value: sqlite:///./data/wildlife.db
+      - key: IMAGE_SAVE_DIR
+        value: ./data/images
+      - key: ANIMAL_KNOWLEDGE_DIR
+        value: ./data/animal_profiles

@@ -1,0 +1,30 @@
+{
+  "species_name": "otter",
+  "scientific_name": "Lutrinae (subfamily)",
+  "family": "Mustelidae",
+  "conservation_status": "Varies by species",
+  "habitats": [
+    "Rivers",
+    "Coasts",
+    "Wetlands"
+  ],
+  "regions": [
+    "North America",
+    "Europe",
+    "Asia",
+    "South America",
+    "Africa"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "8-16",
+  "top_speed_kmh": 11,
+  "facts": [
+    "Use rocks as tools",
+    "Dense fur for insulation"
+  ],
+  "safety_notes": "Observe quietly; avoid disturbing resting groups.",
+  "aliases": [
+    "river otter",
+    "sea otter"
+  ]
+}

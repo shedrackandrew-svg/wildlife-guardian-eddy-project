@@ -1,0 +1,29 @@
+{
+  "species_name": "crocodile",
+  "scientific_name": "Crocodylidae (family)",
+  "family": "Crocodylidae",
+  "conservation_status": "Varies by species",
+  "habitats": [
+    "Rivers",
+    "Wetlands",
+    "Estuaries"
+  ],
+  "regions": [
+    "Africa",
+    "Asia",
+    "Australia",
+    "Americas"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "35-70",
+  "top_speed_kmh": 17,
+  "facts": [
+    "Powerful ambush predators",
+    "Can remain submerged for long periods"
+  ],
+  "safety_notes": "Never stand at water edge in crocodile habitat.",
+  "aliases": [
+    "nile crocodile",
+    "saltwater crocodile"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "species_name": "boar",
+  "scientific_name": "Sus scrofa",
+  "family": "Suidae",
+  "conservation_status": "Least Concern",
+  "habitats": [
+    "Forest",
+    "Scrubland",
+    "Farmland"
+  ],
+  "regions": [
+    "Europe",
+    "Asia",
+    "North Africa",
+    "Introduced globally"
+  ],
+  "diet": "Omnivore",
+  "average_lifespan_years": "10-14",
+  "top_speed_kmh": 48,
+  "facts": [
+    "Highly adaptable omnivore",
+    "Can cause major crop damage"
+  ],
+  "safety_notes": "Give a clear escape route; avoid cornering.",
+  "aliases": [
+    "wild boar",
+    "feral hog"
+  ]
+}

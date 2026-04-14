@@ -1,0 +1,24 @@
+{
+  "species_name": "alligator",
+  "scientific_name": "Alligator mississippiensis / Alligator sinensis",
+  "family": "Alligatoridae",
+  "conservation_status": "Least Concern / Critically Endangered",
+  "habitats": [
+    "Swamps",
+    "Marshes",
+    "Slow rivers"
+  ],
+  "regions": [
+    "Southeastern United States",
+    "Eastern China"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "30-50",
+  "top_speed_kmh": 18,
+  "facts": [
+    "Temperature-dependent sex determination",
+    "Important wetland apex predator"
+  ],
+  "safety_notes": "Do not feed; maintain distance from shoreline nests.",
+  "aliases": []
+}

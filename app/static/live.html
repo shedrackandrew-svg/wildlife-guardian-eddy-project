@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wildlife Guardian Live</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <main class="layout single">
+      <section class="panel telemetry">
+        <div class="panel-head">
+          <h1>Live Wildlife Share</h1>
+          <p>Public read-only view for anyone with this link.</p>
+          <div class="quick-links">
+            <a href="/">Main Dashboard</a>
+            <a href="/admin">Admin Console</a>
+          </div>
+        </div>
+
+        <div class="stack">
+          <h2>Latest Detection</h2>
+          <div id="latestDetection" class="profile-box">Waiting for updates...</div>
+        </div>
+
+        <div class="stack">
+          <h2>Recent Alerts</h2>
+          <ul id="liveAlerts"></ul>
+        </div>
+
+        <div class="stack">
+          <h2>Recent Detections</h2>
+          <ul id="liveDetections"></ul>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/live.js" type="module"></script>
+  </body>
+</html>

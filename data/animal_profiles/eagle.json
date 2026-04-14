@@ -1,0 +1,26 @@
+{
+  "species_name": "eagle",
+  "scientific_name": "Accipitridae (family)",
+  "family": "Accipitridae",
+  "conservation_status": "Varies by species",
+  "habitats": [
+    "Mountains",
+    "Coasts",
+    "Open country"
+  ],
+  "regions": [
+    "Worldwide"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "15-30",
+  "top_speed_kmh": 160,
+  "facts": [
+    "Excellent eyesight",
+    "Many species are apex avian predators"
+  ],
+  "safety_notes": "Avoid nest disturbance during breeding season.",
+  "aliases": [
+    "golden eagle",
+    "bald eagle"
+  ]
+}

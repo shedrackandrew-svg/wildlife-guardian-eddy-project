@@ -1,0 +1,20 @@
+{
+  "species_name": "tortoise",
+  "scientific_name": "Unknown",
+  "family": "Unknown",
+  "conservation_status": "Not evaluated",
+  "habitats": [
+    "Unknown"
+  ],
+  "regions": [
+    "Global"
+  ],
+  "diet": "Unknown",
+  "average_lifespan_years": "Unknown",
+  "top_speed_kmh": null,
+  "facts": [
+    "Profile auto-generated from species list."
+  ],
+  "safety_notes": "Observe from a safe distance.",
+  "aliases": []
+}

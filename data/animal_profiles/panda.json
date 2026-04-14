@@ -1,0 +1,23 @@
+{
+  "species_name": "panda",
+  "scientific_name": "Ailuropoda melanoleuca",
+  "family": "Ursidae",
+  "conservation_status": "Vulnerable",
+  "habitats": [
+    "Temperate mountain forest"
+  ],
+  "regions": [
+    "Central China"
+  ],
+  "diet": "Mostly bamboo",
+  "average_lifespan_years": "20-30",
+  "top_speed_kmh": 32,
+  "facts": [
+    "Specialized pseudo-thumb for bamboo",
+    "Symbol of global conservation"
+  ],
+  "safety_notes": "Avoid direct proximity in sanctuaries unless authorized.",
+  "aliases": [
+    "giant panda"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "species_name": "tiger",
+  "scientific_name": "Panthera tigris",
+  "family": "Felidae",
+  "conservation_status": "Endangered",
+  "habitats": [
+    "Forest",
+    "Mangrove",
+    "Grassland"
+  ],
+  "regions": [
+    "South Asia",
+    "Southeast Asia",
+    "Russian Far East"
+  ],
+  "diet": "Carnivore",
+  "average_lifespan_years": "10-20",
+  "top_speed_kmh": 65,
+  "facts": [
+    "Each stripe pattern is unique",
+    "Excellent swimmers"
+  ],
+  "safety_notes": "Avoid dense habitat edge at dawn/dusk in tiger range.",
+  "aliases": [
+    "bengal tiger",
+    "siberian tiger"
+  ]
+}

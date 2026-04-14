@@ -1,0 +1,29 @@
+{
+  "species_name": "bear",
+  "scientific_name": "Ursidae (family)",
+  "family": "Ursidae",
+  "conservation_status": "Varies by species",
+  "habitats": [
+    "Forest",
+    "Mountain",
+    "Arctic"
+  ],
+  "regions": [
+    "North America",
+    "Europe",
+    "Asia"
+  ],
+  "diet": "Omnivore",
+  "average_lifespan_years": "20-30",
+  "top_speed_kmh": 56,
+  "facts": [
+    "Most species hibernate seasonally",
+    "Strong sense of smell"
+  ],
+  "safety_notes": "Never feed; store food securely in bear country.",
+  "aliases": [
+    "brown bear",
+    "black bear",
+    "polar bear"
+  ]
+}

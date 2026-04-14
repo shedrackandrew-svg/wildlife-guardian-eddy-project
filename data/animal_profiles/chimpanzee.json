@@ -1,0 +1,22 @@
+{
+  "species_name": "chimpanzee",
+  "scientific_name": "Pan troglodytes",
+  "family": "Hominidae",
+  "conservation_status": "Endangered",
+  "habitats": [
+    "Tropical forest",
+    "Woodland"
+  ],
+  "regions": [
+    "Central and West Africa"
+  ],
+  "diet": "Omnivore",
+  "average_lifespan_years": "30-40",
+  "top_speed_kmh": 40,
+  "facts": [
+    "Use tools in the wild",
+    "High cognitive ability"
+  ],
+  "safety_notes": "Do not approach; can be aggressive if threatened.",
+  "aliases": []
+}

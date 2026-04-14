@@ -1,0 +1,28 @@
+{
+  "species_name": "elephant",
+  "scientific_name": "Loxodonta africana / Elephas maximus",
+  "family": "Elephantidae",
+  "conservation_status": "Vulnerable",
+  "habitats": [
+    "Savanna",
+    "Forest",
+    "Grassland"
+  ],
+  "regions": [
+    "Africa",
+    "South Asia",
+    "Southeast Asia"
+  ],
+  "diet": "Herbivore",
+  "average_lifespan_years": "50-70",
+  "top_speed_kmh": 40,
+  "facts": [
+    "Largest living land animals",
+    "Use infrasound for long-distance communication"
+  ],
+  "safety_notes": "Keep distance, especially from mothers with calves.",
+  "aliases": [
+    "african elephant",
+    "asian elephant"
+  ]
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wildlife Guardian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <main class="layout">
+      <section class="panel live-feed">
+        <div class="panel-head">
+          <h1>Wildlife Guardian</h1>
+          <p>Live external camera + immediate browser AI + backend alerting</p>
+          <div class="quick-links">
+            <a href="/live" target="_blank" rel="noopener">Live Share Page</a>
+            <a href="/admin" target="_blank" rel="noopener">Admin Console</a>
+          </div>
+        </div>
+
+        <div class="video-wrap">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+        </div>
+
+        <div class="actions">
+          <button id="startCamera">Start Camera</button>
+          <button id="stopCamera">Stop Camera</button>
+        </div>
+
+        <div class="results">
+          <h2>Immediate Feedback</h2>
+          <pre id="resultBox">Waiting for camera...</pre>
+        </div>
+      </section>
+
+      <section class="panel telemetry">
+        <div class="stack">
+          <h2>Animal Knowledge</h2>
+          <div class="lookup-row">
+            <input id="speciesSearch" type="text" placeholder="Search species (e.g. tiger)" />
+            <button id="searchSpecies">Lookup</button>
+          </div>
+          <div id="animalProfile" class="profile-box">Scan an animal or search a species to view stored profile details.</div>
+        </div>
+
+        <div class="stack">
+          <h2>Recent Alerts</h2>
+          <ul id="alertsList"></ul>
+        </div>
+
+        <div class="stack">
+          <h2>Recent Detections</h2>
+          <ul id="detectionsList"></ul>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
+    <script src="/static/app.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "species_name": "giraffe",
+  "scientific_name": "Giraffa camelopardalis",
+  "family": "Giraffidae",
+  "conservation_status": "Vulnerable",
+  "habitats": [
+    "Savanna",
+    "Open woodland"
+  ],
+  "regions": [
+    "Sub-Saharan Africa"
+  ],
+  "diet": "Herbivore",
+  "average_lifespan_years": "20-25",
+  "top_speed_kmh": 60,
+  "facts": [
+    "Tallest land animal",
+    "Long tongues adapted for thorny acacia"
+  ],
+  "safety_notes": "Respect space; defensive kicks can be dangerous.",
+  "aliases": []
+}
