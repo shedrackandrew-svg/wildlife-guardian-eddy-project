@@ -31,6 +31,12 @@ The backend uses open-vocabulary zero-shot classification (CLIP). Instead of har
 pip install -r requirements.txt
 ```
 
+For local full ML/training stack (optional), install:
+
+```bash
+pip install -r requirements-full.txt
+```
+
 3. Create `.env` from the example:
 
 ```bash
@@ -95,7 +101,10 @@ Each species profile is stored as an individual JSON file under:
 
 ## Free hosting (recommended: Render)
 
-This repo now includes `render.yaml` and `Procfile`.
+This repo now includes `render.yaml`, `Procfile`, and `runtime.txt`.
+
+Render uses the lightweight `requirements.txt` for reliable free-tier builds.
+If you need full training/transformer stack locally, use `requirements-full.txt`.
 
 1. Push this project to GitHub.
 2. Create a new Render Web Service from the repo.
