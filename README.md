@@ -131,6 +131,27 @@ ssh -R 80:localhost:8000 nokey@localhost.run
 
 It will print a temporary public URL you can share instantly. This quick URL is not permanent.
 
+## One-command live link launcher
+
+Run this to start the API and print a public URL in your terminal automatically:
+
+```bash
+python start_live.py
+```
+
+Optional environment variables:
+
+- `NGROK_AUTHTOKEN` (recommended for better tunnel reliability)
+- `NGROK_REGION` (default: `us`)
+- `LIVE_PORT` (default: `8000`)
+- `LIVE_HOST` (default: `0.0.0.0`)
+
+After launch, the terminal prints URLs for:
+
+- Dashboard (`/`)
+- Live share page (`/live`)
+- Admin page (`/admin`)
+
 ## IoT integration notes
 
 - SMS:

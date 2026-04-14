@@ -18,8 +18,10 @@ body {
   min-height: 100vh;
   font-family: "Space Grotesk", sans-serif;
   color: var(--text);
+  overflow-x: hidden;
   background: radial-gradient(circle at 15% 20%, #2f5b42 0%, var(--bg-ink) 44%),
-    radial-gradient(circle at 85% 80%, #3f2f17 0%, #0f2217 40%);
+    radial-gradient(circle at 85% 80%, #3f2f17 0%, #0f2217 40%),
+    linear-gradient(145deg, #0e1f16 0%, #0b2616 28%, #19280f 52%, #2d210f 74%, #0d1b15 100%);
 }
 
 .bg-grid {
@@ -29,6 +31,119 @@ body {
   background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
+  animation: gridDrift 18s linear infinite;
+}
+
+.animal-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.animal-ambient::before,
+.animal-ambient::after {
+  content: "";
+  position: absolute;
+  filter: blur(1px);
+  opacity: 0.18;
+}
+
+.animal-ambient::before {
+  width: 680px;
+  height: 680px;
+  right: -180px;
+  top: -120px;
+  border-radius: 52% 48% 44% 56% / 52% 41% 59% 48%;
+  background: radial-gradient(circle at 40% 40%, rgba(255, 197, 88, 0.28), rgba(255, 197, 88, 0));
+  animation: slowPulse 8s ease-in-out infinite;
+}
+
+.animal-ambient::after {
+  width: 740px;
+  height: 740px;
+  left: -220px;
+  bottom: -260px;
+  border-radius: 61% 39% 47% 53% / 38% 62% 40% 60%;
+  background: radial-gradient(circle at 60% 40%, rgba(120, 255, 188, 0.2), rgba(120, 255, 188, 0));
+  animation: slowPulse 10s ease-in-out infinite reverse;
+}
+
+.float {
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0.4;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0));
+  animation: floatUp 9s ease-in-out infinite;
+}
+
+.float.f1 {
+  width: 120px;
+  height: 120px;
+  left: 7%;
+  bottom: -40px;
+  animation-delay: 0s;
+}
+
+.float.f2 {
+  width: 70px;
+  height: 70px;
+  left: 24%;
+  bottom: -35px;
+  animation-delay: 1.2s;
+}
+
+.float.f3 {
+  width: 95px;
+  height: 95px;
+  left: 48%;
+  bottom: -30px;
+  animation-delay: 2.2s;
+}
+
+.float.f4 {
+  width: 85px;
+  height: 85px;
+  left: 70%;
+  bottom: -50px;
+  animation-delay: 0.8s;
+}
+
+.float.f5 {
+  width: 110px;
+  height: 110px;
+  left: 88%;
+  bottom: -35px;
+  animation-delay: 1.8s;
+}
+
+.eddy-signature {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 4;
+  font-family: "Kaligraph", "Calligraffitti", cursive;
+  font-size: clamp(1rem, 2.3vw, 1.45rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(9, 24, 19, 0.58);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(4px);
+  color: transparent;
+  background-image: linear-gradient(90deg, #ff2d55, #ffcc00, #46ff9f, #5ec2ff, #d662ff, #ff2d55);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: rainbowShift 5s linear infinite;
+}
+
+.eddy-signature span {
+  font-size: 1.05em;
+  margin-left: 0.25rem;
 }
 
 .layout {
@@ -46,6 +161,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
+  animation: panelFloat 7s ease-in-out infinite;
 }
 
 .panel-head {
@@ -240,9 +356,69 @@ li {
   font-size: 0.9rem;
 }
 
+@keyframes panelFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.95);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateY(-42vh) translateX(12px) scale(1.06);
+    opacity: 0.36;
+  }
+  100% {
+    transform: translateY(-84vh) translateX(-10px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes slowPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes gridDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, -24px, 0);
+  }
+}
+
+@keyframes rainbowShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 260% 50%;
+  }
+}
+
 @media (max-width: 960px) {
+  .eddy-signature {
+    font-size: 0.95rem;
+    top: 10px;
+    right: 10px;
+  }
+
   .layout {
     grid-template-columns: 1fr;
+    padding-top: 3.3rem;
   }
 
   #video,
