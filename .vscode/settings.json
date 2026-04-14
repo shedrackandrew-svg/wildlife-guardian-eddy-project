@@ -1,0 +1,15 @@
+{
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.exclude": [
+    "**/.venv/**",
+    "**/__pycache__/**"
+  ],
+  "files.exclude": {
+    "**/.venv": true,
+    "**/__pycache__": true
+  },
+  "search.exclude": {
+    "**/.venv": true,
+    "**/__pycache__": true
+  }
+}

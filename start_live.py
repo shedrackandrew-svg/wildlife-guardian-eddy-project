@@ -1,16 +1,15 @@
 from __future__ import annotations
 
 import os
+import re
 import signal
 import socket
 import subprocess
 import sys
 import time
 from pathlib import Path
-from urllib.error import URLError
 from urllib.request import urlopen
 
-import uvicorn
 from dotenv import load_dotenv
 from pyngrok import ngrok
 
@@ -53,11 +52,50 @@ def _wait_for_port(port: int, timeout_sec: float = 15.0) -> bool:
     return False
 
 
+def _probe_local_api(port: int, timeout_sec: float = 20.0) -> bool:
+    deadline = time.time() + timeout_sec
+    health_url = f"http://127.0.0.1:{port}/health"
+    while time.time() < deadline:
+        try:
+            with urlopen(health_url, timeout=3) as response:
+                if response.status == 200:
+                    return True
+        except Exception:
+            pass
+        time.sleep(1.0)
+    return False
+
+
 def _start_ngrok(port: int, region: str, authtoken: str) -> tuple[str, object]:
-    if authtoken:
-        ngrok.set_auth_token(authtoken)
+    if not authtoken:
+        raise RuntimeError("NGROK_AUTHTOKEN not set")
+    ngrok.set_auth_token(authtoken)
     tunnel = ngrok.connect(addr=port, proto="http", bind_tls=True, region=region)
     return tunnel.public_url, tunnel
+
+
+def _extract_public_url(line: str) -> str:
+    line = line.strip()
+    if not line:
+        return ""
+
+    if "localhost.run/docs" in line or "twitter.com/localhost_run" in line:
+        return ""
+
+    # localhost.run style
+    if " tunneled with tls termination, https://" in line:
+        candidate = line.split("https://", 1)[1].split()[0].strip()
+        return f"https://{candidate}"
+
+    # Generic URL extraction
+    match = re.search(r"https://[a-zA-Z0-9._-]+", line)
+    if not match:
+        return ""
+
+    candidate = match.group(0)
+    if "localhost.run/docs" in candidate:
+        return ""
+    return candidate
 
 
 def _start_localhostrun(port: int) -> tuple[str, subprocess.Popen[str]]:
@@ -71,45 +109,48 @@ def _start_localhostrun(port: int) -> tuple[str, subprocess.Popen[str]]:
     ]
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
 
-    deadline = time.time() + 30
+    deadline = time.time() + 45
     found_url = ""
     while time.time() < deadline:
         if proc.poll() is not None:
             break
         line = proc.stdout.readline() if proc.stdout else ""
-        if not line:
-            continue
-        line = line.strip()
-        if " tunneled with tls termination, https://" in line:
-            found_url = line.split("https://", 1)[1].strip()
-            found_url = f"https://{found_url.split()[0]}"
+        found_url = _extract_public_url(line)
+        if found_url:
             break
-        # Some localhost.run variants emit only the URL line near the end.
-        if line.startswith("https://") and "localhost.run/docs" not in line and "twitter.com" not in line:
-            candidate = line.split()[0]
-            if ".life" in candidate or ".run" in candidate:
-                found_url = candidate
-                break
 
     if not found_url:
         raise RuntimeError("Failed to get URL from localhost.run tunnel process")
     return found_url, proc
 
 
-def _probe_public_url(base_url: str, timeout_sec: float = 20.0) -> bool:
-    deadline = time.time() + timeout_sec
-    health_url = f"{base_url.rstrip('/')}/health"
+def _start_pinggy(port: int) -> tuple[str, subprocess.Popen[str]]:
+    # Free SSH reverse tunnel alternative when localhost.run is unstable.
+    cmd = [
+        "ssh",
+        "-p",
+        "443",
+        "-o",
+        "StrictHostKeyChecking=no",
+        "-R",
+        f"0:localhost:{port}",
+        "a.pinggy.io",
+    ]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+
+    deadline = time.time() + 45
+    found_url = ""
     while time.time() < deadline:
-        try:
-            with urlopen(health_url, timeout=3) as response:
-                if response.status == 200:
-                    return True
-        except URLError:
-            pass
-        except Exception:
-            pass
-        time.sleep(1.0)
-    return False
+        if proc.poll() is not None:
+            break
+        line = proc.stdout.readline() if proc.stdout else ""
+        found_url = _extract_public_url(line)
+        if found_url:
+            break
+
+    if not found_url:
+        raise RuntimeError("Failed to get URL from pinggy tunnel process")
+    return found_url, proc
 
 
 def main() -> int:
@@ -131,33 +172,24 @@ def main() -> int:
         server_proc = _start_local_server(host, port)
         if not _wait_for_port(port):
             raise RuntimeError(f"Local API did not become ready on port {port}")
+        if not _probe_local_api(port):
+            raise RuntimeError("Local API health check failed")
 
         public_url = ""
         try:
             public_url, tunnel = _start_ngrok(port, region, authtoken)
             print("Using ngrok tunnel provider.")
-            if not _probe_public_url(public_url, timeout_sec=15.0):
-                raise RuntimeError("ngrok public URL health check did not pass")
         except Exception as ngrok_exc:
             print(f"ngrok unavailable: {ngrok_exc}")
             print("Falling back to localhost.run tunnel provider...")
-
-            last_error = ""
-            last_url = ""
-            for _ in range(3):
-                if ssh_tunnel_proc is not None and ssh_tunnel_proc.poll() is None:
-                    ssh_tunnel_proc.terminate()
+            try:
                 public_url, ssh_tunnel_proc = _start_localhostrun(port)
-                last_url = public_url
-                if _probe_public_url(public_url, timeout_sec=20.0):
-                    break
-                last_error = f"Tunnel {public_url} failed health check"
-                print(last_error)
-            else:
-                if not last_url:
-                    raise RuntimeError(last_error or "Unable to establish public tunnel")
-                public_url = last_url
-                print("Continuing with tunnel despite local health-check limits.")
+                print("Using localhost.run tunnel provider.")
+            except Exception as localhostrun_exc:
+                print(f"localhost.run unavailable: {localhostrun_exc}")
+                print("Falling back to pinggy tunnel provider...")
+                public_url, ssh_tunnel_proc = _start_pinggy(port)
+                print("Using pinggy tunnel provider.")
 
         print("\n=== Wildlife Guardian Live URL ===")
         print(public_url)
