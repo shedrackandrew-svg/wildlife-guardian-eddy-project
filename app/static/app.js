@@ -501,15 +501,19 @@ async function searchSpecies() {
     animalProfile.textContent = "Enter a species name to search.";
     return;
   }
-  const response = await fetch(`/api/animals/${encodeURIComponent(species)}`);
-  if (response.status === 404) {
-    animalProfile.textContent = `No profile found for '${species}'.`;
-    return;
+  try {
+    const response = await fetch(`/api/animals/${encodeURIComponent(species)}`);
+    if (response.status === 404) {
+      animalProfile.textContent = `No profile found for '${species}'.`;
+      return;
+    }
+    if (!response.ok) throw new Error(`Lookup failed (${response.status})`);
+    const profile = await response.json();
+    renderAnimalProfile(profile);
+    speakProfile(profile.species_name, profile);
+  } catch {
+    animalProfile.textContent = "Species lookup is temporarily unavailable. Camera scanning can still run.";
   }
-  if (!response.ok) throw new Error(`Lookup failed (${response.status})`);
-  const profile = await response.json();
-  renderAnimalProfile(profile);
-  speakProfile(profile.species_name, profile);
 }
 
 function renderInventory(rows) {
@@ -538,22 +542,41 @@ function renderInventory(rows) {
 }
 
 async function pollInventory() {
-  const invRes = await fetch("/api/inventory");
-  if (!invRes.ok) return;
-  const rows = await invRes.json();
-  renderInventory(rows);
+  try {
+    const invRes = await fetch("/api/inventory");
+    if (!invRes.ok) {
+      renderInventory([]);
+      return;
+    }
+    const rows = await invRes.json();
+    renderInventory(Array.isArray(rows) ? rows : []);
+  } catch {
+    renderInventory([]);
+  }
 }
 
 async function pollTelemetry() {
-  const [alertsRes, detectionsRes] = await Promise.all([fetch("/api/alerts?limit=8"), fetch("/api/detections?limit=8")]);
-  const alerts = await alertsRes.json();
-  const detections = await detectionsRes.json();
+  let alerts = [];
+  let detections = [];
+
+  try {
+    const [alertsRes, detectionsRes] = await Promise.all([fetch("/api/alerts?limit=8"), fetch("/api/detections?limit=8")]);
+    alerts = alertsRes.ok ? await alertsRes.json() : [];
+    detections = detectionsRes.ok ? await detectionsRes.json() : [];
+  } catch {
+    alerts = [];
+    detections = [];
+  }
+
+  if (!Array.isArray(alerts)) alerts = [];
+  if (!Array.isArray(detections)) detections = [];
+
   alertsList.innerHTML = alerts.length
     ? alerts.map((a) => `<li><strong>${a.channel}</strong> ${a.status}<br>${a.message}</li>`).join("")
-    : "<li>No alerts yet.</li>";
+    : "<li>Alerts unavailable right now.</li>";
   detectionsList.innerHTML = detections.length
     ? detections.map((d) => `<li>${new Date(d.created_at).toLocaleTimeString()} - ${d.top_label} (${Math.round(d.confidence * 100)}%)</li>`).join("")
-    : "<li>No detections yet.</li>";
+    : "<li>Detections unavailable right now.</li>";
 }
 
 function buildSlide(item) {
@@ -598,13 +621,23 @@ function renderSlide(index) {
 }
 
 async function loadSlideshow() {
-  const galleryRes = await fetch("/api/gallery?limit=24");
-  if (galleryRes.ok) slideshowItems = await galleryRes.json();
-  if (!slideshowItems.length) {
-    const animalsRes = await fetch("/api/animals?limit=24");
-    const animals = animalsRes.ok ? await animalsRes.json() : [];
-    slideshowItems = animals.map((a) => ({ species_name: a.species_name, scientific_name: a.scientific_name, conservation_status: a.conservation_status }));
+  try {
+    const galleryRes = await fetch("/api/gallery?limit=24");
+    if (galleryRes.ok) {
+      const gallery = await galleryRes.json();
+      slideshowItems = Array.isArray(gallery) ? gallery : [];
+    }
+    if (!slideshowItems.length) {
+      const animalsRes = await fetch("/api/animals?limit=24");
+      const animals = animalsRes.ok ? await animalsRes.json() : [];
+      slideshowItems = Array.isArray(animals)
+        ? animals.map((a) => ({ species_name: a.species_name, scientific_name: a.scientific_name, conservation_status: a.conservation_status }))
+        : [];
+    }
+  } catch {
+    slideshowItems = [];
   }
+
   renderGallery(slideshowItems);
   renderSlide(0);
   setInterval(() => {
