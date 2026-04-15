@@ -31,6 +31,13 @@ jobs:
           root = Path('.')
           src = root / 'app' / 'static'
           out = root / '_site'
+            live_link_file = root / 'live_link.txt'
+
+            default_api_base = ""
+            if live_link_file.exists():
+              candidate = live_link_file.read_text(encoding='utf-8', errors='ignore').strip()
+              if candidate.startswith('http://') or candidate.startswith('https://'):
+                default_api_base = candidate.rstrip('/')
 
           if out.exists():
               shutil.rmtree(out)
@@ -68,10 +75,10 @@ jobs:
 
               inject = (
                   '<script>'
-                  'window.WG_API_BASE = localStorage.getItem("wg_api_base") || "";'
-                  'if (window.location.hostname.endsWith("github.io") && !window.WG_API_BASE) {'
-                  'const base = prompt("Set backend API base URL (example: https://wildguard-live.onrender.com). Leave empty for frontend-only mode:", "");'
-                  'if (base) { localStorage.setItem("wg_api_base", base.replace(/\/$/, "")); window.WG_API_BASE = localStorage.getItem("wg_api_base") || ""; }'
+                  f'window.WG_DEFAULT_API_BASE = {default_api_base!r};'
+                  'window.WG_API_BASE = (localStorage.getItem("wg_api_base") || window.WG_DEFAULT_API_BASE || "").replace(/\/$/, "");'
+                  'if (window.WG_API_BASE) {'
+                  'localStorage.setItem("wg_api_base", window.WG_API_BASE);'
                   '}'
                   '(function(){'
                   'const base=(window.WG_API_BASE||"").replace(/\/$/, "");'
