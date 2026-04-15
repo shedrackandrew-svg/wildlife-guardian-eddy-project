@@ -76,7 +76,8 @@ jobs:
               inject = (
                   '<script>'
                   f'window.WG_DEFAULT_API_BASE = {default_api_base!r};'
-                  'window.WG_API_BASE = (localStorage.getItem("wg_api_base") || window.WG_DEFAULT_API_BASE || "").replace(/\/$/, "");'
+                  'const __wgStoredBase = localStorage.getItem("wg_api_base") || "";'
+                  'window.WG_API_BASE = (window.WG_DEFAULT_API_BASE || __wgStoredBase || "").replace(/\/$/, "");'
                   'if (window.WG_API_BASE) {'
                   'localStorage.setItem("wg_api_base", window.WG_API_BASE);'
                   '}'

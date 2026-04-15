@@ -388,7 +388,11 @@ async function uploadSnapshot() {
     form.append("file", blob, "frame.jpg");
     form.append("source", "web-camera");
     const response = await fetch("/api/detect/image", { method: "POST", body: form });
-    if (!response.ok) throw new Error(`Server detection failed (${response.status})`);
+    if (!response.ok) {
+      // Keep local camera loop responsive even if backend is temporarily unavailable.
+      resultBox.textContent = "Camera is running. Server detection temporarily unavailable.";
+      return;
+    }
 
     const data = await response.json();
     const requiredConfidence = Math.max(0.42, Number(globalSettings.minConfidence || 0.35));
@@ -416,6 +420,8 @@ async function uploadSnapshot() {
     resultBox.textContent = `Detected animal: ${data.label} (${Math.round(confidence * 100)}%)`;
     renderAnimalProfile(data.animal_info || null);
     speakProfile(data.label, data.animal_info || null);
+  } catch {
+    resultBox.textContent = "Camera is running. Network detection temporarily unavailable.";
   } finally {
     uploadInFlight = false;
   }
@@ -472,7 +478,7 @@ async function startCamera() {
   video.srcObject = stream;
   localDetectLoop();
   uploadLoopHandle = setInterval(() => {
-    uploadSnapshot().catch((err) => (resultBox.textContent = `Upload error: ${err.message}`));
+    uploadSnapshot().catch(() => {});
     pollTelemetry().catch(() => {});
     pollInventory().catch(() => {});
   }, Math.max(700, globalSettings.autoCaptureMs));
