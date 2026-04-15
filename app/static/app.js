@@ -804,9 +804,6 @@ async function init() {
 }
 
 init().catch((err) => {
-  if (isGithubPagesHost()) {
-    resultBox.textContent = "Frontend-only mode active on permanent GitHub link. Set a backend API URL when prompted to enable live detections and database data.";
-    return;
-  }
-  resultBox.textContent = `Initialization error: ${err.message}`;
+  // Do not block camera usage if non-critical data loading fails.
+  resultBox.textContent = `System partially loaded (${err.message}). Camera can still be started.`;
 });
