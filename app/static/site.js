@@ -14,6 +14,10 @@ function appRoute(path) {
   if (!isGithubPagesHost()) return clean;
 
   const base = getRepoBasePath();
+  if (clean === base || clean.startsWith(`${base}/`)) {
+    return clean;
+  }
+
   const routeMap = {
     "/": "/index.html",
     "/dashboard": "/dashboard.html",
@@ -31,10 +35,14 @@ function appRoute(path) {
 }
 
 function normalizePageLinks() {
+  const base = getRepoBasePath();
   const anchors = Array.from(document.querySelectorAll("a[href]"));
   for (const anchor of anchors) {
     const rawHref = anchor.getAttribute("href") || "";
     if (!rawHref.startsWith("/") || rawHref.startsWith("//") || rawHref.startsWith("/api/")) {
+      continue;
+    }
+    if (base && (rawHref === base || rawHref.startsWith(`${base}/`))) {
       continue;
     }
     anchor.setAttribute("href", appRoute(rawHref));
@@ -224,6 +232,8 @@ ensureSettingsLink();
 applyGlobalTheme();
 applyMenuFeatures();
 normalizePageLinks();
+window.setTimeout(normalizePageLinks, 50);
+window.setTimeout(normalizePageLinks, 400);
 initHomeSettings();
 if (document.readyState === "complete") {
   hidePreloader();
