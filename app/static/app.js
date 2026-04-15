@@ -601,6 +601,13 @@ function renderInventory(rows) {
     : "<li>No inventory records yet.</li>";
 }
 
+function alertChipKind(message, status) {
+  const text = `${message || ""} ${status || ""}`.toLowerCase();
+  if (text.includes("critical") || text.includes("danger") || text.includes("attack")) return "is-critical";
+  if (text.includes("warning") || text.includes("high") || text.includes("risk")) return "is-elevated";
+  return "is-info";
+}
+
 async function pollInventory() {
   if (!backendEnabled) {
     renderInventory([]);
@@ -641,10 +648,21 @@ async function pollTelemetry() {
   if (!Array.isArray(detections)) detections = [];
 
   alertsList.innerHTML = alerts.length
-    ? alerts.map((a) => `<li><strong>${a.channel}</strong> ${a.status}<br>${a.message}</li>`).join("")
+    ? alerts
+        .map((a) => {
+          const chip = alertChipKind(a.message, a.status);
+          return `<li class="live-item"><strong>${a.channel}</strong> ${a.status}<span class="chip ${chip}">${chip.replace("is-", "")}</span><br>${a.message}</li>`;
+        })
+        .join("")
     : "<li>Alerts unavailable right now.</li>";
   detectionsList.innerHTML = detections.length
-    ? detections.map((d) => `<li>${new Date(d.created_at).toLocaleTimeString()} - ${d.top_label} (${Math.round(d.confidence * 100)}%)</li>`).join("")
+    ? detections
+        .map((d) => {
+          const confidencePct = Math.round(Number(d.confidence || 0) * 100);
+          const chip = confidencePct >= 85 ? "is-critical" : confidencePct >= 70 ? "is-elevated" : "is-info";
+          return `<li class="live-item">${new Date(d.created_at).toLocaleTimeString()} - ${d.top_label} (${confidencePct}%)<span class="chip ${chip}">${confidencePct >= 85 ? "high" : confidencePct >= 70 ? "medium" : "low"}</span></li>`;
+        })
+        .join("")
     : "<li>Detections unavailable right now.</li>";
 }
 
@@ -870,10 +888,11 @@ async function init() {
   }
 
   attachEvents();
+  resultBox.classList.add("feed-live");
 
   await Promise.all([loadCameraDevices(), initQrCode(), loadSlideshow(), pollTelemetry(), pollInventory()]);
-  setInterval(() => pollTelemetry().catch(() => {}), 3000);
-  setInterval(() => pollInventory().catch(() => {}), 5000);
+  setInterval(() => pollTelemetry().catch(() => {}), 1800);
+  setInterval(() => pollInventory().catch(() => {}), 2600);
 
   resultBox.textContent = backendEnabled
     ? "Ready. Click Start Camera to begin secure scanning."

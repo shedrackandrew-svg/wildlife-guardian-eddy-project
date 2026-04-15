@@ -253,14 +253,21 @@ async function loadZones() {
 }
 
 initMap();
-loadZones()
-  .then((rows) => {
+
+async function refreshMapZones() {
+  try {
+    const rows = await loadZones();
     if (!hasConfiguredBackend()) {
       mapLegend.textContent = "Backend not connected. Showing local/demo habitat intelligence map.";
     }
     renderZones(rows);
-  })
-  .catch((err) => {
+  } catch (err) {
     mapLegend.textContent = err.message;
     selectedSpecies.textContent = "Map loading failed.";
-  });
+  }
+}
+
+refreshMapZones();
+setInterval(() => {
+  refreshMapZones();
+}, 4200);

@@ -802,6 +802,81 @@ li {
   background: rgba(2, 7, 5, 0.66);
 }
 
+.live-item {
+  border-color: color-mix(in oklab, var(--accent) 42%, var(--line));
+  background: linear-gradient(140deg, rgba(7, 19, 15, 0.92), rgba(8, 16, 24, 0.82));
+}
+
+.live-item .chip {
+  display: inline-block;
+  margin-left: 0.45rem;
+  padding: 0.08rem 0.42rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e8fff6;
+  background: rgba(66, 191, 124, 0.22);
+}
+
+.chip.is-critical {
+  color: #ffecec;
+  background: rgba(232, 76, 76, 0.28);
+  border-color: rgba(255, 109, 109, 0.65);
+  animation: chipPulse 1.8s ease-in-out infinite;
+}
+
+.chip.is-elevated {
+  color: #fff5e4;
+  background: rgba(229, 147, 53, 0.3);
+  border-color: rgba(244, 172, 92, 0.72);
+}
+
+.chip.is-info {
+  color: #e8f7ff;
+  background: rgba(73, 150, 221, 0.28);
+  border-color: rgba(95, 175, 246, 0.7);
+}
+
+.feed-live {
+  position: relative;
+  overflow: hidden;
+}
+
+.feed-live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 0%, rgba(86, 202, 143, 0.09) 47%, transparent 100%);
+  transform: translateX(-100%);
+  animation: feedSweep 2.8s ease-in-out infinite;
+}
+
+@keyframes chipPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(241, 91, 91, 0.44);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(241, 91, 91, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(241, 91, 91, 0);
+  }
+}
+
+@keyframes feedSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  55% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .qr-wrap {
   display: grid;
   justify-items: center;

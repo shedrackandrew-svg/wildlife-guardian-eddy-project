@@ -138,3 +138,7 @@ searchInput.addEventListener("keydown", (event) => {
 loadLibrary().catch((err) => {
   libraryMeta.textContent = err.message;
 });
+
+setInterval(() => {
+  loadLibrary().catch(() => {});
+}, 4200);

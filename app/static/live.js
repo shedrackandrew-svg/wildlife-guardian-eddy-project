@@ -32,14 +32,23 @@ function renderLive(detections, alerts, localMode = false) {
   }
 
   liveAlerts.innerHTML = alerts.length
-    ? alerts.map((a) => `<li><strong>${a.channel}</strong> ${a.status}<br>${a.message}</li>`).join("")
+    ? alerts
+        .map((a) => {
+          const text = `${a.message || ""} ${a.status || ""}`.toLowerCase();
+          const chip = text.includes("high") || text.includes("critical") ? "is-critical" : text.includes("warning") ? "is-elevated" : "is-info";
+          return `<li class="live-item"><strong>${a.channel}</strong> ${a.status}<span class="chip ${chip}">${chip.replace("is-", "")}</span><br>${a.message}</li>`;
+        })
+        .join("")
     : `<li>${localMode ? "No local alert patterns yet." : "No alerts yet."}</li>`;
 
   liveDetections.innerHTML = detections.length
     ? detections
         .map(
-          (d) =>
-            `<li>${new Date(d.created_at).toLocaleTimeString()} - ${d.top_label} (${Math.round(Number(d.confidence || 0) * 100)}%) from ${d.source}</li>`,
+          (d) => {
+            const confidencePct = Math.round(Number(d.confidence || 0) * 100);
+            const chip = confidencePct >= 85 ? "is-critical" : confidencePct >= 70 ? "is-elevated" : "is-info";
+            return `<li class="live-item">${new Date(d.created_at).toLocaleTimeString()} - ${d.top_label} (${confidencePct}%) from ${d.source}<span class="chip ${chip}">${confidencePct >= 85 ? "high" : confidencePct >= 70 ? "medium" : "low"}</span></li>`;
+          },
         )
         .join("")
     : `<li>${localMode ? "Waiting for local camera detections." : "No detections yet."}</li>`;
@@ -90,4 +99,5 @@ async function pollLive() {
 pollLive().catch(() => {
   latestDetection.textContent = "Unable to load live data.";
 });
-setInterval(() => pollLive().catch(() => {}), 4000);
+latestDetection.classList.add("feed-live");
+setInterval(() => pollLive().catch(() => {}), 2000);
