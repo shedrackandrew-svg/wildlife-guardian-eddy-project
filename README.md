@@ -131,3 +131,24 @@ If you do not have a custom domain or Cloudflare token, use Render connected to 
 5. Render gives a stable URL like `https://wildguard-live.onrender.com`.
 
 This URL is the closest to a permanent 24-hour link without buying a domain.
+
+## Permanent free GitHub Pages frontend
+
+This repo now includes `.github/workflows/pages.yml` to deploy a permanent free frontend on GitHub Pages.
+
+- Pages URL format: `https://shedrackandrew-svg.github.io/wildlife-guardian-eddy-project/`
+- GitHub Pages is static-only: Python/FastAPI does not run there.
+
+How it works:
+
+1. Push to `master`/`main`.
+2. GitHub Actions builds and publishes static files.
+3. On first visit, it prompts for backend API URL (for dynamic features).
+	- Example backend: `https://wildguard-live.onrender.com`
+
+You can later change backend endpoint in browser console:
+
+```js
+localStorage.setItem("wg_api_base", "https://wildguard-live.onrender.com")
+location.reload()
+```

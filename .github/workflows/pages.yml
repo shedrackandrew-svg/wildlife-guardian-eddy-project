@@ -1,0 +1,116 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build static site for Pages
+        shell: bash
+        run: |
+          python - << 'PY'
+          from pathlib import Path
+          import shutil
+
+          root = Path('.')
+          src = root / 'app' / 'static'
+          out = root / '_site'
+
+          if out.exists():
+              shutil.rmtree(out)
+          out.mkdir(parents=True, exist_ok=True)
+          (out / 'static').mkdir(parents=True, exist_ok=True)
+
+          # Copy static assets first
+          for item in src.iterdir():
+              if item.is_file() and item.suffix != '.html':
+                  shutil.copy2(item, out / 'static' / item.name)
+
+          route_map = {
+              '/': './index.html',
+              '/dashboard': './dashboard.html',
+              '/library': './library.html',
+              '/history': './history.html',
+              '/map': './map.html',
+              '/live': './live.html',
+              '/settings': './settings.html',
+              '/admin': './admin.html',
+              '/onboarding': './onboarding.html',
+              '/remote-camera': './remote_camera.html',
+          }
+
+          def rewrite_html(text: str) -> str:
+              text = text.replace('href="/static/', 'href="./static/')
+              text = text.replace('src="/static/', 'src="./static/')
+              text = text.replace('href="/media/', 'href="./media/')
+              text = text.replace('src="/media/', 'src="./media/')
+              text = text.replace('href="/species-media/', 'href="./species-media/')
+              text = text.replace('src="/species-media/', 'src="./species-media/')
+
+              for old, new in route_map.items():
+                  text = text.replace(f'href="{old}"', f'href="{new}"')
+
+              inject = (
+                  '<script>'
+                  'window.WG_API_BASE = localStorage.getItem("wg_api_base") || "";'
+                  'if (window.location.hostname.endsWith("github.io") && !window.WG_API_BASE) {'
+                  'const base = prompt("Set backend API base URL (example: https://wildguard-live.onrender.com). Leave empty for frontend-only mode:", "");'
+                  'if (base) { localStorage.setItem("wg_api_base", base.replace(/\/$/, "")); window.WG_API_BASE = localStorage.getItem("wg_api_base") || ""; }'
+                  '}'
+                  '(function(){'
+                  'const base=(window.WG_API_BASE||"").replace(/\/$/, "");'
+                  'if(!base){return;}'
+                  'const ofetch=window.fetch.bind(window);'
+                  'window.fetch=(input,init)=>{'
+                  'if(typeof input==="string" && input.startsWith("/")){ return ofetch(base+input,init); }'
+                  'if(input && input.url && String(input.url).startsWith("/")){ return ofetch(base+String(input.url),init); }'
+                  'return ofetch(input,init);'
+                  '};'
+                  '})();'
+                  '</script>'
+              )
+
+              if '</head>' in text:
+                  text = text.replace('</head>', inject + '</head>')
+              return text
+
+          for html in src.glob('*.html'):
+              content = html.read_text(encoding='utf-8')
+              out_html = rewrite_html(content)
+              (out / html.name).write_text(out_html, encoding='utf-8')
+
+          # SPA-ish fallback
+          shutil.copy2(out / 'index.html', out / '404.html')
+          PY
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
