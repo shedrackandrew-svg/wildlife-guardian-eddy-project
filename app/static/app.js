@@ -102,6 +102,13 @@ function appPageUrl(pathWithQuery) {
   return rawQuery ? `${url}?${rawQuery}` : url;
 }
 
+function hasConfiguredBackend() {
+  if (!isGithubPagesHost()) return true;
+  return Boolean(String(window.WG_API_BASE || "").trim());
+}
+
+const backendEnabled = hasConfiguredBackend();
+
 const ANIMAL_CLASSES = new Set([
   "bird",
   "cat",
@@ -375,6 +382,7 @@ async function localDetectLoop() {
 
 async function uploadSnapshot() {
   if (!stream || video.readyState < 2 || uploadInFlight) return;
+  if (!backendEnabled) return;
   uploadInFlight = true;
   try {
     const canvas = document.createElement("canvas");
@@ -502,6 +510,10 @@ function stopCamera() {
 }
 
 async function searchSpecies() {
+  if (!backendEnabled) {
+    animalProfile.textContent = "Species lookup needs a connected backend API. Camera scanning still works in this mode.";
+    return;
+  }
   const species = speciesSearchInput.value.trim();
   if (!species) {
     animalProfile.textContent = "Enter a species name to search.";
@@ -548,6 +560,10 @@ function renderInventory(rows) {
 }
 
 async function pollInventory() {
+  if (!backendEnabled) {
+    renderInventory([]);
+    return;
+  }
   try {
     const invRes = await fetch("/api/inventory");
     if (!invRes.ok) {
@@ -562,6 +578,11 @@ async function pollInventory() {
 }
 
 async function pollTelemetry() {
+  if (!backendEnabled) {
+    alertsList.innerHTML = "<li>Backend not connected. Alerts will appear once API is configured.</li>";
+    detectionsList.innerHTML = "<li>Backend not connected. Live detections list will appear once API is configured.</li>";
+    return;
+  }
   let alerts = [];
   let detections = [];
 
@@ -627,6 +648,12 @@ function renderSlide(index) {
 }
 
 async function loadSlideshow() {
+  if (!backendEnabled) {
+    slideshowItems = [];
+    renderGallery(slideshowItems);
+    renderSlide(0);
+    return;
+  }
   try {
     const galleryRes = await fetch("/api/gallery?limit=24");
     if (galleryRes.ok) {
@@ -806,7 +833,9 @@ async function init() {
   setInterval(() => pollTelemetry().catch(() => {}), 3000);
   setInterval(() => pollInventory().catch(() => {}), 5000);
 
-  resultBox.textContent = "Ready. Click Start Camera to begin secure scanning.";
+  resultBox.textContent = backendEnabled
+    ? "Ready. Click Start Camera to begin secure scanning."
+    : "Ready in non-expiring web mode. Click Start Camera for local animal scanning.";
 }
 
 init().catch((err) => {

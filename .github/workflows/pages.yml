@@ -31,13 +31,16 @@ jobs:
           root = Path('.')
           src = root / 'app' / 'static'
           out = root / '_site'
-          live_link_file = root / 'live_link.txt'
-
+          api_base_file = root / 'pages_api_base.txt'
           default_api_base = ""
-          if live_link_file.exists():
-              candidate = live_link_file.read_text(encoding='utf-8', errors='ignore').strip()
-              if candidate.startswith('http://') or candidate.startswith('https://'):
-                  default_api_base = candidate.rstrip('/')
+          if api_base_file.exists():
+              for line in api_base_file.read_text(encoding='utf-8', errors='ignore').splitlines():
+                  candidate = line.strip()
+                  if not candidate or candidate.startswith('#'):
+                      continue
+                  if candidate.startswith('http://') or candidate.startswith('https://'):
+                      default_api_base = candidate.rstrip('/')
+                  break
 
           if out.exists():
               shutil.rmtree(out)

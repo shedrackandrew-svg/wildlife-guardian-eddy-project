@@ -143,8 +143,8 @@ How it works:
 
 1. Push to `master`/`main`.
 2. GitHub Actions builds and publishes static files.
-3. On first visit, it prompts for backend API URL (for dynamic features).
-	- Example backend: `https://wildguard-live.onrender.com`
+3. Frontend works permanently even without backend (camera + local browser detection keep running).
+4. For backend-powered features (inventory, history, alerts), set one stable API URL in `pages_api_base.txt`.
 
 You can later change backend endpoint in browser console:
 
@@ -152,3 +152,17 @@ You can later change backend endpoint in browser console:
 localStorage.setItem("wg_api_base", "https://wildguard-live.onrender.com")
 location.reload()
 ```
+
+## Permanent no-expiring mode (recommended)
+
+Use this combination for a stable long-term setup:
+
+1. Deploy backend once on Render using `render.yaml` (gives a fixed `onrender.com` URL).
+2. Commit your fixed backend URL into `pages_api_base.txt`.
+3. Keep GitHub Pages enabled for the frontend URL.
+
+Result:
+
+- Frontend URL does not expire.
+- Backend URL does not rotate like tunnel links.
+- Dashboard/camera remains usable even if backend is temporarily unavailable.

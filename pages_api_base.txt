@@ -1,0 +1,3 @@
+# Optional fixed backend URL for GitHub Pages deploys.
+# Set one stable https URL below (for example your Render backend).
+# Leave empty to run frontend-only mode without expiring tunnel dependency.
