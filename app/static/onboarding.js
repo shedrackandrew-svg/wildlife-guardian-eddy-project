@@ -5,9 +5,21 @@ const pairQr = document.getElementById("pairQr");
 const copyPairLink = document.getElementById("copyPairLink");
 const openRemotePage = document.getElementById("openRemotePage");
 
+function isGithubPagesHost() {
+  return window.location.hostname.endsWith("github.io");
+}
+
+function getRepoBasePath() {
+  if (!isGithubPagesHost()) return "";
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  return parts.length ? `/${parts[0]}` : "";
+}
+
 function buildLink() {
   const source = (sourceName.value || "phone-cam-1").trim().toLowerCase();
-  const url = `${window.location.origin}/remote-camera?source=${encodeURIComponent(source)}`;
+  const prefix = getRepoBasePath();
+  const path = isGithubPagesHost() ? "/remote_camera.html" : "/remote-camera";
+  const url = `${window.location.origin}${prefix}${path}?source=${encodeURIComponent(source)}`;
   return { source, url };
 }
 

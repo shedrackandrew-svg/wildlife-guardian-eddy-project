@@ -72,6 +72,38 @@ const defaultSettings = {
 
 let uiSettings = { ...defaultSettings };
 
+function isGithubPagesHost() {
+  return window.location.hostname.endsWith("github.io");
+}
+
+function getRepoBasePath() {
+  if (!isGithubPagesHost()) return "";
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  return parts.length ? `/${parts[0]}` : "";
+}
+
+function appPageUrl(pathWithQuery) {
+  const [rawPath, rawQuery] = String(pathWithQuery || "/").split("?");
+  const normalized = (rawPath.replace(/\/$/, "") || "/");
+  const routeMap = {
+    "/": "/index.html",
+    "/dashboard": "/dashboard.html",
+    "/library": "/library.html",
+    "/history": "/history.html",
+    "/map": "/map.html",
+    "/live": "/live.html",
+    "/settings": "/settings.html",
+    "/onboarding": "/onboarding.html",
+    "/admin": "/admin.html",
+    "/remote-camera": "/remote_camera.html",
+  };
+
+  const mapped = isGithubPagesHost() ? (routeMap[normalized] || normalized) : normalized;
+  const prefix = isGithubPagesHost() ? getRepoBasePath() : "";
+  const url = `${window.location.origin}${prefix}${mapped}`;
+  return rawQuery ? `${url}?${rawQuery}` : url;
+}
+
 const ANIMAL_CLASSES = new Set([
   "bird",
   "cat",
@@ -523,7 +555,7 @@ function renderInventory(rows) {
                 <span>Seen ${item.count_seen}x</span>
                 <span>${item.taxonomy_class || "Unknown"} / ${item.taxonomy_order || "Unknown"}</span>
                 <span>Region: ${item.habitat_region || "Unknown"}</span>
-                <a class="inventory-map-link" href="/map?species=${encodeURIComponent(item.species_name.toLowerCase())}">Open On Globe Map</a>
+                <a class="inventory-map-link" href="${appPageUrl(`/map?species=${encodeURIComponent(item.species_name.toLowerCase())}`)}">Open On Globe Map</a>
               </div>
             </li>
           `;
@@ -609,7 +641,7 @@ async function loadSlideshow() {
 }
 
 async function initQrCode() {
-  const shareUrl = `${window.location.origin}/live`;
+  const shareUrl = appPageUrl("/live");
   if (window.QRCode?.toCanvas) {
     await window.QRCode.toCanvas(qrCanvas, shareUrl, {
       width: 180,
@@ -804,5 +836,9 @@ async function init() {
 }
 
 init().catch((err) => {
+  if (isGithubPagesHost()) {
+    resultBox.textContent = "Frontend-only mode active on permanent GitHub link. Set a backend API URL when prompted to enable live detections and database data.";
+    return;
+  }
   resultBox.textContent = `Initialization error: ${err.message}`;
 });
