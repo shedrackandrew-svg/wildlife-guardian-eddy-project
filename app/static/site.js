@@ -1,10 +1,55 @@
+function isGithubPagesHost() {
+  return window.location.hostname.endsWith("github.io");
+}
+
+function getRepoBasePath() {
+  if (!isGithubPagesHost()) return "";
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  if (!parts.length) return "";
+  return `/${parts[0]}`;
+}
+
+function appRoute(path) {
+  const clean = (path || "/").replace(/\/$/, "") || "/";
+  if (!isGithubPagesHost()) return clean;
+
+  const base = getRepoBasePath();
+  const routeMap = {
+    "/": "/index.html",
+    "/dashboard": "/dashboard.html",
+    "/library": "/library.html",
+    "/history": "/history.html",
+    "/map": "/map.html",
+    "/live": "/live.html",
+    "/settings": "/settings.html",
+    "/onboarding": "/onboarding.html",
+    "/admin": "/admin.html",
+  };
+
+  const mapped = routeMap[clean] || clean;
+  return `${base}${mapped}`;
+}
+
+function normalizePageLinks() {
+  const anchors = Array.from(document.querySelectorAll("a[href]"));
+  for (const anchor of anchors) {
+    const rawHref = anchor.getAttribute("href") || "";
+    if (!rawHref.startsWith("/") || rawHref.startsWith("//") || rawHref.startsWith("/api/")) {
+      continue;
+    }
+    anchor.setAttribute("href", appRoute(rawHref));
+  }
+}
+
 function setActiveNav() {
   const path = window.location.pathname.replace(/\/$/, "") || "/";
+  const activePath = isGithubPagesHost() ? path.replace(getRepoBasePath(), "") || "/" : path;
   const links = Array.from(document.querySelectorAll(".nav-links a"));
   for (const link of links) {
     const href = link.getAttribute("href") || "";
-    const normalizedHref = href.replace(/\/$/, "") || "/";
-    if (normalizedHref === path) {
+    const parsed = href.startsWith("http") ? new URL(href).pathname : href;
+    const normalizedHref = (parsed.replace(/\/$/, "") || "/").replace(getRepoBasePath(), "") || "/";
+    if (normalizedHref === activePath) {
       link.classList.add("active");
     }
   }
@@ -13,10 +58,13 @@ function setActiveNav() {
 function ensureSettingsLink() {
   const navs = Array.from(document.querySelectorAll(".nav-links"));
   for (const nav of navs) {
-    const existing = nav.querySelector('a[href="/settings"]');
+    const existing = Array.from(nav.querySelectorAll("a")).find((a) => {
+      const href = a.getAttribute("href") || "";
+      return href.includes("/settings") || href.includes("settings.html");
+    });
     if (existing) continue;
     const link = document.createElement("a");
-    link.href = "/settings";
+    link.href = appRoute("/settings");
     link.textContent = "Settings";
     nav.appendChild(link);
   }
@@ -63,18 +111,24 @@ function applyMenuFeatures() {
 
   const navs = Array.from(document.querySelectorAll(".nav-links"));
   for (const nav of navs) {
-    const hasOnboarding = nav.querySelector('a[href="/onboarding"]');
+    const hasOnboarding = Array.from(nav.querySelectorAll("a")).find((a) => {
+      const href = a.getAttribute("href") || "";
+      return href.includes("/onboarding") || href.includes("onboarding.html");
+    });
     if (!hasOnboarding) {
       const onboardingLink = document.createElement("a");
-      onboardingLink.href = "/onboarding";
+      onboardingLink.href = appRoute("/onboarding");
       onboardingLink.textContent = "Pair Device";
       nav.appendChild(onboardingLink);
     }
 
-    const hasAdmin = nav.querySelector('a[href="/admin"]');
+    const hasAdmin = Array.from(nav.querySelectorAll("a")).find((a) => {
+      const href = a.getAttribute("href") || "";
+      return href.includes("/admin") || href.includes("admin.html");
+    });
     if (!hasAdmin) {
       const adminLink = document.createElement("a");
-      adminLink.href = "/admin";
+      adminLink.href = appRoute("/admin");
       adminLink.textContent = "Admin";
       nav.appendChild(adminLink);
     }
@@ -164,10 +218,12 @@ function hidePreloader() {
   }, 420);
 }
 
+normalizePageLinks();
 setActiveNav();
 ensureSettingsLink();
 applyGlobalTheme();
 applyMenuFeatures();
+normalizePageLinks();
 initHomeSettings();
 if (document.readyState === "complete") {
   hidePreloader();
