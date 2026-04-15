@@ -9,6 +9,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
+from urllib.parse import urljoin
 from urllib.request import urlopen
 
 
@@ -211,6 +212,46 @@ def _open_tunnel(port: int) -> tuple[str, subprocess.Popen[str], str]:
     return public_url, proc, "localhost-run"
 
 
+def _page_contains(public_url: str, route: str, required_text: str, timeout: float = 8.0) -> bool:
+    try:
+        target = urljoin(public_url.rstrip("/") + "/", route.lstrip("/"))
+        with urlopen(target, timeout=timeout) as response:
+            if not (200 <= response.status < 500):
+                return False
+            body = response.read().decode("utf-8", errors="ignore")
+            return required_text in body
+    except Exception:
+        return False
+
+
+def _public_url_matches_site(public_url: str) -> bool:
+    checks = [
+        ("/", "WildGuard"),
+        ("/dashboard", "WildGuard Command Center"),
+        ("/settings", "Site Settings"),
+        ("/map", "Wildlife Globe Habitat Map"),
+    ]
+    for route, marker in checks:
+        if not _page_contains(public_url, route, marker):
+            _log(f"Link validation failed for {route} (missing marker: {marker}).")
+            return False
+    return True
+
+
+def _open_valid_tunnel(port: int, max_attempts: int = 4) -> tuple[str, subprocess.Popen[str], str]:
+    last_error = ""
+    for attempt in range(1, max_attempts + 1):
+        public_url, proc, mode = _open_tunnel(port)
+        if _public_url_matches_site(public_url):
+            return public_url, proc, mode
+
+        last_error = f"Generated link did not match expected site routes/settings on attempt {attempt}."
+        _terminate_if_running(proc)
+        time.sleep(1.0)
+
+    raise RuntimeError(last_error or "Unable to generate a valid public link")
+
+
 def main() -> int:
     port = int(os.getenv("LIVE_PORT", "8000"))
     target_hours = float(os.getenv("LIVE_TARGET_HOURS", "5"))
@@ -228,7 +269,7 @@ def main() -> int:
         if not _probe_local_api(port):
             raise RuntimeError("Local API health check failed")
 
-        public_url, tunnel_proc, mode = _open_tunnel(port)
+        public_url, tunnel_proc, mode = _open_valid_tunnel(port)
         _save_current_link(public_url)
         _print_links(public_url, port)
         _log("Live URL is also saved in live_link.txt")
@@ -249,7 +290,7 @@ def main() -> int:
 
             if tunnel_proc is not None and tunnel_proc.poll() is not None:
                 _log("Tunnel process stopped. Reconnecting...")
-                public_url, tunnel_proc, mode = _open_tunnel(port)
+                public_url, tunnel_proc, mode = _open_valid_tunnel(port)
                 _save_current_link(public_url)
                 _print_links(public_url, port)
                 unreachable_streak = 0
@@ -263,7 +304,7 @@ def main() -> int:
             if mode == "localhost-run" and unreachable_streak >= 3:
                 _log("Public URL became unreachable. Rotating temporary tunnel link...")
                 _terminate_if_running(tunnel_proc)
-                public_url, tunnel_proc, mode = _open_tunnel(port)
+                public_url, tunnel_proc, mode = _open_valid_tunnel(port)
                 _save_current_link(public_url)
                 _print_links(public_url, port)
                 unreachable_streak = 0
