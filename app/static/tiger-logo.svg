@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Tiger logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7b955"/>
+      <stop offset="100%" stop-color="#cb6a2f"/>
+    </linearGradient>
+  </defs>
+  <path d="M160 24c-42 0-90 35-96 95-4 46 19 74 33 91 21 25 38 86 63 86s42-61 63-86c14-17 37-45 33-91-6-60-54-95-96-95z" fill="url(#g)"/>
+  <path d="M87 91l26 19m120-19l-26 19M114 134l18 11m74-11l-18 11M95 168l28 5m102-5l-28 5" stroke="#1d120d" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <path d="M110 197c0 33 22 58 50 58s50-25 50-58" fill="#fff2da"/>
+  <circle cx="126" cy="184" r="9" fill="#1a120d"/>
+  <circle cx="194" cy="184" r="9" fill="#1a120d"/>
+  <path d="M160 196l-13 16h26z" fill="#1a120d"/>
+  <path d="M132 224c9 11 19 17 28 17s19-6 28-17" stroke="#1a120d" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

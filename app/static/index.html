@@ -3,73 +3,162 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wildlife Guardian</title>
+    <title>WildGuard | Global Wildlife Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&family=Calligraffitti&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Calligraffitti&family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
-  <body>
-    <div class="bg-grid"></div>
-    <div class="animal-ambient" aria-hidden="true">
-      <span class="float f1"></span>
-      <span class="float f2"></span>
-      <span class="float f3"></span>
-      <span class="float f4"></span>
-      <span class="float f5"></span>
+  <body class="home-light">
+    <div id="preloader" class="preloader" aria-hidden="true">
+      <div class="preloader-ring"></div>
+      <p>Loading WildGuard Experience...</p>
     </div>
-    <div class="eddy-signature">Project by EDDY <span>kaligraph</span></div>
-    <main class="layout">
-      <section class="panel live-feed">
-        <div class="panel-head">
-          <h1>Wildlife Guardian</h1>
-          <p>Live external camera + immediate browser AI + backend alerting</p>
-          <div class="quick-links">
-            <a href="/live" target="_blank" rel="noopener">Live Share Page</a>
-            <a href="/admin" target="_blank" rel="noopener">Admin Console</a>
+    <div class="frame-shell" aria-hidden="true"></div>
+    <div class="noise-layer" aria-hidden="true"></div>
+    <div class="overlay-mask" aria-hidden="true"></div>
+
+    <header class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="/">
+          <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=256&q=80" alt="WildGuard" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" />
+          <span>WildGuard</span>
+        </a>
+        <nav class="nav-links">
+          <a href="/">Home</a>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/library">Library</a>
+          <a href="/history">History</a>
+          <a href="/map">Map</a>
+          <a href="/live">Live</a>
+          <a href="/settings">Settings</a>
+          <a href="/onboarding">Pair Device</a>
+          <button id="menuSettingsBtn" type="button" class="ghost-btn">Settings</button>
+        </nav>
+      </div>
+    </header>
+    <div class="project-signature" aria-label="Project signature">PROJECT BY WILDGUARD</div>
+
+    <div id="homeSettingsPanel" class="home-settings-panel hidden" role="dialog" aria-modal="true">
+      <div class="home-settings-card">
+        <div class="settings-head">
+          <h2>Homepage Settings</h2>
+          <button id="closeHomeSettings" type="button" class="ghost-btn">Close</button>
+        </div>
+        <label>
+          Slideshow Speed
+          <select id="homeSlideSpeed">
+            <option value="3200">Fast</option>
+            <option value="4200" selected>Normal</option>
+            <option value="6000">Slow</option>
+          </select>
+        </label>
+        <label class="check-row">
+          <input id="homeHighContrast" type="checkbox" />
+          <span>High contrast mode</span>
+        </label>
+        <label class="check-row">
+          <input id="homeReduceMotion" type="checkbox" />
+          <span>Reduce motion</span>
+        </label>
+      </div>
+    </div>
+
+    <main class="layout single landing-layout">
+      <section class="panel landing-hero">
+        <p class="hero-kicker">Global Wildlife Intelligence Platform</p>
+        <div class="brand-row">
+          <div class="hero-wildlife-badge" aria-hidden="true"></div>
+          <div>
+            <h1>WildGuard</h1>
+            <p>Dark-mode wildlife intelligence with a live cinematic view of species in natural habitats.</p>
           </div>
         </div>
 
-        <div class="video-wrap">
-          <video id="video" autoplay playsinline muted></video>
-          <canvas id="overlay"></canvas>
+        <div class="cinema-stage" aria-label="Wildlife slideshow">
+          <div id="slideA" class="cinema-slide is-visible"></div>
+          <div id="slideB" class="cinema-slide"></div>
+          <div class="cinema-sheen" aria-hidden="true"></div>
+          <div class="cinema-vignette" aria-hidden="true"></div>
+          <div class="cinema-badge">Live Habitat Sequence</div>
+          <div id="slideMeta" class="cinema-meta">Loading global wildlife slideshow...</div>
+          <div class="cinema-progress" aria-hidden="true"><span id="slideProgress"></span></div>
         </div>
 
-        <div class="actions">
-          <button id="startCamera">Start Camera</button>
-          <button id="stopCamera">Stop Camera</button>
+        <div class="hero-cta-row">
+          <a class="hero-cta" href="/live">Explore Live Wildlife</a>
+          <a class="hero-cta ghost" href="/dashboard">Open Command Center</a>
         </div>
 
-        <div class="results">
-          <h2>Immediate Feedback</h2>
-          <pre id="resultBox">Waiting for camera...</pre>
+        <div class="stats-strip" aria-label="Platform highlights">
+          <div><strong>24/7</strong><span>Monitoring-ready UI</span></div>
+          <div><strong>Global</strong><span>Species-aware knowledge</span></div>
+          <div><strong>Live</strong><span>Cross-network sharing</span></div>
+          <div><strong>AI + Data</strong><span>Unified conservation flow</span></div>
         </div>
+
+        <div class="feature-strip" aria-label="Front page features">
+          <article class="feature-tile reveal">
+            <h3>Live Wildlife Stream</h3>
+            <p>Continuous habitat slideshow with real detection overlays and conservation metadata.</p>
+          </article>
+          <article class="feature-tile reveal">
+            <h3>Global Species Library</h3>
+            <p>Explore species profiles, status, facts, habitats, and field safety references.</p>
+          </article>
+          <article class="feature-tile reveal">
+            <h3>History and Zone Map</h3>
+            <p>Track detection history and inspect species-to-zone associations from one platform.</p>
+          </article>
+        </div>
+
+        <section class="spotlight-strip reveal" aria-label="Animal spotlight">
+          <div class="spotlight-head">
+            <h2>Wildlife Spotlight</h2>
+            <p>Continuously rotating species highlights from your active library.</p>
+          </div>
+          <div class="spotlight-window">
+            <div id="spotlightTrack" class="spotlight-track">
+              <span class="spotlight-pill">Loading species...</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="trust-row reveal" aria-label="Platform credibility">
+          <div class="trust-card">
+            <h3>Conservation-Oriented UX</h3>
+            <p>Designed for practical wildlife workflows and quick field interpretation.</p>
+          </div>
+          <div class="trust-card">
+            <h3>One-Link Global Sharing</h3>
+            <p>Anyone with the live link can access the platform and navigate from one entry.</p>
+          </div>
+          <div class="trust-card">
+            <h3>Modern Intelligence Stack</h3>
+            <p>Unified AI detection, species library, history timeline, and habitat mapping.</p>
+          </div>
+        </section>
       </section>
 
-      <section class="panel telemetry">
-        <div class="stack">
-          <h2>Animal Knowledge</h2>
-          <div class="lookup-row">
-            <input id="speciesSearch" type="text" placeholder="Search species (e.g. tiger)" />
-            <button id="searchSpecies">Lookup</button>
-          </div>
-          <div id="animalProfile" class="profile-box">Scan an animal or search a species to view stored profile details.</div>
-        </div>
+      <section class="panel about-card">
+        <h2>About WildGuard</h2>
+        <p>
+          WILDGUARD is a wildlife intelligence and conservation platform focused on habitat awareness,
+          practical field support, and species-centered monitoring workflows.
+        </p>
+      </section>
 
-        <div class="stack">
-          <h2>Recent Alerts</h2>
-          <ul id="alertsList"></ul>
-        </div>
-
-        <div class="stack">
-          <h2>Recent Detections</h2>
-          <ul id="detectionsList"></ul>
-        </div>
+      <section class="panel about-card premium-block reveal">
+        <h2>Why This Platform Stands Out</h2>
+        <p>
+          WildGuard is designed for professional clarity: a cinematic wildlife-first entry, purpose-driven pages,
+          and fast navigation from one global link. From public live viewing to deep species intelligence,
+          every screen is structured to support field teams, researchers, and education initiatives.
+        </p>
       </section>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
-    <script src="/static/app.js" type="module"></script>
+    <script src="/static/site.js" type="module"></script>
+    <script src="/static/landing.js" type="module"></script>
   </body>
 </html>

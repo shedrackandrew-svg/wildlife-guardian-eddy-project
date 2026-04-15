@@ -54,3 +54,13 @@ class AnimalInventory(Base):
     notes: Mapped[str] = mapped_column(Text, default="", nullable=False)
 
     detections: Mapped[list[Detection]] = relationship(back_populates="inventory_item")
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    username: Mapped[str] = mapped_column(String(120), unique=True, nullable=False, index=True)
+    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    is_admin: Mapped[bool] = mapped_column(default=False, nullable=False)

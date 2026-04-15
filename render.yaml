@@ -1,17 +1,28 @@
 services:
   - type: web
-    name: wildlife-guardian
-    runtime: python
-    plan: free
+    name: wildguard-live
+    env: python
+    plan: starter
+    autoDeploy: true
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    autoDeploy: true
+    healthCheckPath: /health
+    disk:
+      name: wildguard-data
+      mountPath: /var/data
+      sizeGB: 2
     envVars:
-      - key: APP_NAME
-        value: Wildlife Guardian
+      - key: PYTHON_VERSION
+        value: 3.11.9
       - key: DATABASE_URL
-        value: sqlite:///./data/wildlife.db
+        value: sqlite:////var/data/wildlife.db
       - key: IMAGE_SAVE_DIR
-        value: ./data/images
+        value: /var/data/images
       - key: ANIMAL_KNOWLEDGE_DIR
-        value: ./data/animal_profiles
+        value: /var/data/animal_profiles
+      - key: SPECIES_IMAGES_DIR
+        value: /var/data/species_images
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "120"

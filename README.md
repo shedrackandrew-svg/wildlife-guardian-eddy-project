@@ -1,184 +1,133 @@
-# Wildlife Guardian (AI + IoT + Web)
+# WildGuard (AI + IoT + Web)
 
-This project is an end-to-end starter platform for:
-- Detecting animals from external camera images and sensor events
-- Triggering immediate alerts (Console, SMS/Twilio, GSM modem, LoRa/MQTT)
-- Logging detections/alerts to a database
-- Monitoring live detections in a web dashboard with browser-side AI feedback
-- Managing species profiles in an admin console with one-file-per-animal storage
-- Public live share page for read-only remote monitoring
+This project detects animals from images/sensors and serves a live dashboard.
 
-## Why this can scale to more species
+## New core features
 
-The backend uses open-vocabulary zero-shot classification (CLIP). Instead of hard-coding only a few animals, you can extend the list in `app/species_labels.txt` with any local wildlife names.
+- Server-side authentication with JWT and hashed passwords
+- Phone-as-camera onboarding flow with QR pairing
+- Admin species image manager for curated per-animal galleries
 
-## Architecture
+## Fast reset run (Windows)
 
-- `app/main.py`: FastAPI endpoints + static web app serving
-- `app/detector.py`: Open-vocabulary image classifier
-- `app/services/alerts.py`: Alert decision rules
-- `app/services/notifiers.py`: SMS/GSM/LoRa dispatch adapters
-- `app/models.py`: SQLAlchemy models for detections and alerts
-- `app/static/`: dashboard (camera, local browser AI, telemetry)
-- `data/animal_profiles/`: one JSON file per species (knowledge records)
+1. Activate venv:
 
-## Quick start
+```powershell
+& .\.venv\Scripts\Activate.ps1
+```
 
-1. Create and activate a Python virtual environment.
 2. Install dependencies:
 
-```bash
+```powershell
 pip install -r requirements.txt
 ```
 
-For local full ML/training stack (optional), install:
+3. Create env file:
 
-```bash
-pip install -r requirements-full.txt
+```powershell
+Copy-Item .env.example .env
 ```
 
-3. Create `.env` from the example:
+4. Start local app:
 
-```bash
-copy .env.example .env
+```powershell
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-4. Run the API server:
+Open:
 
-```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
+- http://127.0.0.1:8000/
+- http://127.0.0.1:8000/dashboard
+- http://127.0.0.1:8000/live
+- http://127.0.0.1:8000/library
+- http://127.0.0.1:8000/history
+- http://127.0.0.1:8000/map
+- http://127.0.0.1:8000/onboarding
 
-5. Open:
+## One command temporary public URL
 
-`http://localhost:8000`
+Run:
 
-Extra pages:
-
-- Dashboard: `http://localhost:8000/`
-- Admin Console: `http://localhost:8000/admin`
-- Public Live Share: `http://localhost:8000/live`
-
-## API endpoints
-
-- `POST /api/detect/image`
-  - Multipart form-data:
-  - `file`: image file
-  - `source`: text source id (example: `camera-1`)
-
-- `POST /api/sensor`
-  - JSON example:
-
-```json
-{
-  "source_id": "radar-node-3",
-  "values": {
-    "distance_m": 37.5,
-    "motion": true,
-    "battery": 88
-  }
-}
-```
-
-- `GET /api/detections?limit=50`
-- `GET /api/alerts?limit=50`
-- `GET /api/animals?search=lion&limit=200`
-- `GET /api/animals/{species}`
-- `POST /api/admin/animals` (requires `x-admin-token` if `ADMIN_TOKEN` is configured)
-- `DELETE /api/admin/animals/{species}` (requires `x-admin-token`)
-- `POST /api/admin/bootstrap` (requires `x-admin-token`)
-
-## Admin features
-
-- Edit or create species profiles from `/admin`
-- Delete species profile files
-- Bootstrap profiles from `app/species_labels.txt`
-- Optional admin protection with `ADMIN_TOKEN` in `.env`
-
-Each species profile is stored as an individual JSON file under:
-
-`data/animal_profiles/`
-
-## Free hosting (recommended: Render)
-
-This repo now includes `render.yaml`, `Procfile`, and `runtime.txt`.
-
-Render uses the lightweight `requirements.txt` for reliable free-tier builds.
-If you need full training/transformer stack locally, use `requirements-full.txt`.
-
-1. Push this project to GitHub.
-2. Create a new Render Web Service from the repo.
-3. Render auto-detects `render.yaml` and builds the app.
-4. After deploy, Render provides a public URL like:
-  `https://your-service-name.onrender.com`
-
-Use these paths on that URL:
-
-- `/` for dashboard
-- `/live` for public sharing
-- `/admin` for profile management
-
-## Quick share URL from your laptop (immediate)
-
-If you need a quick public URL before cloud deploy:
-
-1. Run your app locally.
-2. Run a tunnel command (example with localhost.run):
-
-```bash
-ssh -R 80:localhost:8000 nokey@localhost.run
-```
-
-It will print a temporary public URL you can share instantly. This quick URL is not permanent.
-
-## One-command live link launcher
-
-Run this to start the API and print a public URL in your terminal automatically:
-
-```bash
+```powershell
 python start_live.py
 ```
 
-Optional environment variables:
+Tunnel order:
 
-- `NGROK_AUTHTOKEN` (recommended for better tunnel reliability)
-- `NGROK_REGION` (default: `us`)
-- `LIVE_PORT` (default: `8000`)
-- `LIVE_HOST` (default: `0.0.0.0`)
+1. Cloudflare quick tunnel (`trycloudflare.com`) if `cloudflared` is installed
+2. ngrok if `NGROK_AUTHTOKEN` is set
+3. localhost.run fallback
+4. pinggy fallback
 
-After launch, the terminal prints URLs for:
+The script prints share links for home, dashboard, and live page.
 
-- Dashboard (`/`)
-- Live share page (`/live`)
-- Admin page (`/admin`)
+## Optional Cloudflare install (recommended)
 
-## IoT integration notes
+Install `cloudflared` and make sure `cloudflared` works in PowerShell (`cloudflared --version`).
+Then `python start_live.py` will use Cloudflare automatically.
 
-- SMS:
-  - Set `ENABLE_SMS=true` and Twilio credentials in `.env`
-- GSM modem:
-  - Set `ENABLE_GSM=true` and `GSM_SERIAL_PORT=COMx`
-- LoRa gateway via MQTT bridge:
-  - Set `ENABLE_LORA=true` and broker/topic values
+## Stable single URL mode (Cloudflare)
 
-## Production upgrades you should add next
+For a fixed URL instead of a random quick tunnel URL:
 
-- Replace single-image classification with detection + tracking model (e.g., OWL-ViT + ByteTrack)
-- Add map view and geofencing
-- Add role-based auth for dashboard access
-- Add retries/dead-letter queue for failed notifications
-- Add model distillation/quantization for edge devices
+1. Create a Cloudflare named tunnel and token.
+2. Set in `.env`:
 
-## Optional custom model training (recommended)
-
-If you have labeled wildlife images, train a local detector:
-
-```bash
-python scripts/train_yolo.py --data path/to/dataset.yaml --epochs 80 --model yolo11n.pt
+```env
+CLOUDFLARE_TUNNEL_TOKEN=your_token_here
+CLOUDFLARE_PUBLIC_URL=https://your-fixed-domain.example
 ```
 
-Then expose the trained detector in the API (swap `app/detector.py` implementation).
+3. Run `python start_live.py`.
 
-## Important limitation
+The launcher will use token mode and print your fixed URL.
 
-No single model can perfectly identify every animal species. This starter is designed for practical deployment with an extensible species list and can be upgraded with stronger models as you collect local data.
+## Cloudflare-only mode (no fallback)
+
+If you want to disable all non-Cloudflare providers:
+
+1. In `.env`, set:
+
+```env
+CLOUDFLARE_ONLY=true
+```
+
+2. Run `python start_live.py`.
+
+Behavior:
+
+- If Cloudflare works, launcher prints Cloudflare URL.
+- If Cloudflare fails, launcher exits with an error (no fallback links).
+
+## Environment options
+
+- `LIVE_PORT` (default `8000`)
+- `LIVE_HOST` (default `0.0.0.0`)
+- `NGROK_AUTHTOKEN` (optional)
+- `NGROK_REGION` (default `us`)
+- `CLOUDFLARE_TUNNEL_TOKEN` (optional, stable URL mode)
+- `CLOUDFLARE_PUBLIC_URL` (optional, shown in terminal for stable mode)
+- `CLOUDFLARE_ONLY` (default `false`; set `true` to disable fallback providers)
+- `JWT_SECRET_KEY` (change this in production)
+- `JWT_ACCESS_TOKEN_EXPIRE_MINUTES` (default `60`)
+- `SPECIES_IMAGES_DIR` (default `./data/species_images`)
+
+## Notes
+
+- The app uses a local SQLite DB at `data/wildlife.db`.
+- Animal profiles are stored in `data/animal_profiles/`.
+
+## 24h+ public URL without domain (GitHub + Render)
+
+If you do not have a custom domain or Cloudflare token, use Render connected to this GitHub repo.
+
+1. Push your latest code to GitHub.
+2. Open this one-click deploy URL:
+
+	https://render.com/deploy?repo=https://github.com/shedrackandrew-svg/wildlife-guardian-eddy-project
+
+3. Approve the `wildguard-live` web service from `render.yaml`.
+4. Keep plan as `starter` (or higher) for always-on behavior.
+5. Render gives a stable URL like `https://wildguard-live.onrender.com`.
+
+This URL is the closest to a permanent 24-hour link without buying a domain.

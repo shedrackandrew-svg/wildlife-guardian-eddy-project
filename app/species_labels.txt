@@ -48,3 +48,8 @@ peacock
 duck
 mouse
 ants
+bee
+butterfly
+dragonfly
+grasshopper
+spider

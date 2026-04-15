@@ -1,30 +1,16 @@
-Param(
-  [string]$RepoName = "wildlife-guardian",
-  [string]$Visibility = "public"
+param(
+    [string]$Message = "Deploy-ready update"
 )
 
-Set-Location "$PSScriptRoot/.."
+$ErrorActionPreference = "Stop"
 
-Write-Host "Checking GitHub auth..."
-$authOk = $true
-try {
-  gh auth status | Out-Null
-} catch {
-  $authOk = $false
-}
+Write-Host "Checking git status..."
 
-if (-not $authOk) {
-  Write-Host "Not logged in. Starting GitHub login..."
-  gh auth login
-}
+git add -A
 
-Write-Host "Creating or updating remote repo..."
-try {
-  gh repo create $RepoName --$Visibility --source . --remote origin --push
-} catch {
-  Write-Host "Repo may already exist, trying normal push..."
-  git branch -M main
-  git push -u origin main
-}
+git commit -m $Message
 
-Write-Host "Done. Now connect the repo on Render and deploy."
+git push origin HEAD
+
+Write-Host "Pushed to GitHub."
+Write-Host "Deploy on Render with: https://render.com/deploy?repo=https://github.com/shedrackandrew-svg/wildlife-guardian-eddy-project"

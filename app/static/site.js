@@ -1,0 +1,176 @@
+function setActiveNav() {
+  const path = window.location.pathname.replace(/\/$/, "") || "/";
+  const links = Array.from(document.querySelectorAll(".nav-links a"));
+  for (const link of links) {
+    const href = link.getAttribute("href") || "";
+    const normalizedHref = href.replace(/\/$/, "") || "/";
+    if (normalizedHref === path) {
+      link.classList.add("active");
+    }
+  }
+}
+
+function ensureSettingsLink() {
+  const navs = Array.from(document.querySelectorAll(".nav-links"));
+  for (const nav of navs) {
+    const existing = nav.querySelector('a[href="/settings"]');
+    if (existing) continue;
+    const link = document.createElement("a");
+    link.href = "/settings";
+    link.textContent = "Settings";
+    nav.appendChild(link);
+  }
+}
+
+function getGlobalSettings() {
+  const defaults = {
+    theme: "forest",
+    masterVolume: 0.75,
+    voiceRate: 0.96,
+    autoCaptureMs: 1300,
+    minConfidence: 0.35,
+    strictAnimalMode: true,
+    menuDensity: "comfortable",
+    advancedMenu: "on",
+  };
+
+  try {
+    const raw = localStorage.getItem("wg_global_settings");
+    if (!raw) return defaults;
+    const parsed = JSON.parse(raw);
+    return {
+      theme: parsed.theme || defaults.theme,
+      masterVolume: Number(parsed.masterVolume) || defaults.masterVolume,
+      voiceRate: Number(parsed.voiceRate) || defaults.voiceRate,
+      autoCaptureMs: Number(parsed.autoCaptureMs) || defaults.autoCaptureMs,
+      minConfidence: Number(parsed.minConfidence) || defaults.minConfidence,
+      strictAnimalMode: parsed.strictAnimalMode !== false,
+      menuDensity: parsed.menuDensity || defaults.menuDensity,
+      advancedMenu: parsed.advancedMenu || defaults.advancedMenu,
+    };
+  } catch {
+    return defaults;
+  }
+}
+
+function applyMenuFeatures() {
+  const settings = getGlobalSettings();
+  document.body.classList.toggle("menu-compact", settings.menuDensity === "compact");
+
+  if (settings.advancedMenu === "off") {
+    return;
+  }
+
+  const navs = Array.from(document.querySelectorAll(".nav-links"));
+  for (const nav of navs) {
+    const hasOnboarding = nav.querySelector('a[href="/onboarding"]');
+    if (!hasOnboarding) {
+      const onboardingLink = document.createElement("a");
+      onboardingLink.href = "/onboarding";
+      onboardingLink.textContent = "Pair Device";
+      nav.appendChild(onboardingLink);
+    }
+
+    const hasAdmin = nav.querySelector('a[href="/admin"]');
+    if (!hasAdmin) {
+      const adminLink = document.createElement("a");
+      adminLink.href = "/admin";
+      adminLink.textContent = "Admin";
+      nav.appendChild(adminLink);
+    }
+  }
+}
+
+function applyGlobalTheme() {
+  const settings = getGlobalSettings();
+  document.body.classList.remove("theme-forest", "theme-savanna", "theme-ocean", "theme-noir");
+  document.body.classList.add(`theme-${settings.theme}`);
+}
+
+function initHomeSettings() {
+  const settingsBtn = document.getElementById("menuSettingsBtn");
+  const panel = document.getElementById("homeSettingsPanel");
+  const closeBtn = document.getElementById("closeHomeSettings");
+  const speedSelect = document.getElementById("homeSlideSpeed");
+  const highContrastCheck = document.getElementById("homeHighContrast");
+  const reducedMotionCheck = document.getElementById("homeReduceMotion");
+
+  if (!settingsBtn || !panel || !closeBtn || !speedSelect || !highContrastCheck || !reducedMotionCheck) {
+    return;
+  }
+
+  let homeSettings = {
+    slideMs: 4200,
+    highContrast: false,
+    reduceMotion: false,
+  };
+
+  try {
+    const raw = localStorage.getItem("wg_home_settings");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      homeSettings = {
+        slideMs: Number(parsed.slideMs) || 4200,
+        highContrast: Boolean(parsed.highContrast),
+        reduceMotion: Boolean(parsed.reduceMotion),
+      };
+    }
+  } catch {
+    // Ignore invalid local settings.
+  }
+
+  function applyHomeSettings() {
+    speedSelect.value = String(homeSettings.slideMs);
+    highContrastCheck.checked = homeSettings.highContrast;
+    reducedMotionCheck.checked = homeSettings.reduceMotion;
+
+    document.body.classList.toggle("high-contrast", homeSettings.highContrast);
+    document.body.classList.toggle("reduced-motion", homeSettings.reduceMotion);
+    localStorage.setItem("wg_home_settings", JSON.stringify(homeSettings));
+    window.dispatchEvent(new CustomEvent("wg-home-settings-changed", { detail: homeSettings }));
+  }
+
+  settingsBtn.addEventListener("click", () => panel.classList.remove("hidden"));
+  closeBtn.addEventListener("click", () => panel.classList.add("hidden"));
+  panel.addEventListener("click", (event) => {
+    if (event.target === panel) {
+      panel.classList.add("hidden");
+    }
+  });
+
+  speedSelect.addEventListener("change", () => {
+    homeSettings.slideMs = Number(speedSelect.value) || 4200;
+    applyHomeSettings();
+  });
+
+  highContrastCheck.addEventListener("change", () => {
+    homeSettings.highContrast = highContrastCheck.checked;
+    applyHomeSettings();
+  });
+
+  reducedMotionCheck.addEventListener("change", () => {
+    homeSettings.reduceMotion = reducedMotionCheck.checked;
+    applyHomeSettings();
+  });
+
+  applyHomeSettings();
+}
+
+function hidePreloader() {
+  const preloader = document.getElementById("preloader");
+  if (!preloader) return;
+  window.setTimeout(() => {
+    preloader.classList.add("hide");
+  }, 420);
+}
+
+setActiveNav();
+ensureSettingsLink();
+applyGlobalTheme();
+applyMenuFeatures();
+initHomeSettings();
+if (document.readyState === "complete") {
+  hidePreloader();
+} else {
+  window.addEventListener("load", hidePreloader, { once: true });
+}

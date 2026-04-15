@@ -3,40 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wildlife Guardian Admin</title>
+    <title>WildGuard Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&family=Calligraffitti&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <div class="bg-grid"></div>
-    <div class="animal-ambient" aria-hidden="true">
-      <span class="float f1"></span>
-      <span class="float f2"></span>
-      <span class="float f3"></span>
-      <span class="float f4"></span>
-      <span class="float f5"></span>
-    </div>
-    <div class="eddy-signature">Project by EDDY <span>kaligraph</span></div>
+    <div class="slideshow-bg" aria-hidden="true"></div>
+    <div class="overlay-mask" aria-hidden="true"></div>
+    <div class="project-signature">PROJECT BY WILDGUARD</div>
     <main class="layout single">
       <section class="panel telemetry">
         <div class="panel-head">
-          <h1>Admin Console</h1>
+          <h1>WildGuard Admin Console</h1>
           <p>Manage animal records, bootstrap species files, and share the public live link.</p>
           <div class="quick-links">
             <a href="/">Dashboard</a>
-            <a href="/live" target="_blank" rel="noopener">Public Live View</a>
+            <a href="/live">Public Live View</a>
+            <a href="/onboarding">Phone Setup</a>
           </div>
         </div>
 
         <div class="stack">
           <h2>Admin Access</h2>
           <div class="lookup-row">
-            <input id="adminToken" type="text" placeholder="Enter ADMIN_TOKEN (leave blank if disabled)" />
-            <button id="saveToken">Save Token</button>
+            <input id="adminUser" type="text" placeholder="username" />
+            <input id="adminPass" type="password" placeholder="password" />
           </div>
-          <div id="adminStatus" class="profile-box">Token not set for this browser session.</div>
+          <div class="actions">
+            <button id="signIn">Sign In</button>
+            <button id="signUp">Sign Up</button>
+          </div>
+          <div id="adminStatus" class="profile-box">Sign in with your WildGuard account. First account becomes admin.</div>
         </div>
 
         <div class="stack">
@@ -46,6 +45,19 @@
             <button id="refreshList">Refresh</button>
           </div>
           <ul id="profilesList"></ul>
+        </div>
+
+        <div class="stack">
+          <h2>Species Image Manager</h2>
+          <div class="lookup-row">
+            <input id="imageSpecies" type="text" placeholder="species_name (e.g. tiger)" />
+            <input id="imageUpload" type="file" accept="image/*" />
+          </div>
+          <div class="actions">
+            <button type="button" id="uploadImage">Upload Image</button>
+            <button type="button" id="refreshImages">Refresh Images</button>
+          </div>
+          <ul id="speciesImagesList"></ul>
         </div>
 
         <div class="stack">

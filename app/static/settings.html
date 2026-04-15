@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WildGuard Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Calligraffitti&family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="frame-shell" aria-hidden="true"></div>
+    <div class="overlay-mask" aria-hidden="true"></div>
+
+    <header class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="/"><img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=256&q=80" alt="WildGuard" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" /><span>WildGuard</span></a>
+        <nav class="nav-links">
+          <a href="/">Home</a>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/library">Library</a>
+          <a href="/history">History</a>
+          <a href="/map">Map</a>
+          <a href="/live">Live</a>
+          <a href="/settings">Settings</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="layout single">
+      <section class="panel telemetry">
+        <div class="panel-head">
+          <h1>Site Settings</h1>
+          <p>Control appearance, AI voice, and capture/database behavior from one place.</p>
+        </div>
+
+        <div class="stack">
+          <h2>Appearance Themes</h2>
+          <div class="lookup-row">
+            <select id="themeSelect">
+              <option value="forest">Forest</option>
+              <option value="savanna">Savanna</option>
+              <option value="ocean">Ocean</option>
+              <option value="noir">Noir</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="stack">
+          <h2>AI Voice & Audio</h2>
+          <div class="lookup-row">
+            <label>Master Volume <input id="masterVolume" type="range" min="0.1" max="1" step="0.01" /></label>
+            <label>Voice Rate <input id="voiceRate" type="range" min="0.8" max="1.2" step="0.01" /></label>
+          </div>
+        </div>
+
+        <div class="stack">
+          <h2>AI Capture Settings</h2>
+          <div class="lookup-row">
+            <label>Auto-capture Interval (ms) <input id="captureMs" type="number" min="700" step="100" /></label>
+            <label>Minimum Confidence <input id="minConfidence" type="number" min="0.1" max="0.99" step="0.01" /></label>
+          </div>
+          <label class="check-row"><input id="strictAnimalMode" type="checkbox" /> <span>Strict animal-only mode</span></label>
+          <label class="check-row"><input id="doubleVerifyDetection" type="checkbox" /> <span>Require double verification before showing final detection</span></label>
+        </div>
+
+        <div class="stack">
+          <h2>Map & Visual Intelligence</h2>
+          <div class="lookup-row">
+            <label>Radar Intensity
+              <select id="mapRadarIntensity">
+                <option value="soft">Soft</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <label>Slideshow Quality
+              <select id="slideshowQuality">
+                <option value="balanced">Balanced</option>
+                <option value="high">High</option>
+                <option value="ultra">Ultra</option>
+              </select>
+            </label>
+          </div>
+          <label class="check-row"><input id="mapAutoFocus" type="checkbox" /> <span>Auto-focus world map on selected species</span></label>
+        </div>
+
+        <div class="stack">
+          <h2>Navigation & Menu</h2>
+          <div class="lookup-row">
+            <label>Menu Density
+              <select id="menuDensity">
+                <option value="comfortable">Comfortable</option>
+                <option value="compact">Compact</option>
+              </select>
+            </label>
+            <label>Enable Advanced Menu
+              <select id="advancedMenu">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="stack">
+          <h2>Database Status</h2>
+          <div id="dbInfo" class="profile-box">Loading database info...</div>
+          <div class="actions">
+            <button id="refreshDbInfo" type="button">Refresh Database Status</button>
+            <button id="saveGlobalSettings" type="button">Save All Settings</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/site.js" type="module"></script>
+    <script src="/static/settings.js" type="module"></script>
+  </body>
+</html>

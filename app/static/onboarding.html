@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WildGuard Phone Camera Setup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="slideshow-bg" aria-hidden="true"></div>
+    <div class="overlay-mask" aria-hidden="true"></div>
+    <div class="project-signature">PROJECT BY WILDGUARD</div>
+
+    <main class="layout single">
+      <section class="panel telemetry">
+        <div class="panel-head">
+          <h1>Phone-as-Camera Onboarding</h1>
+          <p>Pair a phone as an external camera in 3 steps.</p>
+          <div class="quick-links">
+            <a href="/">Dashboard</a>
+            <a href="/live">Live Monitor</a>
+            <a href="/admin">Admin</a>
+          </div>
+        </div>
+
+        <div class="stack">
+          <h2>Step 1: Name the Camera Source</h2>
+          <div class="lookup-row">
+            <input id="sourceName" type="text" placeholder="phone-cam-1" value="phone-cam-1" />
+            <button id="generateLink">Generate Pair Link</button>
+          </div>
+          <div class="actions">
+            <button id="copyPairLink" type="button">Copy Link</button>
+            <button id="openRemotePage" type="button">Open Remote Camera Page</button>
+          </div>
+          <div id="pairUrl" class="profile-box">Click Generate Pair Link.</div>
+        </div>
+
+        <div class="stack">
+          <h2>Step 2: Scan QR on Your Phone</h2>
+          <div class="qr-wrap">
+            <canvas id="pairQr" width="220" height="220"></canvas>
+            <p class="tiny-note">Both devices should be on the same network for best performance.</p>
+          </div>
+        </div>
+
+        <div class="stack">
+          <h2>Step 3: Start Streaming</h2>
+          <p class="tiny-note">Open the generated link on your phone, allow camera permission, then tap Start Stream.</p>
+          <p class="tiny-note">The main WildGuard dashboard will begin receiving detections from that phone camera source.</p>
+          <p class="tiny-note">Bluetooth pairing on the web is browser-limited; QR/link pairing works reliably over local and internet networks.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+    <script src="/static/onboarding.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WildGuard Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div id="slideshowBg" class="slideshow-bg" aria-hidden="true"></div>
+    <div class="overlay-mask" aria-hidden="true"></div>
+    <header class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="/">
+          <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=256&q=80" alt="WildGuard" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" />
+          <span>WildGuard</span>
+        </a>
+        <nav class="nav-links">
+          <a href="/">Home</a>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/library">Library</a>
+          <a href="/history">History</a>
+          <a href="/map">Map</a>
+          <a href="/live">Live</a>
+        </nav>
+      </div>
+    </header>
+    <div class="floating-icons" aria-hidden="true">
+      <span>🦁</span>
+      <span>🐘</span>
+      <span>🦒</span>
+      <span>🦅</span>
+    </div>
+
+    <div id="authGate" class="auth-gate hidden">
+      <div class="auth-card">
+        <h2>Welcome to WildGuard</h2>
+        <p>Sign in is required to use camera and scanning features.</p>
+        <div class="auth-tabs">
+          <button id="tabSignIn" class="tab-btn active" type="button">Sign In</button>
+          <button id="tabSignUp" class="tab-btn" type="button">Sign Up</button>
+        </div>
+        <form id="authForm" class="auth-form">
+          <input id="authName" type="text" placeholder="Username" required />
+          <input id="authPass" type="password" placeholder="Password" required />
+          <button id="authSubmit" type="submit">Continue</button>
+        </form>
+        <div id="authStatus" class="tiny-note"></div>
+      </div>
+    </div>
+
+    <main class="layout">
+      <header class="hero panel">
+        <div class="brand-row">
+          <div class="logo-badge" aria-hidden="true"><img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=320&q=85" alt="WildGuard tiger logo" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" /></div>
+          <div>
+            <h1>WildGuard Command Center</h1>
+            <p>Advanced wildlife detection, inventory, library, and cross-device live intelligence.</p>
+          </div>
+        </div>
+        <nav class="quick-links">
+          <a href="#scanArea">Scan</a>
+          <a href="#dataArea">Data</a>
+          <a href="/library">Library</a>
+          <a href="/history">History</a>
+          <a href="/map">Map</a>
+          <a href="/live">Live Monitor</a>
+          <a href="/onboarding">Phone Setup</a>
+          <button id="openSettings" type="button" class="ghost-btn">Settings</button>
+          <button id="logoutBtn" type="button" class="ghost-btn">Logout</button>
+        </nav>
+      </header>
+
+      <section id="scanArea" class="panel live-feed">
+        <div class="panel-head">
+          <h2>AI Scan Console</h2>
+          <p>Start camera scanning manually when you are ready.</p>
+        </div>
+
+        <div class="video-wrap">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+          <div id="scanPulse" class="scan-pulse" aria-hidden="true"></div>
+        </div>
+
+        <div class="lookup-row">
+          <select id="cameraSelect"></select>
+          <button id="refreshCameras">Refresh Cameras</button>
+          <button id="connectExternalCamera">Connect External Camera</button>
+        </div>
+        <p id="externalCameraHint" class="tiny-note">
+          Tip: For Sony/Canon/Nikon cameras use USB cable + webcam utility/capture card, then click Connect External Camera.
+        </p>
+
+        <div class="actions">
+          <button id="startCamera">Start Camera</button>
+          <button id="stopCamera">Stop Camera</button>
+          <button id="toggleAnimalMode">Animal-Only On</button>
+          <button id="toggleVoice">Voice On</button>
+        </div>
+
+        <div class="results">
+          <h3>Immediate Feedback</h3>
+          <pre id="resultBox">Waiting for camera...</pre>
+        </div>
+      </section>
+
+      <section id="dataArea" class="panel telemetry">
+        <div class="stack">
+          <h2>Animal Knowledge</h2>
+          <div class="lookup-row">
+            <input id="speciesSearch" type="text" placeholder="Search species (e.g. tiger)" />
+            <button id="searchSpecies">Lookup</button>
+          </div>
+          <div id="animalProfile" class="profile-box">Scan an animal or search a species to view stored profile details.</div>
+        </div>
+
+        <div class="stack">
+          <h2>Device Link & Nearby Scan</h2>
+          <div class="qr-wrap">
+            <canvas id="qrCanvas" width="180" height="180"></canvas>
+            <p class="tiny-note">Use this QR to pair another device through the internet live link.</p>
+          </div>
+          <div class="actions">
+            <select id="bluetoothScanMode" aria-label="Bluetooth scan mode">
+              <option value="general">General devices</option>
+              <option value="wildlife">Wildlife sensors first</option>
+              <option value="wearable">Wearables first</option>
+            </select>
+            <button id="scanBluetooth">Scan Nearby Bluetooth</button>
+          </div>
+          <div id="connectStatus" class="profile-box">Nearby scan not started.</div>
+        </div>
+
+        <div class="stack">
+          <h2>Wildlife Slideshow</h2>
+          <div id="slideMeta" class="profile-box">Loading gallery...</div>
+          <div id="galleryGrid" class="gallery-grid"></div>
+        </div>
+
+        <div class="stack">
+          <h2>Capture Inventory</h2>
+          <ul id="inventoryList"></ul>
+        </div>
+
+        <div class="stack">
+          <h2>Recent Alerts</h2>
+          <ul id="alertsList"></ul>
+        </div>
+
+        <div class="stack">
+          <h2>Recent Detections</h2>
+          <ul id="detectionsList"></ul>
+        </div>
+      </section>
+    </main>
+
+    <div id="settingsPanel" class="settings-panel hidden" role="dialog" aria-modal="true">
+      <div class="settings-card">
+        <div class="settings-head">
+          <h2>Appearance & Voice Settings</h2>
+          <button id="closeSettings" type="button" class="ghost-btn">Close</button>
+        </div>
+        <label>
+          Theme Tone
+          <select id="themeTone">
+            <option value="forest">Forest</option>
+            <option value="savanna">Savanna</option>
+            <option value="ocean">Ocean</option>
+          </select>
+        </label>
+        <label>
+          Voice Style
+          <select id="voiceStyle">
+            <option value="female">Soft Female</option>
+            <option value="male">Soft Male</option>
+            <option value="auto">Auto</option>
+          </select>
+        </label>
+        <label>
+          Voice Speed
+          <input id="voiceRate" type="range" min="0.8" max="1.15" step="0.01" value="0.95" />
+        </label>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
+    <script src="/static/site.js" type="module"></script>
+    <script src="/static/app.js" type="module"></script>
+  </body>
+</html>

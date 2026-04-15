@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WildGuard Live</title>
+    <title>WildGuard Animal Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
@@ -31,28 +31,20 @@
     <main class="layout single">
       <section class="panel telemetry">
         <div class="panel-head">
-          <h1>WildGuard Live Monitor</h1>
-          <p>Public read-only view for anyone with this link.</p>
+          <h1>Global Animal Library</h1>
+          <p>Advanced records of species known by WildGuard.</p>
         </div>
-
         <div class="stack">
-          <h2>Latest Detection</h2>
-          <div id="latestDetection" class="profile-box">Waiting for updates...</div>
+          <div class="lookup-row">
+            <input id="librarySearch" type="text" placeholder="Search species, region, alias" />
+            <button id="librarySearchBtn" type="button">Search</button>
+          </div>
+          <div id="libraryMeta" class="profile-box">Loading species...</div>
         </div>
-
-        <div class="stack">
-          <h2>Recent Alerts</h2>
-          <ul id="liveAlerts"></ul>
-        </div>
-
-        <div class="stack">
-          <h2>Recent Detections</h2>
-          <ul id="liveDetections"></ul>
-        </div>
+        <div id="libraryGrid" class="gallery-grid large-grid"></div>
       </section>
     </main>
-
     <script src="/static/site.js" type="module"></script>
-    <script src="/static/live.js" type="module"></script>
+    <script src="/static/library.js" type="module"></script>
   </body>
 </html>
