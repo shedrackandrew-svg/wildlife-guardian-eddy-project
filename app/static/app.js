@@ -46,8 +46,6 @@ let voiceEnabled = true;
 let voicePrimed = true;
 let lastSpokenLabel = "";
 let lastSpokenAt = 0;
-let authMode = "signin";
-let pendingProtectedAction = null;
 let slideshowItems = [];
 let slideshowIndex = 0;
 let animalOnlyMode = true;
@@ -251,42 +249,17 @@ function isLikelyExternalCamera(label) {
 }
 
 function setAuthMode(mode) {
-  authMode = mode;
+  if (!tabSignIn || !tabSignUp) return;
   tabSignIn.classList.toggle("active", mode === "signin");
   tabSignUp.classList.toggle("active", mode === "signup");
 }
 
 function unlockApp() {
-  authGate.classList.add("hidden");
+  if (authGate) authGate.classList.add("hidden");
 }
 
 function lockApp() {
-  authGate.classList.remove("hidden");
-}
-
-function requireAuthForAction(action, reasonMessage = "Sign in to continue.") {
-  validateSession()
-    .then((authed) => {
-      if (authed) {
-        action();
-        return;
-      }
-      pendingProtectedAction = action;
-      authStatus.textContent = reasonMessage;
-      lockApp();
-    })
-    .catch(() => {
-      pendingProtectedAction = action;
-      authStatus.textContent = reasonMessage;
-      lockApp();
-    });
-}
-
-async function validateSession() {
-  const token = getToken();
-  if (!token) return false;
-  const res = await fetch("/api/auth/me", { headers: authHeaders(false) });
-  return res.ok;
+  if (authGate) authGate.classList.add("hidden");
 }
 
 function primeVoice() {
@@ -692,57 +665,25 @@ async function scanBluetooth() {
 
 async function handleAuthSubmit(event) {
   event.preventDefault();
-  const username = document.getElementById("authName").value.trim().toLowerCase();
-  const password = document.getElementById("authPass").value;
-  if (!username || !password) {
-    authStatus.textContent = "Username and password are required.";
-    return;
-  }
-
-  const endpoint = authMode === "signup" ? "/api/auth/sign-up" : "/api/auth/sign-in";
-  const res = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
-
-  if (!res.ok) {
-    authStatus.textContent = (await res.text()) || "Authentication failed.";
-    return;
-  }
-
-  const data = await res.json();
-  setToken(data.access_token);
-  primeVoice();
   unlockApp();
-  authStatus.textContent = "Signed in successfully.";
-  if (pendingProtectedAction) {
-    const action = pendingProtectedAction;
-    pendingProtectedAction = null;
-    action();
+  primeVoice();
+  if (authStatus) {
+    authStatus.textContent = "Authentication is disabled on this dashboard build.";
   }
 }
 
 function attachEvents() {
   startBtn.addEventListener("click", () => {
-    requireAuthForAction(
-      () => {
-        primeVoice();
-        startCamera().catch((err) => (resultBox.textContent = `Camera error: ${err.message}`));
-      },
-      "Please sign in to access camera scanning.",
-    );
+    primeVoice();
+    startCamera().catch((err) => (resultBox.textContent = `Camera error: ${err.message}`));
   });
   stopBtn.addEventListener("click", stopCamera);
   refreshCamerasBtn.addEventListener("click", () => loadCameraDevices().catch(() => {}));
   if (connectExternalCameraBtn) {
     connectExternalCameraBtn.addEventListener("click", () => {
-      requireAuthForAction(
-        () => connectExternalCamera().catch((err) => {
-          if (externalCameraHint) externalCameraHint.textContent = `External camera link error: ${err.message}`;
-        }),
-        "Please sign in to link external camera devices.",
-      );
+      connectExternalCamera().catch((err) => {
+        if (externalCameraHint) externalCameraHint.textContent = `External camera link error: ${err.message}`;
+      });
     });
   }
   searchSpeciesBtn.addEventListener("click", () => searchSpecies().catch((err) => (animalProfile.textContent = `Lookup error: ${err.message}`)));
@@ -762,23 +703,20 @@ function attachEvents() {
     toggleAnimalModeBtn.textContent = animalOnlyMode ? "Animal-Only On" : "Animal-Only Off";
   });
   scanBluetoothBtn.addEventListener("click", () => {
-    requireAuthForAction(
-      () => scanBluetooth().catch(() => {}),
-      "Please sign in to use Bluetooth scanning.",
-    );
+    scanBluetooth().catch(() => {});
   });
-  tabSignIn.addEventListener("click", () => setAuthMode("signin"));
-  tabSignUp.addEventListener("click", () => setAuthMode("signup"));
-  authForm.addEventListener("submit", (event) => {
-    handleAuthSubmit(event).catch((err) => {
-      authStatus.textContent = err.message;
+  if (tabSignIn) tabSignIn.addEventListener("click", () => setAuthMode("signin"));
+  if (tabSignUp) tabSignUp.addEventListener("click", () => setAuthMode("signup"));
+  if (authForm) {
+    authForm.addEventListener("submit", (event) => {
+      handleAuthSubmit(event).catch((err) => {
+        if (authStatus) authStatus.textContent = err.message;
+      });
     });
-  });
+  }
   logoutBtn.addEventListener("click", () => {
-    clearToken();
-    lockApp();
     stopCamera();
-    authStatus.textContent = "Signed out successfully.";
+    if (authStatus) authStatus.textContent = "Camera stopped.";
   });
 
   if (openSettingsBtn && closeSettingsBtn && settingsPanel) {
@@ -814,6 +752,7 @@ async function init() {
   loadSettings();
   applyTheme();
   syncSettingsInputs();
+  unlockApp();
 
   if (window.speechSynthesis) {
     availableVoices = window.speechSynthesis.getVoices();
@@ -823,10 +762,6 @@ async function init() {
   }
 
   attachEvents();
-  const authed = await validateSession().catch(() => false);
-  if (authed) {
-    unlockApp();
-  }
 
   await Promise.all([loadCameraDevices(), initQrCode(), loadSlideshow(), pollTelemetry(), pollInventory()]);
   setInterval(() => pollTelemetry().catch(() => {}), 3000);
