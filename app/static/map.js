@@ -7,6 +7,75 @@ let leafletMap;
 let radarLayer;
 let zones = [];
 
+const DEMO_COORDS = {
+  lion: { zone: "East Africa", lat: -2.33, lng: 34.83 },
+  tiger: { zone: "South Asia", lat: 26.84, lng: 80.95 },
+  elephant: { zone: "Africa", lat: -1.95, lng: 37.29 },
+  giraffe: { zone: "East Africa", lat: -3.39, lng: 36.68 },
+  zebra: { zone: "Southern Africa", lat: -19.01, lng: 29.15 },
+  leopard: { zone: "Africa", lat: 1.37, lng: 32.29 },
+  bear: { zone: "North America", lat: 58.3, lng: -134.42 },
+  wolf: { zone: "Northern Europe", lat: 60.47, lng: 8.46 },
+  deer: { zone: "Europe", lat: 50.11, lng: 8.68 },
+  crocodile: { zone: "Africa", lat: -15.4, lng: 28.28 },
+};
+
+function hasConfiguredBackend() {
+  if (!window.location.hostname.endsWith("github.io")) return true;
+  return Boolean(String(window.WG_API_BASE || "").trim());
+}
+
+function readLocalObservations() {
+  try {
+    const raw = localStorage.getItem("wg_local_observations") || "[]";
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function demoRowsFromLocal() {
+  const counts = new Map();
+  for (const row of readLocalObservations()) {
+    const key = String(row.species || "").toLowerCase();
+    if (!key) continue;
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+
+  const rows = Array.from(counts.entries())
+    .slice(0, 100)
+    .map(([species, sightings]) => {
+      const point = DEMO_COORDS[species] || { zone: "Global", lat: 8, lng: 12 };
+      return {
+        species_name: species,
+        taxonomy_class: "Unknown",
+        taxonomy_order: "Unknown",
+        conservation_status: "Not evaluated",
+        sightings,
+        zone: point.zone,
+        lat: point.lat,
+        lng: point.lng,
+        regions: [point.zone],
+        geo_points: [{ region: point.zone, lat: point.lat, lng: point.lng }],
+      };
+    });
+
+  if (rows.length) return rows;
+  return Object.entries(DEMO_COORDS).map(([species, point]) => ({
+    species_name: species,
+    taxonomy_class: "Unknown",
+    taxonomy_order: "Unknown",
+    conservation_status: "Not evaluated",
+    sightings: 0,
+    zone: point.zone,
+    lat: point.lat,
+    lng: point.lng,
+    regions: [point.zone],
+    geo_points: [{ region: point.zone, lat: point.lat, lng: point.lng }],
+  }));
+}
+
 function getGlobalSettings() {
   try {
     const raw = localStorage.getItem("wg_global_settings");
@@ -172,14 +241,25 @@ function renderZones(rows) {
 }
 
 async function loadZones() {
-  const res = await fetch("/api/wildlife/zones?limit=1500");
-  if (!res.ok) throw new Error("Failed to load habitat zones.");
-  return res.json();
+  if (hasConfiguredBackend()) {
+    try {
+      const res = await fetch("/api/wildlife/zones?limit=1500");
+      if (res.ok) return await res.json();
+    } catch {
+      // Fall through to local/demo zones.
+    }
+  }
+  return demoRowsFromLocal();
 }
 
 initMap();
 loadZones()
-  .then((rows) => renderZones(rows))
+  .then((rows) => {
+    if (!hasConfiguredBackend()) {
+      mapLegend.textContent = "Backend not connected. Showing local/demo habitat intelligence map.";
+    }
+    renderZones(rows);
+  })
   .catch((err) => {
     mapLegend.textContent = err.message;
     selectedSpecies.textContent = "Map loading failed.";

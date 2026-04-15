@@ -69,6 +69,8 @@ const defaultSettings = {
 };
 
 let uiSettings = { ...defaultSettings };
+let lastLocalObservationAt = 0;
+let localPulse = 0;
 
 function isGithubPagesHost() {
   return window.location.hostname.endsWith("github.io");
@@ -108,6 +110,36 @@ function hasConfiguredBackend() {
 }
 
 const backendEnabled = hasConfiguredBackend();
+
+function readLocalObservations() {
+  try {
+    const raw = localStorage.getItem("wg_local_observations") || "[]";
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalObservations(rows) {
+  localStorage.setItem("wg_local_observations", JSON.stringify(rows.slice(0, 500)));
+}
+
+function recordLocalObservation(species, confidence, source = "local-ai") {
+  if (!species) return;
+  const now = Date.now();
+  if (now - lastLocalObservationAt < 2500) return;
+  lastLocalObservationAt = now;
+
+  const rows = readLocalObservations();
+  rows.unshift({
+    species: String(species),
+    confidence: Number(confidence || 0),
+    source,
+    captured_at: new Date(now).toISOString(),
+  });
+  writeLocalObservations(rows);
+}
 
 const ANIMAL_CLASSES = new Set([
   "bird",
@@ -366,14 +398,23 @@ async function localDetectLoop() {
 
   drawPredictions(visiblePredictions);
   if (!uploadInFlight) {
+    localPulse = (localPulse + 1) % 4;
+    const pulseDots = ".".repeat(localPulse + 1);
+    const topAnimal = visiblePredictions.length
+      ? visiblePredictions.slice().sort((a, b) => Number(b.score || 0) - Number(a.score || 0))[0]
+      : null;
+    if (topAnimal && Number(topAnimal.score || 0) >= 0.55) {
+      recordLocalObservation(topAnimal.class, topAnimal.score, "local-camera");
+    }
+
     if (animalOnlyMode) {
       resultBox.textContent = visiblePredictions.length
-        ? `Animal-only scene: ${visiblePredictions.map((p) => `${p.class} ${Math.round(p.score * 100)}%`).join(", ")}`
-        : "Animal-only scene: no animal class visible yet.";
+        ? `Animal mode${pulseDots} ${visiblePredictions.length} tracked | top: ${topAnimal.class} ${Math.round(topAnimal.score * 100)}%`
+        : `Animal-only scene${pulseDots} scanning for wildlife...`;
     } else {
       resultBox.textContent = predictions.length
         ? `Scene objects: ${predictions.map((p) => `${p.class} ${Math.round(p.score * 100)}%`).join(", ")}`
-        : "Scene objects: scanning...";
+        : `Scene objects${pulseDots} scanning...`;
     }
   }
 
@@ -426,6 +467,7 @@ async function uploadSnapshot() {
     }
 
     resultBox.textContent = `Detected animal: ${data.label} (${Math.round(confidence * 100)}%)`;
+    recordLocalObservation(data.label, confidence, "server-verify");
     renderAnimalProfile(data.animal_info || null);
     speakProfile(data.label, data.animal_info || null);
   } catch {
