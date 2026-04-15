@@ -1,6 +1,13 @@
+import { buildPredictiveAlerts, computeIntelSummary, readObservations } from "./intel.js";
+
 const latestDetection = document.getElementById("latestDetection");
 const liveAlerts = document.getElementById("liveAlerts");
 const liveDetections = document.getElementById("liveDetections");
+const liveMcEvents = document.getElementById("liveMcEvents");
+const liveMcSpecies = document.getElementById("liveMcSpecies");
+const liveMcRisk = document.getElementById("liveMcRisk");
+const liveMcHealth = document.getElementById("liveMcHealth");
+const liveMcSignal = document.getElementById("liveMcSignal");
 
 function hasConfiguredBackend() {
   if (!window.location.hostname.endsWith("github.io")) return true;
@@ -8,13 +15,18 @@ function hasConfiguredBackend() {
 }
 
 function readLocalObservations() {
-  try {
-    const raw = localStorage.getItem("wg_local_observations") || "[]";
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
+  return readObservations();
+}
+
+function renderLiveMission() {
+  if (!liveMcEvents) return;
+  const summary = computeIntelSummary(readObservations());
+  const signal = buildPredictiveAlerts(summary)[0];
+  liveMcEvents.textContent = String(summary.totalSightings);
+  liveMcSpecies.textContent = String(summary.uniqueSpecies);
+  liveMcRisk.textContent = String(summary.riskScore);
+  liveMcHealth.textContent = String(summary.healthScore);
+  liveMcSignal.textContent = signal.message;
 }
 
 function renderLive(detections, alerts, localMode = false) {
@@ -101,3 +113,5 @@ pollLive().catch(() => {
 });
 latestDetection.classList.add("feed-live");
 setInterval(() => pollLive().catch(() => {}), 2000);
+renderLiveMission();
+setInterval(() => renderLiveMission(), 1500);

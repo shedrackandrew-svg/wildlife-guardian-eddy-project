@@ -1,3 +1,5 @@
+import { clearIntelVault, computeIntelSummary, exportIntelVault, importIntelVault, readObservations } from "./intel.js";
+
 const themeSelect = document.getElementById("themeSelect");
 const masterVolume = document.getElementById("masterVolume");
 const voiceRate = document.getElementById("voiceRate");
@@ -13,6 +15,11 @@ const advancedMenu = document.getElementById("advancedMenu");
 const refreshDbInfo = document.getElementById("refreshDbInfo");
 const saveBtn = document.getElementById("saveGlobalSettings");
 const dbInfo = document.getElementById("dbInfo");
+const vaultInfo = document.getElementById("vaultInfo");
+const exportVaultBtn = document.getElementById("exportVault");
+const importVaultBtn = document.getElementById("importVault");
+const clearVaultBtn = document.getElementById("clearVault");
+const vaultPayload = document.getElementById("vaultPayload");
 
 const defaults = {
   theme: "forest",
@@ -117,6 +124,39 @@ async function loadDbInfo() {
   }
 }
 
+function refreshVaultInfo(message = "") {
+  const summary = computeIntelSummary(readObservations());
+  const top = summary.topSpecies.slice(0, 3).map((row) => `${row.species} (${row.count})`).join(", ") || "none";
+  vaultInfo.innerHTML = `
+    <p><strong>Stored Observations:</strong> ${summary.totalSightings}</p>
+    <p><strong>Species Diversity:</strong> ${summary.uniqueSpecies}</p>
+    <p><strong>Risk Score:</strong> ${summary.riskScore}</p>
+    <p><strong>Top Species:</strong> ${top}</p>
+    ${message ? `<p><strong>Status:</strong> ${message}</p>` : ""}
+  `;
+}
+
+exportVaultBtn.addEventListener("click", () => {
+  const payload = exportIntelVault();
+  vaultPayload.value = JSON.stringify(payload, null, 2);
+  refreshVaultInfo("Vault exported to text area.");
+});
+
+importVaultBtn.addEventListener("click", () => {
+  try {
+    const parsed = JSON.parse(vaultPayload.value || "{}");
+    const summary = importIntelVault(parsed);
+    refreshVaultInfo(`Vault imported. ${summary.totalSightings} events restored.`);
+  } catch (err) {
+    refreshVaultInfo(`Import failed: ${err.message}`);
+  }
+});
+
+clearVaultBtn.addEventListener("click", () => {
+  clearIntelVault();
+  refreshVaultInfo("Vault cleared.");
+});
+
 saveBtn.addEventListener("click", () => {
   saveSettings();
   loadDbInfo().catch(() => {});
@@ -130,3 +170,4 @@ refreshDbInfo.addEventListener("click", () => {
 loadSettings();
 syncUi();
 loadDbInfo().catch(() => {});
+refreshVaultInfo();

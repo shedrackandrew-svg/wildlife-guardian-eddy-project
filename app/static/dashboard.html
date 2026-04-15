@@ -72,6 +72,29 @@
           <button id="openSettings" type="button" class="ghost-btn">Settings</button>
           <button id="logoutBtn" type="button" class="ghost-btn">Logout</button>
         </nav>
+
+        <section class="mission-grid" aria-label="Mission Control Metrics">
+          <article class="mission-card">
+            <span class="label">Total Sightings</span>
+            <strong id="mcTotalSightings">0</strong>
+          </article>
+          <article class="mission-card">
+            <span class="label">Species Diversity</span>
+            <strong id="mcSpeciesDiversity">0</strong>
+          </article>
+          <article class="mission-card">
+            <span class="label">Risk Score</span>
+            <strong id="mcRiskScore">0</strong>
+          </article>
+          <article class="mission-card">
+            <span class="label">Model Health</span>
+            <strong id="mcHealthScore">0</strong>
+          </article>
+          <article class="mission-card mission-wide">
+            <span class="label">Predictive Signal</span>
+            <strong id="mcSignalText">Initializing wildlife intelligence...</strong>
+          </article>
+        </section>
       </header>
 
       <section id="scanArea" class="panel live-feed">

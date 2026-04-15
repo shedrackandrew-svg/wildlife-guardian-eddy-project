@@ -634,6 +634,44 @@ h3 {
   background: color-mix(in oklab, var(--accent) 18%, transparent);
 }
 
+.mission-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.55rem;
+}
+
+.mission-card {
+  border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--line));
+  border-radius: 12px;
+  padding: 0.55rem 0.65rem;
+  background: linear-gradient(150deg, rgba(9, 24, 20, 0.92), rgba(8, 18, 26, 0.86));
+  display: grid;
+  gap: 0.22rem;
+}
+
+.mission-card .label {
+  font-size: 0.72rem;
+  color: #b6d8ca;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mission-card strong {
+  font-size: 1.25rem;
+  color: #e3fff2;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.mission-card.mission-wide {
+  grid-column: 1 / -1;
+}
+
+.mission-card.mission-wide strong {
+  font-size: 0.94rem;
+  line-height: 1.35;
+}
+
 .ghost-btn {
   border: 1px solid var(--line);
   border-radius: 999px;

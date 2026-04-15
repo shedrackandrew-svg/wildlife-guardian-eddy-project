@@ -1,3 +1,5 @@
+import { appendObservation, buildPredictiveAlerts, computeIntelSummary, readObservations } from "./intel.js";
+
 const video = document.getElementById("video");
 const overlay = document.getElementById("overlay");
 const resultBox = document.getElementById("resultBox");
@@ -35,6 +37,11 @@ const authForm = document.getElementById("authForm");
 const authStatus = document.getElementById("authStatus");
 const tabSignIn = document.getElementById("tabSignIn");
 const tabSignUp = document.getElementById("tabSignUp");
+const mcTotalSightings = document.getElementById("mcTotalSightings");
+const mcSpeciesDiversity = document.getElementById("mcSpeciesDiversity");
+const mcRiskScore = document.getElementById("mcRiskScore");
+const mcHealthScore = document.getElementById("mcHealthScore");
+const mcSignalText = document.getElementById("mcSignalText");
 
 const ctx = overlay.getContext("2d");
 let stream = null;
@@ -111,34 +118,26 @@ function hasConfiguredBackend() {
 
 const backendEnabled = hasConfiguredBackend();
 
-function readLocalObservations() {
-  try {
-    const raw = localStorage.getItem("wg_local_observations") || "[]";
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeLocalObservations(rows) {
-  localStorage.setItem("wg_local_observations", JSON.stringify(rows.slice(0, 500)));
-}
-
 function recordLocalObservation(species, confidence, source = "local-ai") {
   if (!species) return;
   const now = Date.now();
   if (now - lastLocalObservationAt < 2500) return;
   lastLocalObservationAt = now;
+  appendObservation(species, confidence, source);
+}
 
-  const rows = readLocalObservations();
-  rows.unshift({
-    species: String(species),
-    confidence: Number(confidence || 0),
-    source,
-    captured_at: new Date(now).toISOString(),
-  });
-  writeLocalObservations(rows);
+function renderMissionControl() {
+  if (!mcTotalSightings) return;
+  const summary = computeIntelSummary(readObservations());
+  const signal = buildPredictiveAlerts(summary)[0];
+
+  mcTotalSightings.textContent = String(summary.totalSightings);
+  mcSpeciesDiversity.textContent = String(summary.uniqueSpecies);
+  mcRiskScore.textContent = `${summary.riskScore}`;
+  mcHealthScore.textContent = `${summary.healthScore}`;
+
+  const lastSeen = summary.lastSeenAt ? new Date(summary.lastSeenAt).toLocaleTimeString() : "no recent event";
+  mcSignalText.textContent = `${signal.message} Last seen: ${lastSeen}.`;
 }
 
 const ANIMAL_CLASSES = new Set([
@@ -891,8 +890,10 @@ async function init() {
   resultBox.classList.add("feed-live");
 
   await Promise.all([loadCameraDevices(), initQrCode(), loadSlideshow(), pollTelemetry(), pollInventory()]);
+  renderMissionControl();
   setInterval(() => pollTelemetry().catch(() => {}), 1800);
   setInterval(() => pollInventory().catch(() => {}), 2600);
+  setInterval(() => renderMissionControl(), 1500);
 
   resultBox.textContent = backendEnabled
     ? "Ready. Click Start Camera to begin secure scanning."
