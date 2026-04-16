@@ -7,7 +7,24 @@ const streamQualityInput = document.getElementById("streamQuality");
 
 const query = new URLSearchParams(window.location.search);
 const sourceId = (query.get("source") || "phone-cam-1").trim().toLowerCase();
-const apiBase = String(window.WG_API_BASE || "").trim().replace(/\/$/, "");
+
+function normalizeApiBase(raw) {
+  const value = String(raw || "").trim().replace(/\/$/, "");
+  if (!value) return "";
+  if (!/^https?:\/\//i.test(value)) return "";
+  return value;
+}
+
+const queryApiBase = normalizeApiBase(query.get("api_base") || "");
+const storedApiBase = normalizeApiBase(localStorage.getItem("wg_api_base") || "");
+const injectedApiBase = normalizeApiBase(window.WG_API_BASE || window.WG_DEFAULT_API_BASE || "");
+const apiBase = queryApiBase || storedApiBase || injectedApiBase;
+
+if (apiBase) {
+  localStorage.setItem("wg_api_base", apiBase);
+  window.WG_API_BASE = apiBase;
+}
+
 const backendEnabled = !window.location.hostname.endsWith("github.io") || Boolean(apiBase);
 
 let stream = null;
@@ -111,5 +128,7 @@ startStreamBtn.addEventListener("click", () => {
 stopStreamBtn.addEventListener("click", stop);
 
 if (!backendEnabled) {
-  phoneStatus.textContent = "Backend not configured for this static link. Camera preview works, but upload detection is disabled.";
+  phoneStatus.textContent = "Backend not configured for this static link. Open onboarding and set API Link, then generate a new pair link.";
+} else {
+  phoneStatus.textContent = `Ready for source ${sourceId}. Backend linked.`;
 }

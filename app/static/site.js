@@ -9,6 +9,35 @@ function getRepoBasePath() {
   return `/${parts[0]}`;
 }
 
+function normalizeApiBase(raw) {
+  const value = String(raw || "").trim().replace(/\/$/, "");
+  if (!value) return "";
+  if (!/^https?:\/\//i.test(value)) return "";
+  return value;
+}
+
+function bootstrapApiBase() {
+  const query = new URLSearchParams(window.location.search);
+  const queryBase = normalizeApiBase(query.get("api_base"));
+  const storedBase = normalizeApiBase(localStorage.getItem("wg_api_base"));
+  const defaultBase = normalizeApiBase(window.WG_DEFAULT_API_BASE || "");
+  const selectedBase = queryBase || storedBase || defaultBase;
+
+  if (queryBase) {
+    localStorage.setItem("wg_api_base", queryBase);
+  } else if (selectedBase) {
+    localStorage.setItem("wg_api_base", selectedBase);
+  }
+
+  window.WG_API_BASE = selectedBase;
+
+  if (query.has("api_base")) {
+    query.delete("api_base");
+    const next = `${window.location.pathname}${query.toString() ? `?${query.toString()}` : ""}${window.location.hash}`;
+    window.history.replaceState({}, "", next);
+  }
+}
+
 function appRoute(path) {
   const clean = (path || "/").replace(/\/$/, "") || "/";
   if (!isGithubPagesHost()) return clean;
@@ -226,6 +255,7 @@ function hidePreloader() {
   }, 420);
 }
 
+bootstrapApiBase();
 normalizePageLinks();
 setActiveNav();
 ensureSettingsLink();

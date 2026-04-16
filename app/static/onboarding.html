@@ -27,6 +27,16 @@
         </div>
 
         <div class="stack">
+          <h2>Step 0: Connect Backend API (One Time)</h2>
+          <div class="lookup-row">
+            <input id="backendApiBase" type="url" placeholder="https://your-backend.example" />
+            <button id="saveBackendApi" type="button">Save API Link</button>
+            <button id="clearBackendApi" type="button">Clear</button>
+          </div>
+          <div id="backendApiStatus" class="profile-box">No backend API set. Frontend-only mode will run.</div>
+        </div>
+
+        <div class="stack">
           <h2>Step 1: Name the Camera Source</h2>
           <div class="lookup-row">
             <input id="sourceName" type="text" placeholder="phone-cam-1" value="phone-cam-1" />
