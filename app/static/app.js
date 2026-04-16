@@ -13,6 +13,7 @@ const startBtn = document.getElementById("startCamera");
 const stopBtn = document.getElementById("stopCamera");
 const toggleAnimalModeBtn = document.getElementById("toggleAnimalMode");
 const toggleVoiceBtn = document.getElementById("toggleVoice");
+const testVoiceBtn = document.getElementById("testVoice");
 const cameraSelect = document.getElementById("cameraSelect");
 const refreshCamerasBtn = document.getElementById("refreshCameras");
 const connectExternalCameraBtn = document.getElementById("connectExternalCamera");
@@ -566,6 +567,9 @@ async function startCamera() {
     : { video: { facingMode: "environment" }, audio: false };
   stream = await navigator.mediaDevices.getUserMedia(constraints);
   video.srcObject = stream;
+  if (voiceEnabled) {
+    speakProfile("system", { conservation_status: "active", facts: ["Camera connected. Live wildlife voice updates enabled."] });
+  }
   localDetectLoop();
   uploadLoopHandle = setInterval(() => {
     uploadSnapshot().catch(() => {});
@@ -875,6 +879,15 @@ function attachEvents() {
       speakProfile("system", { conservation_status: "active", facts: ["Voice narration enabled."] });
     }
   });
+  if (testVoiceBtn) {
+    testVoiceBtn.addEventListener("click", () => {
+      primeVoice();
+      speakProfile("wildguard", {
+        conservation_status: "voice-test",
+        facts: ["Voice output is active. Wildlife detections will be narrated when confirmed."],
+      });
+    });
+  }
   toggleAnimalModeBtn.addEventListener("click", () => {
     animalOnlyMode = !animalOnlyMode;
     toggleAnimalModeBtn.textContent = animalOnlyMode ? "Animal-Only On" : "Animal-Only Off";

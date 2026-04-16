@@ -32,16 +32,36 @@
       <section class="panel telemetry">
         <div class="panel-head">
           <h1>Global Animal Library</h1>
-          <p>Advanced records of species known by WildGuard.</p>
+          <p>Interactive intelligence library across animals, reptiles, birds, insects, fungi, bacteria, and viruses.</p>
         </div>
         <div class="stack">
           <div class="lookup-row">
             <input id="librarySearch" type="text" placeholder="Search species, region, alias" />
+            <select id="libraryGroup">
+              <option value="">All Classes / Groups</option>
+              <option value="Mammalia">Mammalia</option>
+              <option value="Aves">Aves</option>
+              <option value="Reptilia">Reptilia</option>
+              <option value="Amphibia">Amphibia</option>
+              <option value="Insecta">Insecta</option>
+              <option value="Arachnida">Arachnida</option>
+              <option value="Actinopterygii">Fish</option>
+              <option value="Agaricomycetes">Fungi</option>
+              <option value="Gammaproteobacteria">Bacteria</option>
+              <option value="Pisoniviricetes">Virus</option>
+            </select>
             <button id="librarySearchBtn" type="button">Search</button>
+          </div>
+          <div class="lookup-row">
+            <button id="librarySeedBtn" type="button">Seed Foundation Data</button>
+            <button id="librarySyncMammalsBtn" type="button">Sync Mammals</button>
+            <button id="librarySyncBirdsBtn" type="button">Sync Birds</button>
+            <button id="librarySyncInsectsBtn" type="button">Sync Insects</button>
           </div>
           <div id="libraryMeta" class="profile-box">Loading species...</div>
         </div>
         <div id="libraryGrid" class="gallery-grid large-grid"></div>
+        <div id="libraryDetail" class="profile-box">Select a species card for richer details and voice summary.</div>
       </section>
     </main>
     <script src="/static/site.js" type="module"></script>
