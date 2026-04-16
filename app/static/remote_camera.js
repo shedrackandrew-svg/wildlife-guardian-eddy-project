@@ -7,10 +7,17 @@ const streamQualityInput = document.getElementById("streamQuality");
 
 const query = new URLSearchParams(window.location.search);
 const sourceId = (query.get("source") || "phone-cam-1").trim().toLowerCase();
+const apiBase = String(window.WG_API_BASE || "").trim().replace(/\/$/, "");
+const backendEnabled = !window.location.hostname.endsWith("github.io") || Boolean(apiBase);
 
 let stream = null;
 let timer = null;
 let busy = false;
+
+function apiUrl(path) {
+  const cleanPath = String(path || "");
+  return apiBase ? `${apiBase}${cleanPath}` : cleanPath;
+}
 
 function getIntervalMs() {
   const parsed = Number(streamIntervalInput.value || 1300);
@@ -23,6 +30,10 @@ function getQuality() {
 }
 
 async function uploadFrame() {
+  if (!backendEnabled) {
+    phoneStatus.textContent = "Backend API not configured for this static link. Pair this page with a backend URL to stream detections.";
+    return;
+  }
   if (!stream || busy || phoneVideo.readyState < 2) {
     return;
   }
@@ -43,7 +54,7 @@ async function uploadFrame() {
     form.append("file", blob, "phone-frame.jpg");
     form.append("source", sourceId);
 
-    const res = await fetch("/api/detect/image", {
+    const res = await fetch(apiUrl("/api/detect/image"), {
       method: "POST",
       body: form,
     });
@@ -64,9 +75,15 @@ async function start() {
   if (stream) {
     return;
   }
+  if (!navigator.mediaDevices?.getUserMedia) {
+    phoneStatus.textContent = "Camera API is unavailable in this browser/device.";
+    return;
+  }
   stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
   phoneVideo.srcObject = stream;
-  phoneStatus.textContent = `Camera started for source ${sourceId}.`;
+  phoneStatus.textContent = backendEnabled
+    ? `Camera started for source ${sourceId}.`
+    : `Camera preview started for source ${sourceId}. Connect a backend URL for live detection uploads.`;
   timer = setInterval(() => {
     uploadFrame().catch((err) => {
       phoneStatus.textContent = `Upload error: ${err.message}`;
@@ -92,3 +109,7 @@ startStreamBtn.addEventListener("click", () => {
   });
 });
 stopStreamBtn.addEventListener("click", stop);
+
+if (!backendEnabled) {
+  phoneStatus.textContent = "Backend not configured for this static link. Camera preview works, but upload detection is disabled.";
+}
