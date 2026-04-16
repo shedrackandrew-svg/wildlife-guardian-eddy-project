@@ -5,6 +5,8 @@ import os
 import re
 import sys
 import uuid
+import urllib.parse
+import urllib.request
 from io import BytesIO
 from pathlib import Path
 from threading import Thread
@@ -28,7 +30,7 @@ from app.auth import create_access_token, decode_access_token, hash_password, ve
 from app.animal_knowledge import AnimalKnowledgeBase
 from app.database import Base, engine, get_db
 from app.detector import detector
-from app.models import Alert, AnimalInventory, Detection, User
+from app.models import Alert, AnimalInventory, Detection, GlobalSpeciesCatalog, User
 from app.schemas import (
     AuthSignInIn,
     AuthSignUpIn,
@@ -38,6 +40,8 @@ from app.schemas import (
     AlertRecordOut,
     DetectionRecordOut,
     DetectionResponse,
+    GlobalSpeciesRecordOut,
+    GlobalSpeciesSyncOut,
     InventoryRecordOut,
     InventoryUpsertIn,
     SensorPayload,
@@ -142,6 +146,265 @@ BIOLOGY_CLASS_KEYWORDS: dict[str, tuple[str, str]] = {
     "dragonfly": ("Insecta", "Odonata"),
     "spider": ("Arachnida", "Araneae"),
 }
+
+
+FOUNDATION_SPECIES_SEED: list[dict[str, str | list[str]]] = [
+    {
+        "species_name": "lion",
+        "scientific_name": "Panthera leo",
+        "common_name": "Lion",
+        "kingdom": "Animalia",
+        "phylum": "Chordata",
+        "taxonomy_class": "Mammalia",
+        "taxonomy_order": "Carnivora",
+        "family": "Felidae",
+        "genus": "Panthera",
+        "conservation_status": "Vulnerable",
+        "habitats": ["Savanna", "Grassland"],
+        "regions": ["Africa", "India"],
+        "details": "Large social cat living in prides.",
+    },
+    {
+        "species_name": "bald eagle",
+        "scientific_name": "Haliaeetus leucocephalus",
+        "common_name": "Bald Eagle",
+        "kingdom": "Animalia",
+        "phylum": "Chordata",
+        "taxonomy_class": "Aves",
+        "taxonomy_order": "Accipitriformes",
+        "family": "Accipitridae",
+        "genus": "Haliaeetus",
+        "conservation_status": "Least Concern",
+        "habitats": ["Coasts", "Rivers", "Lakes"],
+        "regions": ["North America"],
+        "details": "Apex raptor with strong fish-hunting behavior.",
+    },
+    {
+        "species_name": "green sea turtle",
+        "scientific_name": "Chelonia mydas",
+        "common_name": "Green Sea Turtle",
+        "kingdom": "Animalia",
+        "phylum": "Chordata",
+        "taxonomy_class": "Reptilia",
+        "taxonomy_order": "Testudines",
+        "family": "Cheloniidae",
+        "genus": "Chelonia",
+        "conservation_status": "Endangered",
+        "habitats": ["Marine", "Coastal"],
+        "regions": ["Tropical Oceans"],
+        "details": "Long-distance migratory marine reptile.",
+    },
+    {
+        "species_name": "poison dart frog",
+        "scientific_name": "Dendrobatidae",
+        "common_name": "Poison Dart Frog",
+        "kingdom": "Animalia",
+        "phylum": "Chordata",
+        "taxonomy_class": "Amphibia",
+        "taxonomy_order": "Anura",
+        "family": "Dendrobatidae",
+        "genus": "Various",
+        "conservation_status": "Varies",
+        "habitats": ["Rainforest"],
+        "regions": ["Central America", "South America"],
+        "details": "Brightly colored amphibians with bioactive skin compounds.",
+    },
+    {
+        "species_name": "monarch butterfly",
+        "scientific_name": "Danaus plexippus",
+        "common_name": "Monarch Butterfly",
+        "kingdom": "Animalia",
+        "phylum": "Arthropoda",
+        "taxonomy_class": "Insecta",
+        "taxonomy_order": "Lepidoptera",
+        "family": "Nymphalidae",
+        "genus": "Danaus",
+        "conservation_status": "Endangered",
+        "habitats": ["Meadows", "Grassland"],
+        "regions": ["North America"],
+        "details": "Long-range migratory butterfly species.",
+    },
+    {
+        "species_name": "honey bee",
+        "scientific_name": "Apis mellifera",
+        "common_name": "Honey Bee",
+        "kingdom": "Animalia",
+        "phylum": "Arthropoda",
+        "taxonomy_class": "Insecta",
+        "taxonomy_order": "Hymenoptera",
+        "family": "Apidae",
+        "genus": "Apis",
+        "conservation_status": "Not evaluated",
+        "habitats": ["Fields", "Forests", "Agricultural areas"],
+        "regions": ["Worldwide"],
+        "details": "Critical pollinator with complex colony behavior.",
+    },
+    {
+        "species_name": "jumping spider",
+        "scientific_name": "Salticidae",
+        "common_name": "Jumping Spider",
+        "kingdom": "Animalia",
+        "phylum": "Arthropoda",
+        "taxonomy_class": "Arachnida",
+        "taxonomy_order": "Araneae",
+        "family": "Salticidae",
+        "genus": "Various",
+        "conservation_status": "Not evaluated",
+        "habitats": ["Forests", "Grasslands", "Urban edge"],
+        "regions": ["Worldwide"],
+        "details": "Visually oriented spider with precise jumping predation.",
+    },
+    {
+        "species_name": "atlantic salmon",
+        "scientific_name": "Salmo salar",
+        "common_name": "Atlantic Salmon",
+        "kingdom": "Animalia",
+        "phylum": "Chordata",
+        "taxonomy_class": "Actinopterygii",
+        "taxonomy_order": "Salmoniformes",
+        "family": "Salmonidae",
+        "genus": "Salmo",
+        "conservation_status": "Least Concern",
+        "habitats": ["Rivers", "North Atlantic"],
+        "regions": ["North Atlantic"],
+        "details": "Anadromous fish migrating from ocean to freshwater.",
+    },
+    {
+        "species_name": "blue whale",
+        "scientific_name": "Balaenoptera musculus",
+        "common_name": "Blue Whale",
+        "kingdom": "Animalia",
+        "phylum": "Chordata",
+        "taxonomy_class": "Mammalia",
+        "taxonomy_order": "Cetacea",
+        "family": "Balaenopteridae",
+        "genus": "Balaenoptera",
+        "conservation_status": "Endangered",
+        "habitats": ["Open ocean"],
+        "regions": ["Global Oceans"],
+        "details": "Largest animal known to have ever lived.",
+    },
+    {
+        "species_name": "komodo dragon",
+        "scientific_name": "Varanus komodoensis",
+        "common_name": "Komodo Dragon",
+        "kingdom": "Animalia",
+        "phylum": "Chordata",
+        "taxonomy_class": "Reptilia",
+        "taxonomy_order": "Squamata",
+        "family": "Varanidae",
+        "genus": "Varanus",
+        "conservation_status": "Endangered",
+        "habitats": ["Dry forest", "Savanna"],
+        "regions": ["Indonesia"],
+        "details": "Largest living lizard with powerful predation strategy.",
+    },
+    {
+        "species_name": "axolotl",
+        "scientific_name": "Ambystoma mexicanum",
+        "common_name": "Axolotl",
+        "kingdom": "Animalia",
+        "phylum": "Chordata",
+        "taxonomy_class": "Amphibia",
+        "taxonomy_order": "Urodela",
+        "family": "Ambystomatidae",
+        "genus": "Ambystoma",
+        "conservation_status": "Critically Endangered",
+        "habitats": ["Freshwater lakes"],
+        "regions": ["Mexico"],
+        "details": "Neotenic amphibian used in regeneration research.",
+    },
+    {
+        "species_name": "amanita muscaria",
+        "scientific_name": "Amanita muscaria",
+        "common_name": "Fly Agaric",
+        "kingdom": "Fungi",
+        "phylum": "Basidiomycota",
+        "taxonomy_class": "Agaricomycetes",
+        "taxonomy_order": "Agaricales",
+        "family": "Amanitaceae",
+        "genus": "Amanita",
+        "conservation_status": "Not evaluated",
+        "habitats": ["Temperate forests"],
+        "regions": ["Northern Hemisphere"],
+        "details": "Iconic mushroom species with red cap and white spots.",
+    },
+    {
+        "species_name": "penicillium chrysogenum",
+        "scientific_name": "Penicillium chrysogenum",
+        "common_name": "Penicillium Mold",
+        "kingdom": "Fungi",
+        "phylum": "Ascomycota",
+        "taxonomy_class": "Eurotiomycetes",
+        "taxonomy_order": "Eurotiales",
+        "family": "Trichocomaceae",
+        "genus": "Penicillium",
+        "conservation_status": "Not evaluated",
+        "habitats": ["Soil", "Indoor environments"],
+        "regions": ["Worldwide"],
+        "details": "Historically important source lineage for penicillin discovery.",
+    },
+    {
+        "species_name": "escherichia coli",
+        "scientific_name": "Escherichia coli",
+        "common_name": "E. coli",
+        "kingdom": "Bacteria",
+        "phylum": "Proteobacteria",
+        "taxonomy_class": "Gammaproteobacteria",
+        "taxonomy_order": "Enterobacterales",
+        "family": "Enterobacteriaceae",
+        "genus": "Escherichia",
+        "conservation_status": "Not evaluated",
+        "habitats": ["Gut microbiome", "Water"],
+        "regions": ["Worldwide"],
+        "details": "Model bacterium used broadly in molecular biology.",
+    },
+    {
+        "species_name": "bacillus subtilis",
+        "scientific_name": "Bacillus subtilis",
+        "common_name": "B. subtilis",
+        "kingdom": "Bacteria",
+        "phylum": "Firmicutes",
+        "taxonomy_class": "Bacilli",
+        "taxonomy_order": "Bacillales",
+        "family": "Bacillaceae",
+        "genus": "Bacillus",
+        "conservation_status": "Not evaluated",
+        "habitats": ["Soil"],
+        "regions": ["Worldwide"],
+        "details": "Endospore-forming bacterium with high environmental resilience.",
+    },
+    {
+        "species_name": "influenza a virus",
+        "scientific_name": "Influenza A virus",
+        "common_name": "Influenza A",
+        "kingdom": "Virus",
+        "phylum": "Negarnaviricota",
+        "taxonomy_class": "Insthoviricetes",
+        "taxonomy_order": "Articulavirales",
+        "family": "Orthomyxoviridae",
+        "genus": "Alphainfluenzavirus",
+        "conservation_status": "Not applicable",
+        "habitats": ["Host-associated"],
+        "regions": ["Worldwide"],
+        "details": "RNA virus with zoonotic and seasonal epidemic importance.",
+    },
+    {
+        "species_name": "sars-cov-2",
+        "scientific_name": "Severe acute respiratory syndrome coronavirus 2",
+        "common_name": "SARS-CoV-2",
+        "kingdom": "Virus",
+        "phylum": "Pisuviricota",
+        "taxonomy_class": "Pisoniviricetes",
+        "taxonomy_order": "Nidovirales",
+        "family": "Coronaviridae",
+        "genus": "Betacoronavirus",
+        "conservation_status": "Not applicable",
+        "habitats": ["Host-associated"],
+        "regions": ["Worldwide"],
+        "details": "Coronavirus responsible for the COVID-19 pandemic.",
+    },
+]
 
 
 @app.on_event("startup")
@@ -271,6 +534,146 @@ def _profile_payload(profile) -> dict:
     return payload
 
 
+def _json_array_text(values: list[str] | None) -> str:
+    return json.dumps(values or [], ensure_ascii=True)
+
+
+def _parse_json_array(value: str | None) -> list[str]:
+    if not value:
+        return []
+    try:
+        parsed = json.loads(value)
+    except Exception:
+        return []
+    if not isinstance(parsed, list):
+        return []
+    return [str(item) for item in parsed if str(item).strip()]
+
+
+def _wiki_thumb_for_species(scientific_name: str) -> tuple[str | None, str | None]:
+    clean = scientific_name.strip()
+    if not clean or clean.lower() == "unknown":
+        return None, None
+    title = urllib.parse.quote(clean.replace(" ", "_"))
+    url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{title}"
+    try:
+        request = urllib.request.Request(url, headers={"User-Agent": "WildGuard/1.0"})
+        with urllib.request.urlopen(request, timeout=5) as response:
+            payload = json.loads(response.read().decode("utf-8", errors="ignore"))
+        thumb = payload.get("thumbnail", {}) if isinstance(payload, dict) else {}
+        image_url = thumb.get("source") if isinstance(thumb, dict) else None
+        source_url = payload.get("content_urls", {}).get("desktop", {}).get("page") if isinstance(payload, dict) else None
+        return image_url, source_url
+    except Exception:
+        return None, None
+
+
+def _upsert_global_species_row(
+    db: Session,
+    *,
+    species_name: str,
+    scientific_name: str,
+    common_name: str,
+    kingdom: str,
+    phylum: str,
+    taxonomy_class: str,
+    taxonomy_order: str,
+    family: str,
+    genus: str,
+    conservation_status: str,
+    habitats: list[str],
+    regions: list[str],
+    details: str,
+    image_url: str | None,
+    image_source: str | None,
+    source: str,
+    source_id: str | None,
+    increment_sightings: bool,
+) -> tuple[GlobalSpeciesCatalog, bool]:
+    key = species_name.strip().lower()
+    row = db.query(GlobalSpeciesCatalog).filter(GlobalSpeciesCatalog.species_name == key).first()
+    is_new = row is None
+    if row is None:
+        row = GlobalSpeciesCatalog(species_name=key)
+        db.add(row)
+
+    row.scientific_name = scientific_name or row.scientific_name or "Unknown"
+    row.common_name = common_name or row.common_name or key
+    row.kingdom = kingdom or row.kingdom or "Animalia"
+    row.phylum = phylum or row.phylum or "Unknown"
+    row.taxonomy_class = taxonomy_class or row.taxonomy_class or "Unknown"
+    row.taxonomy_order = taxonomy_order or row.taxonomy_order or "Unknown"
+    row.family = family or row.family or "Unknown"
+    row.genus = genus or row.genus or "Unknown"
+    row.conservation_status = conservation_status or row.conservation_status or "Not evaluated"
+    row.habitats = _json_array_text(habitats)
+    row.regions = _json_array_text(regions)
+    row.details = details or row.details or ""
+    row.source = source or row.source or "detection"
+    row.source_id = source_id or row.source_id
+    if image_url and not row.image_url:
+        row.image_url = image_url
+    if image_source and not row.image_source:
+        row.image_source = image_source
+    if increment_sightings:
+        row.sightings = int(row.sightings or 0) + 1
+
+    return row, is_new
+
+
+def _store_detected_species_in_catalog(db: Session, species_name: str, profile: AnimalProfileOut | None) -> None:
+    taxonomy_class, taxonomy_order = _taxonomy_for_species(species_name)
+    image_urls = _list_species_image_urls(species_name)
+    image_url = image_urls[0] if image_urls else None
+    image_source = "wildguard-species-media" if image_url else None
+
+    if profile is not None:
+        _upsert_global_species_row(
+            db,
+            species_name=species_name,
+            scientific_name=profile.scientific_name,
+            common_name=profile.species_name,
+            kingdom="Animalia",
+            phylum="Unknown",
+            taxonomy_class=taxonomy_class,
+            taxonomy_order=taxonomy_order,
+            family=profile.family,
+            genus=profile.scientific_name.split(" ")[0] if profile.scientific_name and profile.scientific_name != "Unknown" else "Unknown",
+            conservation_status=profile.conservation_status,
+            habitats=profile.habitats,
+            regions=profile.regions,
+            details="; ".join(profile.facts[:4]) if profile.facts else "",
+            image_url=image_url,
+            image_source=image_source,
+            source="detection",
+            source_id=None,
+            increment_sightings=True,
+        )
+    else:
+        _upsert_global_species_row(
+            db,
+            species_name=species_name,
+            scientific_name=species_name,
+            common_name=species_name,
+            kingdom="Animalia",
+            phylum="Unknown",
+            taxonomy_class=taxonomy_class,
+            taxonomy_order=taxonomy_order,
+            family="Unknown",
+            genus=species_name.split(" ")[0],
+            conservation_status="Not evaluated",
+            habitats=["Unknown"],
+            regions=["Global"],
+            details="Auto-captured from detection pipeline.",
+            image_url=image_url,
+            image_source=image_source,
+            source="detection",
+            source_id=None,
+            increment_sightings=True,
+        )
+    db.commit()
+
+
 def _detector_candidates() -> list[str]:
     labels = set(detector.load_species_labels())
     for profile in knowledge_base.list_profiles():
@@ -336,6 +739,11 @@ def remote_camera_page():
 @app.get("/library")
 def library_page():
     return FileResponse("app/static/library.html")
+
+
+@app.get("/inventory")
+def inventory_page():
+    return FileResponse("app/static/inventory.html")
 
 
 @app.get("/history")
@@ -487,6 +895,8 @@ async def detect_image(
 
     alerts = await process_alerts(db, detection)
     profile = knowledge_base.find_profile(prediction["label"])
+    profile_out = AnimalProfileOut(**_profile_payload(profile)) if profile else None
+    _store_detected_species_in_catalog(db, prediction["label"], profile_out)
 
     return DetectionResponse(
         label=prediction["label"],
@@ -494,7 +904,7 @@ async def detect_image(
         scores=[{"label": item["label"], "score": item["score"]} for item in prediction["scores"]],
         alert_triggered=len(alerts) > 0,
         inventory_id=detection.inventory_id,
-        animal_info=AnimalProfileOut(**_profile_payload(profile)) if profile else None,
+        animal_info=profile_out,
     )
 
 
@@ -714,6 +1124,173 @@ def list_animals(search: str = "", limit: int = 200):
         ]
 
     return [AnimalProfileOut(**_profile_payload(profile)) for profile in profiles[:limit]]
+
+
+@app.get("/api/species-catalog", response_model=list[GlobalSpeciesRecordOut])
+def list_species_catalog(
+    search: str = "",
+    tax_class: str = "",
+    limit: int = 300,
+    offset: int = 0,
+    db: Session = Depends(get_db),
+):
+    query = db.query(GlobalSpeciesCatalog)
+    if search.strip():
+        q = f"%{search.strip().lower()}%"
+        query = query.filter(
+            (GlobalSpeciesCatalog.species_name.ilike(q))
+            | (GlobalSpeciesCatalog.scientific_name.ilike(q))
+            | (GlobalSpeciesCatalog.common_name.ilike(q))
+            | (GlobalSpeciesCatalog.family.ilike(q))
+        )
+    if tax_class.strip():
+        query = query.filter(GlobalSpeciesCatalog.taxonomy_class.ilike(tax_class.strip()))
+
+    rows = (
+        query.order_by(GlobalSpeciesCatalog.sightings.desc(), GlobalSpeciesCatalog.species_name.asc())
+        .offset(max(0, offset))
+        .limit(max(1, min(limit, 3000)))
+        .all()
+    )
+
+    return [
+        GlobalSpeciesRecordOut(
+            id=row.id,
+            species_name=row.species_name,
+            scientific_name=row.scientific_name,
+            common_name=row.common_name,
+            kingdom=row.kingdom,
+            phylum=row.phylum,
+            taxonomy_class=row.taxonomy_class,
+            taxonomy_order=row.taxonomy_order,
+            family=row.family,
+            genus=row.genus,
+            conservation_status=row.conservation_status,
+            habitats=_parse_json_array(row.habitats),
+            regions=_parse_json_array(row.regions),
+            details=row.details,
+            image_url=row.image_url,
+            image_source=row.image_source,
+            source=row.source,
+            sightings=row.sightings,
+        )
+        for row in rows
+    ]
+
+
+@app.get("/api/species-catalog/classes")
+def list_species_catalog_classes(db: Session = Depends(get_db)):
+    values = db.query(GlobalSpeciesCatalog.taxonomy_class).distinct().all()
+    classes = sorted([v[0] for v in values if v[0] and v[0].strip() and v[0].lower() != "unknown"])
+    return {"classes": classes}
+
+
+@app.post("/api/species-catalog/sync", response_model=GlobalSpeciesSyncOut)
+def sync_species_catalog(
+    class_name: str = Query(default="Mammalia"),
+    limit: int = Query(default=300, ge=1, le=1200),
+    offset: int = Query(default=0, ge=0),
+    db: Session = Depends(get_db),
+):
+    q = urllib.parse.quote(class_name.strip())
+    endpoint = f"https://api.gbif.org/v1/species/search?q={q}&rank=SPECIES&status=ACCEPTED&limit={limit}&offset={offset}"
+
+    imported = 0
+    updated = 0
+    try:
+        request = urllib.request.Request(endpoint, headers={"User-Agent": "WildGuard/1.0"})
+        with urllib.request.urlopen(request, timeout=20) as response:
+            payload = json.loads(response.read().decode("utf-8", errors="ignore"))
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"Global species sync failed: {exc}")
+
+    results = payload.get("results", []) if isinstance(payload, dict) else []
+    for item in results:
+        scientific_name = str(item.get("canonicalName") or item.get("scientificName") or "").strip()
+        if not scientific_name:
+            continue
+
+        image_url, image_source = _wiki_thumb_for_species(scientific_name)
+        row, is_new = _upsert_global_species_row(
+            db,
+            species_name=scientific_name.lower(),
+            scientific_name=scientific_name,
+            common_name=str(item.get("vernacularName") or scientific_name),
+            kingdom=str(item.get("kingdom") or "Animalia"),
+            phylum=str(item.get("phylum") or "Unknown"),
+            taxonomy_class=str(item.get("class") or class_name or "Unknown"),
+            taxonomy_order=str(item.get("order") or "Unknown"),
+            family=str(item.get("family") or "Unknown"),
+            genus=str(item.get("genus") or "Unknown"),
+            conservation_status="Not evaluated",
+            habitats=["Unknown"],
+            regions=["Global"],
+            details="Synced from GBIF species catalog.",
+            image_url=image_url,
+            image_source=image_source or "wikipedia",
+            source="gbif",
+            source_id=str(item.get("key") or ""),
+            increment_sightings=False,
+        )
+        if is_new:
+            imported += 1
+        else:
+            updated += 1
+
+    db.commit()
+    total = db.query(GlobalSpeciesCatalog).count()
+    return GlobalSpeciesSyncOut(
+        class_name=class_name,
+        requested=limit,
+        imported=imported,
+        updated=updated,
+        total_catalog_size=total,
+    )
+
+
+@app.post("/api/species-catalog/seed-foundation", response_model=GlobalSpeciesSyncOut)
+def seed_foundation_species_catalog(db: Session = Depends(get_db)):
+    imported = 0
+    updated = 0
+
+    for item in FOUNDATION_SPECIES_SEED:
+        scientific_name = str(item.get("scientific_name") or item.get("species_name") or "Unknown")
+        image_url, image_source = _wiki_thumb_for_species(scientific_name)
+        row, is_new = _upsert_global_species_row(
+            db,
+            species_name=str(item.get("species_name") or "unknown-species").strip().lower(),
+            scientific_name=scientific_name,
+            common_name=str(item.get("common_name") or item.get("species_name") or "Unknown"),
+            kingdom=str(item.get("kingdom") or "Animalia"),
+            phylum=str(item.get("phylum") or "Unknown"),
+            taxonomy_class=str(item.get("taxonomy_class") or "Unknown"),
+            taxonomy_order=str(item.get("taxonomy_order") or "Unknown"),
+            family=str(item.get("family") or "Unknown"),
+            genus=str(item.get("genus") or "Unknown"),
+            conservation_status=str(item.get("conservation_status") or "Not evaluated"),
+            habitats=[str(v) for v in (item.get("habitats") or ["Unknown"])],
+            regions=[str(v) for v in (item.get("regions") or ["Global"])],
+            details=str(item.get("details") or "Seeded from WildGuard foundation dataset."),
+            image_url=image_url,
+            image_source=image_source or "wikipedia",
+            source="foundation-seed",
+            source_id=None,
+            increment_sightings=False,
+        )
+        if is_new:
+            imported += 1
+        else:
+            updated += 1
+
+    db.commit()
+    total = db.query(GlobalSpeciesCatalog).count()
+    return GlobalSpeciesSyncOut(
+        class_name="foundation",
+        requested=len(FOUNDATION_SPECIES_SEED),
+        imported=imported,
+        updated=updated,
+        total_catalog_size=total,
+    )
 
 
 @app.get("/api/wildlife/zones")
