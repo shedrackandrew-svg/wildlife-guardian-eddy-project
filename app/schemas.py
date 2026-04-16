@@ -119,3 +119,32 @@ class InventoryUpsertIn(BaseModel):
     habitat_lat: float | None = None
     habitat_lng: float | None = None
     notes: str = ""
+
+
+class GlobalSpeciesRecordOut(BaseModel):
+    id: int
+    species_name: str
+    scientific_name: str
+    common_name: str
+    kingdom: str
+    phylum: str
+    taxonomy_class: str
+    taxonomy_order: str
+    family: str
+    genus: str
+    conservation_status: str
+    habitats: list[str] = Field(default_factory=list)
+    regions: list[str] = Field(default_factory=list)
+    details: str = ""
+    image_url: str | None = None
+    image_source: str | None = None
+    source: str
+    sightings: int = 0
+
+
+class GlobalSpeciesSyncOut(BaseModel):
+    class_name: str
+    requested: int
+    imported: int
+    updated: int
+    total_catalog_size: int

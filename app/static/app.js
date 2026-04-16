@@ -98,6 +98,7 @@ function appPageUrl(pathWithQuery) {
     "/": "/index.html",
     "/dashboard": "/dashboard.html",
     "/library": "/library.html",
+    "/inventory": "/inventory.html",
     "/history": "/history.html",
     "/map": "/map.html",
     "/live": "/live.html",

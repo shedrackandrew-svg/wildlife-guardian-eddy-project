@@ -51,6 +51,7 @@ function appRoute(path) {
     "/": "/index.html",
     "/dashboard": "/dashboard.html",
     "/library": "/library.html",
+    "/inventory": "/inventory.html",
     "/history": "/history.html",
     "/map": "/map.html",
     "/live": "/live.html",
@@ -168,6 +169,17 @@ function applyMenuFeatures() {
       adminLink.href = appRoute("/admin");
       adminLink.textContent = "Admin";
       nav.appendChild(adminLink);
+    }
+
+    const hasInventory = Array.from(nav.querySelectorAll("a")).find((a) => {
+      const href = a.getAttribute("href") || "";
+      return href.includes("/inventory") || href.includes("inventory.html");
+    });
+    if (!hasInventory) {
+      const inventoryLink = document.createElement("a");
+      inventoryLink.href = appRoute("/inventory");
+      inventoryLink.textContent = "Inventory";
+      nav.appendChild(inventoryLink);
     }
   }
 }

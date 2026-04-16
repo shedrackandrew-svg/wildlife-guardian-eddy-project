@@ -64,3 +64,29 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(120), unique=True, nullable=False, index=True)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
     is_admin: Mapped[bool] = mapped_column(default=False, nullable=False)
+
+
+class GlobalSpeciesCatalog(Base):
+    __tablename__ = "global_species_catalog"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    species_name: Mapped[str] = mapped_column(String(160), unique=True, nullable=False, index=True)
+    scientific_name: Mapped[str] = mapped_column(String(220), default="Unknown", nullable=False)
+    common_name: Mapped[str] = mapped_column(String(220), default="Unknown", nullable=False)
+    kingdom: Mapped[str] = mapped_column(String(80), default="Animalia", nullable=False)
+    phylum: Mapped[str] = mapped_column(String(120), default="Unknown", nullable=False)
+    taxonomy_class: Mapped[str] = mapped_column(String(120), default="Unknown", nullable=False)
+    taxonomy_order: Mapped[str] = mapped_column(String(120), default="Unknown", nullable=False)
+    family: Mapped[str] = mapped_column(String(120), default="Unknown", nullable=False)
+    genus: Mapped[str] = mapped_column(String(120), default="Unknown", nullable=False)
+    conservation_status: Mapped[str] = mapped_column(String(120), default="Not evaluated", nullable=False)
+    habitats: Mapped[str] = mapped_column(Text, default="[]", nullable=False)
+    regions: Mapped[str] = mapped_column(Text, default="[]", nullable=False)
+    details: Mapped[str] = mapped_column(Text, default="", nullable=False)
+    image_url: Mapped[str | None] = mapped_column(String(600), nullable=True)
+    image_source: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    source: Mapped[str] = mapped_column(String(80), default="detection", nullable=False)
+    source_id: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    sightings: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
