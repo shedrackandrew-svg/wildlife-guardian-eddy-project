@@ -13,6 +13,7 @@ const startBtn = document.getElementById("startCamera");
 const stopBtn = document.getElementById("stopCamera");
 const toggleAnimalModeBtn = document.getElementById("toggleAnimalMode");
 const toggleVoiceBtn = document.getElementById("toggleVoice");
+const testVoiceBtn = document.getElementById("testVoice");
 const cameraSelect = document.getElementById("cameraSelect");
 const refreshCamerasBtn = document.getElementById("refreshCameras");
 const connectExternalCameraBtn = document.getElementById("connectExternalCamera");
@@ -78,6 +79,8 @@ const defaultSettings = {
 let uiSettings = { ...defaultSettings };
 let lastLocalObservationAt = 0;
 let localPulse = 0;
+let bluetoothSelections = [];
+let bluetoothStatusMessage = "Nearby scan not started.";
 
 function isGithubPagesHost() {
   return window.location.hostname.endsWith("github.io");
@@ -96,6 +99,7 @@ function appPageUrl(pathWithQuery) {
     "/": "/index.html",
     "/dashboard": "/dashboard.html",
     "/library": "/library.html",
+    "/inventory": "/inventory.html",
     "/history": "/history.html",
     "/map": "/map.html",
     "/live": "/live.html",
@@ -117,6 +121,44 @@ function hasConfiguredBackend() {
 }
 
 const backendEnabled = hasConfiguredBackend();
+
+function normalizeDeviceType(name) {
+  const text = String(name || "").toLowerCase();
+  if (!text) return "unknown";
+  if (/(iphone|android|pixel|galaxy|phone)/.test(text)) return "phone";
+  if (/(camera|cam|sony|canon|nikon|gopro|webcam)/.test(text)) return "camera";
+  if (/(watch|wear|fit|band|mi\s?band)/.test(text)) return "wearable";
+  if (/(sensor|ble|wild|tag|tracker)/.test(text)) return "sensor";
+  return "other";
+}
+
+function loadBluetoothSelections() {
+  try {
+    const raw = localStorage.getItem("wg_bt_selections");
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      bluetoothSelections = parsed.slice(0, 8);
+    }
+  } catch {
+    bluetoothSelections = [];
+  }
+}
+
+function persistBluetoothSelections() {
+  localStorage.setItem("wg_bt_selections", JSON.stringify(bluetoothSelections.slice(0, 8)));
+}
+
+function renderBluetoothStatus() {
+  if (!connectStatus) return;
+  const recent = bluetoothSelections
+    .slice(0, 5)
+    .map((d) => `• ${d.name} (${d.type})`)
+    .join("<br>");
+  connectStatus.innerHTML = recent
+    ? `${bluetoothStatusMessage}<br><br><strong>Recent selected devices</strong><br>${recent}`
+    : bluetoothStatusMessage;
+}
 
 function recordLocalObservation(species, confidence, source = "local-ai") {
   if (!species) return;
@@ -525,6 +567,9 @@ async function startCamera() {
     : { video: { facingMode: "environment" }, audio: false };
   stream = await navigator.mediaDevices.getUserMedia(constraints);
   video.srcObject = stream;
+  if (voiceEnabled) {
+    speakProfile("system", { conservation_status: "active", facts: ["Camera connected. Live wildlife voice updates enabled."] });
+  }
   localDetectLoop();
   uploadLoopHandle = setInterval(() => {
     uploadSnapshot().catch(() => {});
@@ -774,17 +819,28 @@ function bluetoothRequestOptions(mode) {
 
 async function scanBluetooth() {
   if (!navigator.bluetooth?.requestDevice) {
-    connectStatus.textContent = "Web Bluetooth not available in this browser/device.";
+    bluetoothStatusMessage = "Web Bluetooth not available in this browser/device.";
+    renderBluetoothStatus();
     return;
   }
   const mode = bluetoothScanMode?.value || "general";
   const options = bluetoothRequestOptions(mode);
-  connectStatus.textContent = "Scanning nearby Bluetooth devices...";
+  bluetoothStatusMessage = "Opening nearby Bluetooth chooser...";
+  renderBluetoothStatus();
   try {
     const device = await navigator.bluetooth.requestDevice(options);
-    connectStatus.textContent = `Found ${device.name || "Unnamed"} (${device.id.slice(0, 8)}...). Use onboarding QR/link for internet pairing.`;
+    const displayName = device.name || "Unnamed";
+    const type = normalizeDeviceType(displayName);
+    bluetoothSelections = [
+      { name: displayName, type, id: String(device.id || "").slice(0, 8), at: Date.now() },
+      ...bluetoothSelections.filter((entry) => entry.name !== displayName),
+    ].slice(0, 8);
+    persistBluetoothSelections();
+    bluetoothStatusMessage = `Selected ${displayName} (${type}). Use onboarding pair link to connect phone/camera stream over internet.`;
+    renderBluetoothStatus();
   } catch (err) {
-    connectStatus.textContent = `Bluetooth pairing canceled or failed: ${err.message}`;
+    bluetoothStatusMessage = `Bluetooth pairing canceled or failed: ${err.message}`;
+    renderBluetoothStatus();
   }
 }
 
@@ -823,6 +879,15 @@ function attachEvents() {
       speakProfile("system", { conservation_status: "active", facts: ["Voice narration enabled."] });
     }
   });
+  if (testVoiceBtn) {
+    testVoiceBtn.addEventListener("click", () => {
+      primeVoice();
+      speakProfile("wildguard", {
+        conservation_status: "voice-test",
+        facts: ["Voice output is active. Wildlife detections will be narrated when confirmed."],
+      });
+    });
+  }
   toggleAnimalModeBtn.addEventListener("click", () => {
     animalOnlyMode = !animalOnlyMode;
     toggleAnimalModeBtn.textContent = animalOnlyMode ? "Animal-Only On" : "Animal-Only Off";
@@ -887,6 +952,8 @@ async function init() {
   }
 
   attachEvents();
+  loadBluetoothSelections();
+  renderBluetoothStatus();
   resultBox.classList.add("feed-live");
 
   await Promise.all([loadCameraDevices(), initQrCode(), loadSlideshow(), pollTelemetry(), pollInventory()]);
