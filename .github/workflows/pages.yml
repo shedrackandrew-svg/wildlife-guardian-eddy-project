@@ -106,9 +106,9 @@ jobs:
               out_html = rewrite_html(content)
               (out / html.name).write_text(out_html, encoding='utf-8')
 
-            # Preserve custom domain mapping for GitHub Pages if provided.
-            cname = root / 'CNAME'
-            if cname.exists():
+          # Preserve custom domain mapping for GitHub Pages if provided.
+          cname = root / 'CNAME'
+          if cname.exists():
               shutil.copy2(cname, out / 'CNAME')
 
           # SPA-ish fallback
