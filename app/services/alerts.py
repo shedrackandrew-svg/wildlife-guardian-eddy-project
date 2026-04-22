@@ -1,3 +1,10 @@
+"""
+Smart alert processing for Wild Guard.
+
+Integrates with the intelligence engine to make human-like
+alert decisions based on threat level, patterns, and context.
+"""
+
 from __future__ import annotations
 
 from sqlalchemy.orm import Session
@@ -5,31 +12,43 @@ from sqlalchemy.orm import Session
 from app.config import get_settings
 from app.models import Alert, Detection
 from app.services.notifiers import dispatcher
+from app.animal_knowledge import AnimalKnowledgeBase
+from app.intelligence import AlertIntelligence, DataEnricher
 
 
 settings = get_settings()
 
 
-def should_alert(label: str, confidence: float) -> bool:
-    if confidence < settings.animal_confidence_threshold:
-        return False
-
-    if not settings.watchlist:
-        return True
-
-    lowered = label.lower()
-    return any(watch in lowered for watch in settings.watchlist)
-
-
 async def process_alerts(db: Session, detection: Detection) -> list[Alert]:
-    if not should_alert(detection.top_label, detection.confidence):
+    """
+    Process detection with intelligent, human-like alert logic.
+    Uses pattern recognition, threat assessment, and contextual decision-making
+    to avoid alert fatigue while catching important events.
+    
+    This system thinks like a conservation expert:
+    - Recognizes routine sightings vs. anomalies
+    - Considers threat level and conservation status
+    - Deduplicates nearby detections in time
+    - Prioritizes watchlist items
+    - Enriches alerts with contextual information
+    """
+    # Initialize knowledge base for this processing
+    knowledge_base = AnimalKnowledgeBase(settings.animal_knowledge_path)
+    
+    # Use the integrated intelligence system
+    intelligence = AlertIntelligence(db, knowledge_base)
+    
+    # Get alert priority using full contextual analysis
+    priority = intelligence.get_alert_priority(detection)
+    
+    # Suppress or don't create alert if below threshold
+    if priority == "SUPPRESS":
         return []
-
-    message = (
-        f"Animal detected: {detection.top_label} "
-        f"(confidence={detection.confidence:.2f}, source={detection.source})"
-    )
-
+    
+    # Create intelligent, context-aware message
+    message = DataEnricher.create_intelligent_alert_message(db, knowledge_base, detection)
+    
+    # Dispatch alert
     dispatch_results = await dispatcher.dispatch(message, settings.channels)
     alerts: list[Alert] = []
 
@@ -48,3 +67,4 @@ async def process_alerts(db: Session, detection: Detection) -> list[Alert]:
     for alert in alerts:
         db.refresh(alert)
     return alerts
+

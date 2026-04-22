@@ -407,6 +407,16 @@ class AnimalKnowledgeBase:
 
         return best_match
 
+    def get_profile(self, species_name: str) -> AnimalProfile | None:
+        """
+        Convenience method for retrieving a profile by species name.
+        Returns None if not found, unlike find_profile which returns best match.
+        Used by intelligent alert engine for threat assessment.
+        """
+        if not species_name or not isinstance(species_name, str):
+            return None
+        return self.find_profile(species_name)
+
     def upsert_profile(self, payload: dict) -> AnimalProfile:
         species_name = str(payload.get("species_name", "")).strip().lower()
         if not species_name:
