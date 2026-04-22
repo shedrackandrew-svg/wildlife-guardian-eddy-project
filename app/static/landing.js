@@ -20,6 +20,112 @@ let progressTimer = null;
 let slideshowTimer = null;
 
 let slideMs = 4200;
+const TARGET_SPECIES_COUNT = 1000;
+const TARGET_SLIDE_COUNT = 1200;
+const CATALOG_BOOTSTRAP_KEY = "wg_catalog_bootstrap_v1";
+const CATALOG_BOOTSTRAP_TTL_MS = 1000 * 60 * 60 * 12;
+const CATALOG_SYNC_CLASSES = [
+  "Mammalia",
+  "Aves",
+  "Reptilia",
+  "Amphibia",
+  "Actinopterygii",
+  "Insecta",
+  "Arachnida",
+  "Malacostraca",
+];
+
+function normalizeApiBase(raw) {
+  const value = String(raw || "").trim().replace(/\/$/, "");
+  if (!value) return "";
+  if (!/^https?:\/\//i.test(value)) return "";
+  return value;
+}
+
+function hasConfiguredBackend() {
+  if (!window.location.hostname.endsWith("github.io")) return true;
+  return Boolean(String(window.WG_API_BASE || "").trim());
+}
+
+function apiUrl(path) {
+  const cleanPath = String(path || "");
+  const base = normalizeApiBase(window.WG_API_BASE || window.WG_DEFAULT_API_BASE || "");
+  return base ? `${base}${cleanPath}` : cleanPath;
+}
+
+async function fetchJson(path, fallback = []) {
+  try {
+    const res = await fetch(apiUrl(path));
+    if (!res.ok) return fallback;
+    return await res.json();
+  } catch {
+    return fallback;
+  }
+}
+
+async function tryBootstrapCatalog() {
+  if (!hasConfiguredBackend()) return 0;
+
+  const now = Date.now();
+  const lastRun = Number(localStorage.getItem(CATALOG_BOOTSTRAP_KEY) || "0");
+  if (lastRun > 0 && now - lastRun < CATALOG_BOOTSTRAP_TTL_MS) {
+    return 0;
+  }
+
+  localStorage.setItem(CATALOG_BOOTSTRAP_KEY, String(now));
+
+  let total = 0;
+  try {
+    const seedRes = await fetch(apiUrl("/api/species-catalog/seed-foundation"), { method: "POST" });
+    if (seedRes.ok) {
+      const seedPayload = await seedRes.json();
+      total = Number(seedPayload.total_catalog_size || 0);
+    }
+  } catch {
+    // Continue sync attempts even if seed fails.
+  }
+
+  if (total >= TARGET_SPECIES_COUNT) {
+    return total;
+  }
+
+  for (const taxClass of CATALOG_SYNC_CLASSES) {
+    for (let offset = 0; offset <= 900; offset += 300) {
+      const params = new URLSearchParams({
+        class_name: taxClass,
+        limit: "300",
+        offset: String(offset),
+      });
+      try {
+        const response = await fetch(apiUrl(`/api/species-catalog/sync?${params.toString()}`), { method: "POST" });
+        if (!response.ok) {
+          continue;
+        }
+        const payload = await response.json();
+        total = Math.max(total, Number(payload.total_catalog_size || 0));
+        if (total >= TARGET_SPECIES_COUNT) {
+          return total;
+        }
+      } catch {
+        // Keep trying other classes/offsets.
+      }
+    }
+  }
+
+  return total;
+}
+
+function uniqueBySpecies(records) {
+  const seen = new Set();
+  const output = [];
+  for (const item of records) {
+    const species = String(item.species_name || item.label || "").trim().toLowerCase();
+    if (!species || seen.has(species)) continue;
+    seen.add(species);
+    output.push(item);
+  }
+  return output;
+}
 
 function loadSlideSettings() {
   try {
@@ -104,7 +210,7 @@ function restartSlideshowLoop() {
 }
 
 function preloadSlideImages(slides) {
-  for (const item of slides.slice(0, 20)) {
+  for (const item of slides.slice(0, 50)) {
     const src = item.image_url || item.fallback_image_url;
     if (!src) continue;
     const img = new Image();
@@ -159,24 +265,35 @@ function renderSlide(item) {
 async function init() {
   loadSlideSettings();
 
-  const animalsRes = await fetch("/api/animals?limit=30");
-  const animals = animalsRes.ok ? await animalsRes.json() : [];
+  const backendEnabled = hasConfiguredBackend();
+  const animals = await fetchJson("/api/animals?limit=600", []);
+  const gallery = await fetchJson("/api/gallery?limit=240", []);
 
-  const galleryRes = await fetch("/api/gallery?limit=30");
-  if (galleryRes.ok) {
-    items = await galleryRes.json();
+  let speciesCatalog = await fetchJson(`/api/species-catalog?limit=${TARGET_SLIDE_COUNT}`, []);
+  if (backendEnabled && speciesCatalog.length < TARGET_SPECIES_COUNT) {
+    await tryBootstrapCatalog();
+    speciesCatalog = await fetchJson(`/api/species-catalog?limit=${TARGET_SLIDE_COUNT}`, speciesCatalog);
   }
-  if (!items.length) {
-    if (animals.length) {
-      items = animals.map((a) => ({
-        species_name: a.species_name,
-        scientific_name: a.scientific_name,
-        conservation_status: a.conservation_status,
-        image_url: a.image_urls?.[0] || "",
-        fallback_image_url: FALLBACK_WILDLIFE_IMAGES[Math.floor(Math.random() * FALLBACK_WILDLIFE_IMAGES.length)],
-      }));
-    }
-  }
+
+  const catalogSlides = speciesCatalog.map((row, idx) => ({
+    species_name: row.species_name,
+    label: row.common_name || row.species_name,
+    scientific_name: row.scientific_name || row.species_name,
+    conservation_status: row.conservation_status || "Not evaluated",
+    image_url: row.image_url || "",
+    fallback_image_url: FALLBACK_WILDLIFE_IMAGES[idx % FALLBACK_WILDLIFE_IMAGES.length],
+  }));
+
+  const animalSlides = animals.map((a, idx) => ({
+    species_name: a.species_name,
+    label: a.species_name,
+    scientific_name: a.scientific_name,
+    conservation_status: a.conservation_status,
+    image_url: a.image_urls?.[0] || "",
+    fallback_image_url: FALLBACK_WILDLIFE_IMAGES[idx % FALLBACK_WILDLIFE_IMAGES.length],
+  }));
+
+  items = uniqueBySpecies([...gallery, ...catalogSlides, ...animalSlides]).slice(0, TARGET_SLIDE_COUNT);
 
   if (!items.length) {
     items = FALLBACK_WILDLIFE_IMAGES.map((img, idx) => ({
@@ -187,7 +304,12 @@ async function init() {
     }));
   }
 
-  renderSpotlight(animals);
+  slideMeta.innerHTML = `
+    <h2>Global Wildlife Intelligence</h2>
+    <p>Building slideshow from ${items.length} wildlife entries across diverse species.</p>
+  `;
+
+  renderSpotlight(speciesCatalog.length ? speciesCatalog : animals);
   preloadSlideImages(items);
 
   renderSlide(items[0]);

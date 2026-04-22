@@ -591,7 +591,20 @@ def _upsert_global_species_row(
     increment_sightings: bool,
 ) -> tuple[GlobalSpeciesCatalog, bool]:
     key = species_name.strip().lower()
-    row = db.query(GlobalSpeciesCatalog).filter(GlobalSpeciesCatalog.species_name == key).first()
+
+    # Guard against duplicate inserts in the same uncommitted session batch.
+    row = next(
+        (
+            obj
+            for obj in db.new
+            if isinstance(obj, GlobalSpeciesCatalog)
+            and str(getattr(obj, "species_name", "")).strip().lower() == key
+        ),
+        None,
+    )
+    if row is None:
+        row = db.query(GlobalSpeciesCatalog).filter(GlobalSpeciesCatalog.species_name == key).first()
+
     is_new = row is None
     if row is None:
         row = GlobalSpeciesCatalog(species_name=key)
@@ -1190,6 +1203,7 @@ def sync_species_catalog(
     class_name: str = Query(default="Mammalia"),
     limit: int = Query(default=300, ge=1, le=1200),
     offset: int = Query(default=0, ge=0),
+    include_images: bool = Query(default=False),
     db: Session = Depends(get_db),
 ):
     q = urllib.parse.quote(class_name.strip())
@@ -1205,39 +1219,53 @@ def sync_species_catalog(
         raise HTTPException(status_code=502, detail=f"Global species sync failed: {exc}")
 
     results = payload.get("results", []) if isinstance(payload, dict) else []
+    seen_species: set[str] = set()
     for item in results:
         scientific_name = str(item.get("canonicalName") or item.get("scientificName") or "").strip()
         if not scientific_name:
             continue
 
-        image_url, image_source = _wiki_thumb_for_species(scientific_name)
-        row, is_new = _upsert_global_species_row(
-            db,
-            species_name=scientific_name.lower(),
-            scientific_name=scientific_name,
-            common_name=str(item.get("vernacularName") or scientific_name),
-            kingdom=str(item.get("kingdom") or "Animalia"),
-            phylum=str(item.get("phylum") or "Unknown"),
-            taxonomy_class=str(item.get("class") or class_name or "Unknown"),
-            taxonomy_order=str(item.get("order") or "Unknown"),
-            family=str(item.get("family") or "Unknown"),
-            genus=str(item.get("genus") or "Unknown"),
-            conservation_status="Not evaluated",
-            habitats=["Unknown"],
-            regions=["Global"],
-            details="Synced from GBIF species catalog.",
-            image_url=image_url,
-            image_source=image_source or "wikipedia",
-            source="gbif",
-            source_id=str(item.get("key") or ""),
-            increment_sightings=False,
-        )
+        species_key = scientific_name.lower().strip()
+        if not species_key or species_key in seen_species:
+            continue
+        seen_species.add(species_key)
+
+        image_url, image_source = (None, None)
+        if include_images:
+            image_url, image_source = _wiki_thumb_for_species(scientific_name)
+        try:
+            row, is_new = _upsert_global_species_row(
+                db,
+                species_name=species_key,
+                scientific_name=scientific_name,
+                common_name=str(item.get("vernacularName") or scientific_name),
+                kingdom=str(item.get("kingdom") or "Animalia"),
+                phylum=str(item.get("phylum") or "Unknown"),
+                taxonomy_class=str(item.get("class") or class_name or "Unknown"),
+                taxonomy_order=str(item.get("order") or "Unknown"),
+                family=str(item.get("family") or "Unknown"),
+                genus=str(item.get("genus") or "Unknown"),
+                conservation_status="Not evaluated",
+                habitats=["Unknown"],
+                regions=["Global"],
+                details="Synced from GBIF species catalog.",
+                image_url=image_url,
+                image_source=image_source or "wikipedia",
+                source="gbif",
+                source_id=str(item.get("key") or ""),
+                increment_sightings=False,
+            )
+            db.commit()
+        except Exception:
+            # Skip conflicting or malformed rows and continue importing.
+            db.rollback()
+            continue
+
         if is_new:
             imported += 1
         else:
             updated += 1
 
-    db.commit()
     total = db.query(GlobalSpeciesCatalog).count()
     return GlobalSpeciesSyncOut(
         class_name=class_name,
