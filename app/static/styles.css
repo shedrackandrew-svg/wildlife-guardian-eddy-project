@@ -873,7 +873,7 @@ li {
 .chip.is-info {
   color: #e8f7ff;
   background: rgba(73, 150, 221, 0.28);
-  border-color: rgba(95, 175, 246, 0.7);
+  border-color: rgba(1, 15, 27, 0.7);
 }
 
 .feed-live {
@@ -966,7 +966,7 @@ li {
 .link-btn {
   background: none;
   border: none;
-  color: #8de8ce;
+  color: #043729;
   text-decoration: underline;
   padding: 0;
   cursor: pointer;
@@ -1130,7 +1130,7 @@ li {
 
 .cinema-meta p {
   margin: 0.28rem 0 0;
-  color: #d3e2f4;
+  color: #102947;
 }
 
 .cinema-progress {
