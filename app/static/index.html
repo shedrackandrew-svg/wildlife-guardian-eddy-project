@@ -40,6 +40,8 @@
               <li class="nav-item"><a class="nav-link" href="/map">Map</a></li>
               <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
               <li class="nav-item"><a class="nav-link" href="/live">Live Scan</a></li>
+              <li class="nav-item"><button class="nav-link nav-button" type="button" data-auth-action="signin">Sign In</button></li>
+              <li class="nav-item"><button class="nav-link nav-button nav-link-cta nav-link-ghost ms-lg-2" type="button" data-auth-action="signup">Sign Up</button></li>
               <li class="nav-item"><a class="nav-link nav-link-cta" href="/onboarding">Pair Device</a></li>
               <li class="nav-item"><a class="nav-link nav-link-cta nav-link-ghost ms-lg-2" href="/settings">Settings</a></li>
             </ul>
@@ -155,6 +157,42 @@
       </section>
     </main>
 
+    <div id="authModal" class="auth-modal" hidden>
+      <div class="auth-card">
+        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+          <div>
+            <p class="eyebrow mb-2">Secure Access</p>
+            <h3 class="h4 mb-1" id="authModalTitle">Sign In</h3>
+            <p class="text-muted mb-0" id="authModalHint">Use your account to continue.</p>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-auth-close>Close</button>
+        </div>
+        <form id="authForm" class="auth-form">
+          <div class="d-grid gap-2 auth-type-toggle">
+            <button type="button" class="btn btn-outline-success active" data-auth-mode="signin">Sign In</button>
+            <button type="button" class="btn btn-outline-success" data-auth-mode="signup">Sign Up</button>
+          </div>
+          <label class="d-grid gap-2">
+            Username
+            <input id="authUsername" class="form-control" type="text" placeholder="Username" required />
+          </label>
+          <label class="d-grid gap-2">
+            Password
+            <input id="authPassword" class="form-control" type="password" placeholder="Password" required />
+          </label>
+          <label class="d-grid gap-2">
+            Account Type
+            <select id="authRole" class="form-select">
+              <option value="user">Regular User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </label>
+          <button id="authSubmit" class="btn btn-success" type="submit">Continue</button>
+          <p id="authStatus" class="small text-muted mb-0"></p>
+        </form>
+      </div>
+    </div>
+
     <footer class="wildguard-footer mt-auto">
       <div class="container py-5">
         <div class="row g-4">
@@ -196,5 +234,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/site.js" type="module"></script>
     <script src="/static/professional.js"></script>
+    <script src="/static/auth.js"></script>
   </body>
 </html>

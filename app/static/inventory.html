@@ -31,13 +31,14 @@
     </header>
 
     <main class="layout single">
-      <section class="panel telemetry">
+      <section class="panel telemetry inventory-shell">
         <div class="panel-head">
+          <p class="hero-kicker">Wildlife Database</p>
           <h1>Global Species Inventory</h1>
-          <p>Database-backed species registry for all animal classes with individual details and photos.</p>
+          <p>Open a species folder to view images, history, biology, habitats, and management notes.</p>
         </div>
 
-        <div class="stack">
+        <div class="stack inventory-toolbar">
           <div class="lookup-row">
             <input id="inventorySearch" type="text" placeholder="Search species, scientific name, family" />
             <input id="inventoryClass" type="text" placeholder="Class filter (e.g. Mammalia, Insecta)" />
@@ -52,9 +53,30 @@
           <div id="inventoryMeta" class="profile-box">Loading global species inventory...</div>
         </div>
 
-        <div id="inventoryGrid" class="gallery-grid large-grid"></div>
+        <div class="inventory-layout">
+          <section class="inventory-folder-grid" id="inventoryGrid"></section>
+          <aside class="inventory-detail-panel">
+            <div class="profile-box" id="inventoryDetailHint">Select a species folder to open the gallery.</div>
+          </aside>
+        </div>
       </section>
     </main>
+
+    <div id="inventoryModal" class="inventory-modal" hidden>
+      <div class="inventory-modal-card">
+        <div class="inventory-modal-head">
+          <div>
+            <p class="eyebrow mb-1">Species Folder</p>
+            <h2 id="inventoryModalTitle">Species</h2>
+          </div>
+          <button type="button" class="btn btn-outline-light btn-sm" id="closeInventoryModal">Close</button>
+        </div>
+        <div class="inventory-modal-body">
+          <div class="inventory-modal-gallery" id="inventoryModalGallery"></div>
+          <div class="inventory-modal-info" id="inventoryModalInfo"></div>
+        </div>
+      </div>
+    </div>
 
     <script src="/static/site.js" type="module"></script>
     <script src="/static/inventory.js" type="module"></script>

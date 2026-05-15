@@ -141,6 +141,7 @@ function getGlobalSettings() {
 
 function applyMenuFeatures() {
   const settings = getGlobalSettings();
+  const role = (localStorage.getItem("wg_user_role") || "user").toLowerCase();
   document.body.classList.toggle("menu-compact", settings.menuDensity === "compact");
 
   if (settings.advancedMenu === "off") {
@@ -149,6 +150,10 @@ function applyMenuFeatures() {
 
   const navs = Array.from(document.querySelectorAll(".nav-links"));
   for (const nav of navs) {
+    nav.querySelectorAll("[data-role-only='admin']").forEach((element) => {
+      element.remove();
+    });
+
     const hasOnboarding = Array.from(nav.querySelectorAll("a")).find((a) => {
       const href = a.getAttribute("href") || "";
       return href.includes("/onboarding") || href.includes("onboarding.html");
@@ -164,10 +169,11 @@ function applyMenuFeatures() {
       const href = a.getAttribute("href") || "";
       return href.includes("/admin") || href.includes("admin.html");
     });
-    if (!hasAdmin) {
+    if (role === "admin" && !hasAdmin) {
       const adminLink = document.createElement("a");
       adminLink.href = appRoute("/admin");
       adminLink.textContent = "Admin";
+      adminLink.dataset.roleOnly = "admin";
       nav.appendChild(adminLink);
     }
 
@@ -175,10 +181,11 @@ function applyMenuFeatures() {
       const href = a.getAttribute("href") || "";
       return href.includes("/inventory") || href.includes("inventory.html");
     });
-    if (!hasInventory) {
+    if (role === "admin" && !hasInventory) {
       const inventoryLink = document.createElement("a");
       inventoryLink.href = appRoute("/inventory");
       inventoryLink.textContent = "Inventory";
+      inventoryLink.dataset.roleOnly = "admin";
       nav.appendChild(inventoryLink);
     }
   }
@@ -188,6 +195,92 @@ function applyGlobalTheme() {
   const settings = getGlobalSettings();
   document.body.classList.remove("theme-forest", "theme-savanna", "theme-ocean", "theme-noir");
   document.body.classList.add(`theme-${settings.theme}`);
+}
+
+function applyAuthState() {
+  const role = (localStorage.getItem("wg_user_role") || "user").toLowerCase();
+  const username = localStorage.getItem("wg_username") || "Guest";
+  document.body.dataset.userRole = role;
+  document.body.dataset.username = username;
+
+  document.querySelectorAll("[data-admin-only]").forEach((element) => {
+    element.hidden = role !== "admin";
+  });
+}
+
+function initAuthModal() {
+  const modal = document.getElementById("authModal");
+  const form = document.getElementById("authForm");
+  const title = document.getElementById("authModalTitle");
+  const hint = document.getElementById("authModalHint");
+  const username = document.getElementById("authUsername");
+  const password = document.getElementById("authPassword");
+  const roleSelect = document.getElementById("authRole");
+  const submit = document.getElementById("authSubmit");
+  const modeButtons = Array.from(document.querySelectorAll("[data-auth-mode]"));
+  const openButtons = Array.from(document.querySelectorAll("[data-auth-action]"));
+  const closeButtons = Array.from(document.querySelectorAll("[data-auth-close]"));
+
+  if (!modal || !form || !title || !hint || !username || !password || !roleSelect || !submit || !openButtons.length) {
+    return;
+  }
+
+  let mode = "signin";
+
+  const syncMode = (nextMode) => {
+    mode = nextMode;
+    title.textContent = nextMode === "signup" ? "Sign Up" : "Sign In";
+    hint.textContent = nextMode === "signup" ? "Create an account for a regular user or admin." : "Use your account to continue.";
+    submit.textContent = nextMode === "signup" ? "Create Account" : "Continue";
+    modeButtons.forEach((button) => {
+      button.classList.toggle("active", button.dataset.authMode === nextMode);
+    });
+  };
+
+  const openModal = (nextMode) => {
+    syncMode(nextMode);
+    modal.hidden = false;
+    username.focus();
+  };
+
+  const closeModal = () => {
+    modal.hidden = true;
+  };
+
+  openButtons.forEach((button) => {
+    button.addEventListener("click", () => openModal(button.dataset.authAction || "signin"));
+  });
+
+  modeButtons.forEach((button) => {
+    button.addEventListener("click", () => syncMode(button.dataset.authMode || "signin"));
+  });
+
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", closeModal);
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.hidden) {
+      closeModal();
+    }
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const nextRole = roleSelect.value === "admin" ? "admin" : "user";
+    localStorage.setItem("wg_username", username.value.trim() || "Guest");
+    localStorage.setItem("wg_user_role", nextRole);
+    localStorage.setItem("wg_auth_state", `${mode}:${username.value.trim()}`);
+    applyAuthState();
+    applyMenuFeatures();
+    closeModal();
+  });
+
+  syncMode("signin");
 }
 
 function initHomeSettings() {
@@ -273,6 +366,8 @@ setActiveNav();
 ensureSettingsLink();
 applyGlobalTheme();
 applyMenuFeatures();
+applyAuthState();
+initAuthModal();
 normalizePageLinks();
 window.setTimeout(normalizePageLinks, 50);
 window.setTimeout(normalizePageLinks, 400);
