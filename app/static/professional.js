@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const navMenu = document.getElementById('navMenu');
   const navDropdowns = document.querySelectorAll('.nav-dropdown');
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  const heroDots = document.querySelectorAll('.hero-dot');
+  let activeHeroSlide = 0;
+  let heroTimer = null;
 
   // Mobile Menu Toggle
   if (mobileMenuBtn && navMenu) {
@@ -29,6 +33,49 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+  function showHeroSlide(index) {
+    if (!heroSlides.length) {
+      return;
+    }
+
+    const nextIndex = (index + heroSlides.length) % heroSlides.length;
+    activeHeroSlide = nextIndex;
+
+    heroSlides.forEach((slide, slideIndex) => {
+      slide.classList.toggle('is-active', slideIndex === nextIndex);
+    });
+
+    heroDots.forEach((dot, dotIndex) => {
+      dot.classList.toggle('is-active', dotIndex === nextIndex);
+      dot.setAttribute('aria-pressed', dotIndex === nextIndex ? 'true' : 'false');
+    });
+  }
+
+  heroDots.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+      showHeroSlide(index);
+      resetHeroTimer();
+    });
+  });
+
+  function startHeroTimer() {
+    if (heroSlides.length > 1) {
+      heroTimer = window.setInterval(() => {
+        showHeroSlide(activeHeroSlide + 1);
+      }, 6200);
+    }
+  }
+
+  function resetHeroTimer() {
+    if (heroTimer) {
+      window.clearInterval(heroTimer);
+    }
+    startHeroTimer();
+  }
+
+  showHeroSlide(0);
+  startHeroTimer();
 
   // Desktop Dropdown Menu Parents
   document.querySelectorAll('.nav-parent').forEach(parent => {
@@ -77,6 +124,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const href = link.getAttribute('href');
     if (href && (currentPage.includes(href) || (href === '/' && currentPage === '/'))) {
       link.classList.add('active');
+    }
+  });
+
+  // Scroll reveal for sections and cards
+  const revealTargets = document.querySelectorAll('.content-section, .feature-card, .highlight-card, .footer-column, .about-stats, .about-text');
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.14, rootMargin: '0px 0px -80px 0px' });
+
+  revealTargets.forEach(target => {
+    target.classList.add('reveal-on-scroll');
+    revealObserver.observe(target);
+  });
+
+  // Pause carousel when tab is hidden
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      if (heroTimer) {
+        window.clearInterval(heroTimer);
+      }
+    } else {
+      resetHeroTimer();
     }
   });
 });

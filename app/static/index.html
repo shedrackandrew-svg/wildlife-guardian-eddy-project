@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/styles.css" />
     <link rel="stylesheet" href="/static/professional.css" />
+    <link rel="stylesheet" href="/static/animations.css" />
   </head>
   <body>
     <!-- Skip to main content for accessibility -->
@@ -68,16 +69,47 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-section" id="hero">
+    <section class="hero-section hero-carousel" id="hero">
       <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <p class="hero-subtitle">Global Wildlife Intelligence Platform</p>
-        <h1 class="hero-title">WildGuard</h1>
-        <p class="hero-description">Advanced AI-powered conservation platform for real-time wildlife monitoring, species intelligence, and habitat protection</p>
-        <div class="hero-buttons">
-          <a href="/live" class="btn btn-primary">Start AI Scanning</a>
-          <a href="/dashboard" class="btn btn-secondary">Open Dashboard</a>
-        </div>
+      <div class="hero-carousel-track" aria-label="WildGuard feature carousel">
+        <article class="hero-slide is-active slide-one">
+          <div class="hero-content">
+            <p class="hero-subtitle">Global Wildlife Intelligence Platform</p>
+            <h1 class="hero-title">WildGuard</h1>
+            <p class="hero-description">Advanced AI-powered conservation platform for real-time wildlife monitoring, species intelligence, and habitat protection</p>
+            <div class="hero-buttons">
+              <a href="/live" class="btn btn-primary">Start AI Scanning</a>
+              <a href="/dashboard" class="btn btn-secondary">Open Dashboard</a>
+            </div>
+          </div>
+        </article>
+        <article class="hero-slide slide-two">
+          <div class="hero-content">
+            <p class="hero-subtitle">Field Monitoring, Reimagined</p>
+            <h2 class="hero-title hero-title-secondary">See Species in Motion</h2>
+            <p class="hero-description">Bootstrap-style animated panels, live habitat media, and field-ready workflows built for conservation teams.</p>
+            <div class="hero-buttons">
+              <a href="/library" class="btn btn-primary">Explore Species</a>
+              <a href="/map" class="btn btn-secondary">View Habitat Map</a>
+            </div>
+          </div>
+        </article>
+        <article class="hero-slide slide-three">
+          <div class="hero-content">
+            <p class="hero-subtitle">Connected Wildlife Operations</p>
+            <h2 class="hero-title hero-title-secondary">One Platform. Full Intelligence.</h2>
+            <p class="hero-description">Monitor detections, track history, pair devices, and coordinate field response from a single command view.</p>
+            <div class="hero-buttons">
+              <a href="/history" class="btn btn-primary">Open History</a>
+              <a href="/onboarding" class="btn btn-secondary">Pair Device</a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="hero-indicators" aria-label="Carousel indicators">
+        <button class="hero-dot is-active" type="button" data-slide="0" aria-label="Show hero slide 1"></button>
+        <button class="hero-dot" type="button" data-slide="1" aria-label="Show hero slide 2"></button>
+        <button class="hero-dot" type="button" data-slide="2" aria-label="Show hero slide 3"></button>
       </div>
     </section>
 
@@ -312,5 +344,6 @@
     <script src="/static/site.js" type="module"></script>
     <script src="/static/landing.js" type="module"></script>
     <script src="/static/professional.js"></script>
+    <script src="/static/animations.js"></script>
   </body>
 </html>
