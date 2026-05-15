@@ -1,175 +1,316 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="WildGuard - Global Wildlife Intelligence Platform for conservation, monitoring, and species awareness." />
+    <meta name="keywords" content="wildlife, conservation, animal monitoring, AI detection, species intelligence" />
     <title>WildGuard | Global Wildlife Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Calligraffitti&family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="/static/professional.css" />
   </head>
-  <body class="home-light">
-    <div id="preloader" class="preloader" aria-hidden="true">
-      <div class="preloader-ring"></div>
-      <p>Loading WildGuard Experience...</p>
-    </div>
-    <div class="frame-shell" aria-hidden="true"></div>
-    <div class="noise-layer" aria-hidden="true"></div>
-    <div class="overlay-mask" aria-hidden="true"></div>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <header class="site-nav">
-      <div class="nav-inner">
-        <a class="nav-brand" href="/">
-          <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=256&q=80" alt="WildGuard" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" />
-          <span>WildGuard</span>
-        </a>
-        <button id="mobileMenuToggle" class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <nav class="nav-links" id="mainNav" role="navigation" aria-label="Main navigation">
-          <a href="/">Home</a>
-          <a href="/dashboard">Dashboard</a>
-          <a href="/library">Library</a>
-          <a href="/history">History</a>
-          <a href="/map">Map</a>
-          <a href="/live">Live</a>
-          <a href="/live" class="scan-shortcut" title="AI Animal Scanning">
-            <span>🔍</span> Scan Animals
-          </a>
-          <a href="/settings">Settings</a>
-          <a href="/onboarding">Pair Device</a>
-          <button id="menuSettingsBtn" type="button" class="ghost-btn">⚙️ Settings</button>
-        </nav>
-      </div>
-    </header>
-    <div class="project-signature" aria-label="Project signature">PROJECT BY WILDGUARD</div>
-
-    <div id="homeSettingsPanel" class="home-settings-panel hidden" role="dialog" aria-modal="true">
-      <div class="home-settings-card">
-        <div class="settings-head">
-          <h2>Homepage Settings</h2>
-          <button id="closeHomeSettings" type="button" class="ghost-btn">Close</button>
-        </div>
-        <label>
-          Slideshow Speed
-          <select id="homeSlideSpeed">
-            <option value="3200">Fast</option>
-            <option value="4200" selected>Normal</option>
-            <option value="6000">Slow</option>
-          </select>
-        </label>
-        <label class="check-row">
-          <input id="homeHighContrast" type="checkbox" />
-          <span>High contrast mode</span>
-        </label>
-        <label class="check-row">
-          <input id="homeReduceMotion" type="checkbox" />
-          <span>Reduce motion</span>
-        </label>
-      </div>
-    </div>
-
-    <main class="layout single landing-layout">
-      <section class="panel landing-hero">
-        <p class="hero-kicker">Global Wildlife Intelligence Platform</p>
-        <div class="brand-row">
-          <div class="hero-wildlife-badge" aria-hidden="true"></div>
-          <div>
-            <h1>WildGuard</h1>
-            <p>Dark-mode wildlife intelligence with a live cinematic view of species in natural habitats.</p>
+    <!-- Professional Header -->
+    <header class="professional-header">
+      <div class="header-top">
+        <div class="container">
+          <div class="header-contact-info">
+            <span class="contact-item">📞 Contact: support@wildguard.dev</span>
+            <span class="contact-item">📧 info@wildguard.dev</span>
           </div>
         </div>
+      </div>
 
-        <div class="cinema-stage" aria-label="Wildlife slideshow">
-          <div id="slideA" class="cinema-slide is-visible"></div>
-          <div id="slideB" class="cinema-slide"></div>
-          <div class="cinema-sheen" aria-hidden="true"></div>
-          <div class="cinema-vignette" aria-hidden="true"></div>
-          <div class="cinema-badge">Live Habitat Sequence</div>
-          <div id="slideMeta" class="cinema-meta">Loading global wildlife slideshow...</div>
-          <div class="cinema-progress" aria-hidden="true"><span id="slideProgress"></span></div>
+      <nav class="main-navigation">
+        <div class="container nav-container">
+          <a href="/" class="logo-brand">
+            <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=200&q=80" alt="WildGuard Logo" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" />
+            <span class="brand-text">WildGuard</span>
+          </a>
+
+          <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <ul class="nav-menu" id="navMenu" role="navigation" aria-label="Main navigation">
+            <li><a href="/">Home</a></li>
+            <li class="nav-dropdown">
+              <a href="#" class="nav-parent">Our Work</a>
+              <ul class="dropdown-menu">
+                <li><a href="/dashboard">📊 Dashboard</a></li>
+                <li><a href="/library">📚 Species Library</a></li>
+                <li><a href="/map">🗺️ Habitat Map</a></li>
+                <li><a href="/history">📈 Detection History</a></li>
+              </ul>
+            </li>
+            <li class="nav-dropdown">
+              <a href="#" class="nav-parent">Solutions</a>
+              <ul class="dropdown-menu">
+                <li><a href="/live">🎥 Live Monitoring</a></li>
+                <li><a href="/live" class="highlight-link">🔍 AI Scanning</a></li>
+                <li><a href="/dashboard">🎮 Command Center</a></li>
+              </ul>
+            </li>
+            <li><a href="/library" class="nav-link-primary">Animal Intelligence</a></li>
+            <li><a href="/onboarding">📱 Pair Device</a></li>
+            <li><a href="/settings" class="nav-settings">⚙️ Settings</a></li>
+          </ul>
         </div>
+      </nav>
+    </header>
 
-        <div class="hero-cta-row">
-          <a class="hero-cta" href="/live">Explore Live Wildlife</a>
-          <a class="hero-cta ghost" href="/dashboard">Open Command Center</a>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-subtitle">Global Wildlife Intelligence Platform</p>
+        <h1 class="hero-title">WildGuard</h1>
+        <p class="hero-description">Advanced AI-powered conservation platform for real-time wildlife monitoring, species intelligence, and habitat protection</p>
+        <div class="hero-buttons">
+          <a href="/live" class="btn btn-primary">Start AI Scanning</a>
+          <a href="/dashboard" class="btn btn-secondary">Open Dashboard</a>
         </div>
+      </div>
+    </section>
 
-        <div class="stats-strip" aria-label="Platform highlights">
-          <div><strong>24/7</strong><span>Monitoring-ready UI</span></div>
-          <div><strong>Global</strong><span>Species-aware knowledge</span></div>
-          <div><strong>Live</strong><span>Cross-network sharing</span></div>
-          <div><strong>AI + Data</strong><span>Unified conservation flow</span></div>
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+      <!-- Live Monitoring Section -->
+      <section class="content-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>🎥 Live Habitat Monitoring</h2>
+            <p>Experience real-time wildlife streams with AI detection overlays and conservation metadata</p>
+          </div>
+          <div class="cinema-stage-wrapper">
+            <div class="cinema-stage" aria-label="Wildlife slideshow">
+              <div id="slideA" class="cinema-slide is-visible"></div>
+              <div id="slideB" class="cinema-slide"></div>
+              <div class="cinema-sheen" aria-hidden="true"></div>
+              <div class="cinema-vignette" aria-hidden="true"></div>
+              <div class="cinema-badge">Live Habitat Sequence</div>
+              <div id="slideMeta" class="cinema-meta">Loading global wildlife slideshow...</div>
+              <div class="cinema-progress" aria-hidden="true"><span id="slideProgress"></span></div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="feature-strip" aria-label="Front page features">
-          <article class="feature-tile reveal">
-            <h3>Live Wildlife Stream</h3>
-            <p>Continuous habitat slideshow with real detection overlays and conservation metadata.</p>
-          </article>
-          <article class="feature-tile reveal">
-            <h3>Global Species Library</h3>
-            <p>Explore species profiles, status, facts, habitats, and field safety references.</p>
-          </article>
-          <article class="feature-tile reveal">
-            <h3>History and Zone Map</h3>
-            <p>Track detection history and inspect species-to-zone associations from one platform.</p>
-          </article>
+      <!-- Features Grid -->
+      <section class="content-section features-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Core Features</h2>
+            <p>Comprehensive tools for wildlife conservation and monitoring</p>
+          </div>
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="feature-icon">🔍</div>
+              <h3>AI Animal Scanning</h3>
+              <p>Real-time detection with machine learning models trained on global wildlife datasets. Identify species instantly with field-ready accuracy.</p>
+              <a href="/live" class="feature-link">Start Scanning →</a>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">📚</div>
+              <h3>Species Intelligence Library</h3>
+              <p>Explore profiles for 1000+ species with habitat info, conservation status, field safety data, and behavioral insights.</p>
+              <a href="/library" class="feature-link">Browse Library →</a>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">📊</div>
+              <h3>Detection Dashboard</h3>
+              <p>Command center for real-time monitoring, sighting analytics, zone management, and cross-device intelligence sharing.</p>
+              <a href="/dashboard" class="feature-link">Open Dashboard →</a>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">🗺️</div>
+              <h3>Habitat Mapping</h3>
+              <p>Visualize species distributions, detection zones, and conservation areas. Track migrations and habitat changes in real-time.</p>
+              <a href="/map" class="feature-link">View Map →</a>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">📱</div>
+              <h3>Remote Pairing</h3>
+              <p>Seamlessly pair field cameras and mobile devices to your WildGuard account for unified monitoring across locations.</p>
+              <a href="/onboarding" class="feature-link">Setup Device →</a>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">📈</div>
+              <h3>Detection History</h3>
+              <p>Comprehensive timeline of all sightings with timestamps, confidence scores, and conservation metadata for research.</p>
+              <a href="/history" class="feature-link">View History →</a>
+            </article>
+          </div>
         </div>
+      </section>
 
-        <section class="spotlight-strip reveal" aria-label="Animal spotlight">
-          <div class="spotlight-head">
-            <h2>🐾 Wildlife Spotlight</h2>
-            <p>Continuously rotating highlights sourced from a large global catalog spanning over 1000 species entries.</p>
-            <a href="/live" class="spotlight-cta" title="Start AI scanning">
-              <span>→ Scan Live Animals</span>
-            </a>
+      <!-- Platform Highlights -->
+      <section class="highlights-section">
+        <div class="container">
+          <div class="highlights-grid">
+            <div class="highlight-card">
+              <div class="highlight-number">1000+</div>
+              <p>Species in Library</p>
+            </div>
+            <div class="highlight-card">
+              <div class="highlight-number">24/7</div>
+              <p>Monitoring Capability</p>
+            </div>
+            <div class="highlight-card">
+              <div class="highlight-number">Global</div>
+              <p>Coverage Network</p>
+            </div>
+            <div class="highlight-card">
+              <div class="highlight-number">AI-Powered</div>
+              <p>Detection Engine</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Wildlife Spotlight -->
+      <section class="content-section spotlight-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>🐾 Featured Wildlife</h2>
+            <p>Continuously rotating highlights from our global species catalog</p>
           </div>
           <div class="spotlight-window">
             <div id="spotlightTrack" class="spotlight-track">
               <span class="spotlight-pill">Loading species...</span>
             </div>
           </div>
-        </section>
-
-        <section class="trust-row reveal" aria-label="Platform credibility">
-          <div class="trust-card">
-            <h3>Conservation-Oriented UX</h3>
-            <p>Designed for practical wildlife workflows and quick field interpretation.</p>
-          </div>
-          <div class="trust-card">
-            <h3>One-Link Global Sharing</h3>
-            <p>Anyone with the live link can access the platform and navigate from one entry.</p>
-          </div>
-          <div class="trust-card">
-            <h3>Modern Intelligence Stack</h3>
-            <p>Unified AI detection, species library, history timeline, and habitat mapping.</p>
-          </div>
-        </section>
+        </div>
       </section>
 
-      <section class="panel about-card">
-        <h2>About WildGuard</h2>
-        <p>
-          WILDGUARD is a wildlife intelligence and conservation platform focused on habitat awareness,
-          practical field support, and species-centered monitoring workflows.
-        </p>
-      </section>
-
-      <section class="panel about-card premium-block reveal">
-        <h2>Why This Platform Stands Out</h2>
-        <p>
-          WildGuard is designed for professional clarity: a cinematic wildlife-first entry, purpose-driven pages,
-          and fast navigation from one global link. From public live viewing to deep species intelligence,
-          every screen is structured to support field teams, researchers, and education initiatives.
-        </p>
+      <!-- About Section -->
+      <section class="content-section about-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>About WildGuard</h2>
+          </div>
+          <div class="about-content">
+            <div class="about-text">
+              <p>
+                <strong>WildGuard</strong> is a wildlife intelligence and conservation platform dedicated to practical habitat awareness, 
+                field support, and species-centered monitoring workflows. Our mission is to empower conservation teams, researchers, 
+                and field biologists with real-time intelligence and AI-driven insights.
+              </p>
+              <p>
+                Designed for professional clarity and rapid field interpretation, WildGuard combines cutting-edge AI detection 
+                with comprehensive species knowledge, habitat mapping, and detection analytics—all accessible from one unified platform.
+              </p>
+              <h3>Our Commitment</h3>
+              <ul class="about-list">
+                <li>🌍 Global wildlife awareness and protection</li>
+                <li>🤖 Advanced AI technology for conservation</li>
+                <li>📊 Comprehensive species and habitat intelligence</li>
+                <li>🔗 Unified platform for field teams and researchers</li>
+                <li>♻️ Sustainable monitoring for biodiversity</li>
+              </ul>
+            </div>
+            <div class="about-stats">
+              <div class="stat-item">
+                <h4>Vision</h4>
+                <p>A world where wildlife populations are protected through intelligent technology and global collaboration</p>
+              </div>
+              <div class="stat-item">
+                <h4>Technology</h4>
+                <p>Modern AI detection, real-time monitoring, and unified conservation workflows</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
+    <!-- Professional Footer -->
+    <footer class="professional-footer">
+      <div class="footer-content">
+        <div class="container">
+          <div class="footer-grid">
+            <!-- About Footer Column -->
+            <div class="footer-column">
+              <h4>About WildGuard</h4>
+              <p>Global wildlife intelligence platform for conservation, monitoring, and species awareness.</p>
+              <div class="social-links">
+                <a href="#" title="Twitter" aria-label="Follow on Twitter">𝕏</a>
+                <a href="#" title="LinkedIn" aria-label="Follow on LinkedIn">in</a>
+                <a href="#" title="Instagram" aria-label="Follow on Instagram">📷</a>
+                <a href="#" title="Facebook" aria-label="Follow on Facebook">f</a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-column">
+              <h4>Quick Links</h4>
+              <ul class="footer-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/library">Species Library</a></li>
+                <li><a href="/map">Habitat Map</a></li>
+                <li><a href="/live">Live Monitoring</a></li>
+                <li><a href="/history">Detection History</a></li>
+              </ul>
+            </div>
+
+            <!-- Solutions -->
+            <div class="footer-column">
+              <h4>Solutions</h4>
+              <ul class="footer-links">
+                <li><a href="/live">AI Scanning</a></li>
+                <li><a href="/dashboard">Command Center</a></li>
+                <li><a href="/onboarding">Pair Device</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/admin">Admin Panel</a></li>
+                <li><a href="/inventory">Inventory</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact & Support -->
+            <div class="footer-column">
+              <h4>Contact & Support</h4>
+              <ul class="footer-links">
+                <li><a href="mailto:support@wildguard.dev">📧 support@wildguard.dev</a></li>
+                <li><a href="mailto:info@wildguard.dev">📧 info@wildguard.dev</a></li>
+                <li><a href="#">📞 +1 (555) 123-4567</a></li>
+                <li><a href="#">📍 Global Operations</a></li>
+                <li><a href="#">💬 Live Chat Support</a></li>
+                <li><a href="#">📋 FAQ</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Footer Bottom -->
+          <div class="footer-bottom">
+            <div class="footer-legal">
+              <p>&copy; 2026 WildGuard. All rights reserved.</p>
+              <ul class="legal-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Accessibility</a></li>
+                <li><a href="#">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="footer-badge">
+              <p>Powered by Advanced Wildlife Intelligence</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
     <script src="/static/site.js" type="module"></script>
     <script src="/static/landing.js" type="module"></script>
+    <script src="/static/professional.js"></script>
   </body>
 </html>
