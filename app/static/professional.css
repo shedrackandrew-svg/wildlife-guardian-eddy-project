@@ -19,6 +19,9 @@
   .navbar-collapse {
     display: flex !important;
   }
+  .navbar-collapse.collapse {
+    display: flex !important;
+  }
 }
 
 * {
