@@ -24,16 +24,24 @@
           <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=256&q=80" alt="WildGuard" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" />
           <span>WildGuard</span>
         </a>
-        <nav class="nav-links">
+        <button id="mobileMenuToggle" class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="nav-links" id="mainNav" role="navigation" aria-label="Main navigation">
           <a href="/">Home</a>
           <a href="/dashboard">Dashboard</a>
           <a href="/library">Library</a>
           <a href="/history">History</a>
           <a href="/map">Map</a>
           <a href="/live">Live</a>
+          <a href="/live" class="scan-shortcut" title="AI Animal Scanning">
+            <span>🔍</span> Scan Animals
+          </a>
           <a href="/settings">Settings</a>
           <a href="/onboarding">Pair Device</a>
-          <button id="menuSettingsBtn" type="button" class="ghost-btn">Settings</button>
+          <button id="menuSettingsBtn" type="button" class="ghost-btn">⚙️ Settings</button>
         </nav>
       </div>
     </header>
@@ -114,8 +122,11 @@
 
         <section class="spotlight-strip reveal" aria-label="Animal spotlight">
           <div class="spotlight-head">
-            <h2>Wildlife Spotlight</h2>
+            <h2>🐾 Wildlife Spotlight</h2>
             <p>Continuously rotating highlights sourced from a large global catalog spanning over 1000 species entries.</p>
+            <a href="/live" class="spotlight-cta" title="Start AI scanning">
+              <span>→ Scan Live Animals</span>
+            </a>
           </div>
           <div class="spotlight-window">
             <div id="spotlightTrack" class="spotlight-track">
