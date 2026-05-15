@@ -14,14 +14,17 @@
   --info: #3498db;
 }
 
-/* Ensure navbar collapse is visible on desktop (lg breakpoint and up) */
-@media (min-width: 992px) {
-  .navbar-collapse {
-    display: flex !important;
-  }
-  .navbar-collapse.collapse {
-    display: flex !important;
-  }
+* {
+  box-sizing: border-box;
+}
+
+/* Fix Bootstrap navbar-collapse to always be visible */
+.navbar-collapse {
+  display: flex !important;
+}
+
+.navbar-collapse.collapse {
+  display: flex !important;
 }
 
 * {
