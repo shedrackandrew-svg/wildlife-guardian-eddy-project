@@ -620,12 +620,14 @@ body.menu-compact .nav-links a {
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
   position: relative;
   z-index: 3;
+  align-items: start;
 }
 
 .layout.single {
   width: min(1040px, calc(100vw - 1rem));
   grid-template-columns: minmax(0, 1fr);
   justify-content: center;
+  align-items: start;
 }
 
 .panel {
@@ -838,6 +840,7 @@ h3 {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 0.6rem;
   padding: 0.9rem 1rem;
+  align-items: stretch;
 }
 
 .lookup-row {
@@ -1065,6 +1068,7 @@ li {
   display: grid;
   gap: 0.55rem;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  align-items: stretch;
 }
 
 .gallery-card {
@@ -1072,6 +1076,8 @@ li {
   border-radius: 10px;
   overflow: hidden;
   background: rgba(2, 8, 16, 0.7);
+  display: flex;
+  flex-direction: column;
 }
 
 .gallery-card img,
@@ -1540,6 +1546,42 @@ li {
 
 .species-card {
   padding-bottom: 0.6rem;
+}
+
+.species-card .actions {
+  margin-top: auto;
+  padding: 0.55rem 0.45rem 0;
+}
+
+.detail-view {
+  align-items: stretch;
+}
+
+.detail-gallery,
+.detail-side {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-side .actions {
+  padding: 0.6rem 0 0;
+}
+
+.panel-head {
+  justify-items: start;
+}
+
+.panel-head h1,
+.panel-head p {
+  text-align: left;
+}
+
+.site-footer__inner {
+  align-items: flex-start;
+}
+
+.site-footer__links {
+  align-items: center;
 }
 
 .species-card p {

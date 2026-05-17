@@ -1080,6 +1080,69 @@ body {
   margin-bottom: 0.6rem;
 }
 
+.hero-copy {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.hero-buttons {
+  justify-content: flex-start;
+}
+
+.metric-card,
+.mini-card,
+.cta-banner {
+  border-radius: 20px;
+}
+
+.metric-card,
+.mini-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.metric-card strong {
+  line-height: 1;
+}
+
+.section-label,
+.section-title {
+  text-align: left;
+}
+
+.cta-banner {
+  align-items: center;
+}
+
+.wildguard-footer {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 247, 241, 0.96));
+  color: #162519;
+  border-top: 1px solid rgba(35, 103, 64, 0.12);
+}
+
+.wildguard-footer .footer-title,
+.wildguard-footer .footer-text,
+.wildguard-footer .footer-bottom,
+.wildguard-footer .footer-bottom small {
+  color: #214032;
+}
+
+.wildguard-footer .footer-links {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.wildguard-footer .footer-links li {
+  margin: 0;
+}
+
+.wildguard-footer .footer-links a:hover {
+  padding-left: 0;
+}
+
 /* ============ LIGHT HOMEPAGE OVERRIDES ============ */
 :root {
   --primary-color: #2a8a57;
@@ -1242,6 +1305,21 @@ body {
 @media (max-width: 768px) {
   .nav-menu {
     background: rgba(255, 255, 255, 0.94);
+  }
+
+  .navbar-nav .nav-link,
+  .navbar-nav .nav-button {
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(35, 103, 64, 0.12);
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 14px;
+    padding: 0.8rem 1rem;
+    color: #214032 !important;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
   }
 }
 
