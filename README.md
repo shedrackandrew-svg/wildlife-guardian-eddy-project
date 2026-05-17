@@ -39,6 +39,11 @@ API endpoints (examples):
 - `POST /api/users/login` — login -> returns JWT
 
 To publish frontend to GitHub Pages using the workflow, push to `master` branch; the workflow will deploy `app/static` to `gh-pages` branch. To use a custom `.wldg` domain, add a `CNAME` file in `app/static` with your domain and configure DNS to point to GitHub Pages.
+
+Seeding and admin user
+- I added a seed script at `server/seed_catalog.js` and ran it locally to import the bundled `wildlife-catalog.json` into the server store.
+- A default admin user was created: username `admin` and password `ChangeMe123!`. Please change this password immediately by creating a new admin user or updating `.env` and re-seeding.
+
 # WildGuard (AI + IoT + Web)
 
 This project detects animals from images/sensors and serves a live dashboard.
