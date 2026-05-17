@@ -51,6 +51,41 @@ module.exports = (db) => {
     res.json({ user: req.user });
   });
 
+  router.post('/change-password', authMiddleware, async (req, res) => {
+    const { old_password, new_password } = req.body;
+    if (!old_password || !new_password) return res.status(400).json({ error: 'missing' });
+    await db.read();
+    const user = db.data.users.find(u => u.id === req.user.id);
+    if (!user) return res.status(404).json({ error: 'no user' });
+    const ok = bcrypt.compareSync(old_password, user.password_hash);
+    if (!ok) return res.status(401).json({ error: 'bad credentials' });
+    user.password_hash = bcrypt.hashSync(new_password, 10);
+    await db.write();
+    res.json({ ok: true });
+  });
+
+  // Admin: list users (without password hashes)
+  router.get('/list', authMiddleware, async (req, res) => {
+    if (!req.user || !req.user.is_admin) return res.status(403).json({ error: 'forbidden' });
+    await db.read();
+    const users = (db.data.users || []).map(u => ({ id: u.id, username: u.username, is_admin: !!u.is_admin }));
+    res.json(users);
+  });
+
+  // Admin: reset password for a user
+  router.post('/reset/:id', authMiddleware, async (req, res) => {
+    if (!req.user || !req.user.is_admin) return res.status(403).json({ error: 'forbidden' });
+    const { id } = req.params;
+    const { new_password } = req.body;
+    if (!new_password) return res.status(400).json({ error: 'missing' });
+    await db.read();
+    const user = db.data.users.find(u => String(u.id) === String(id));
+    if (!user) return res.status(404).json({ error: 'no user' });
+    user.password_hash = bcrypt.hashSync(new_password, 10);
+    await db.write();
+    res.json({ ok: true });
+  });
+
   router.auth = authMiddleware;
   return router;
 };

@@ -146,6 +146,31 @@ function initWildlifeBackdrop() {
   const body = document.body;
   if (!body || !WILDLIFE_BACKDROP_FRAMES.length) return;
 
+  // Try to build frames from backend species gallery images for photographic clarity
+  const tryBuildFromApi = async () => {
+    try {
+      const res = await fetch('/api/species', { cache: 'no-store' });
+      if (!res.ok) return null;
+      const rows = await res.json();
+      if (!Array.isArray(rows) || !rows.length) return null;
+      const photoFrames = [];
+      for (const r of rows) {
+        const imgs = Array.isArray(r.gallery_images) && r.gallery_images.length ? r.gallery_images : (r.image_url ? [r.image_url] : []);
+        if (!imgs.length) continue;
+        for (const img of imgs.slice(0, 3)) {
+          photoFrames.push({ title: r.name || r.common_name || r.species_name, alt: `${r.name || r.species_name}`, image: img });
+          if (photoFrames.length >= 128) break;
+        }
+        if (photoFrames.length >= 128) break;
+      }
+      return photoFrames.length ? photoFrames : null;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  let framesPromise = tryBuildFromApi();
+
   let backdrop = document.querySelector(".wildlife-slideback");
   if (!backdrop) {
     backdrop = document.createElement("div");
@@ -184,20 +209,22 @@ function initWildlifeBackdrop() {
     }, 50);
   };
 
-  applyFrame(WILDLIFE_BACKDROP_FRAMES[0], layerA);
-  applyFrame(WILDLIFE_BACKDROP_FRAMES[1] || WILDLIFE_BACKDROP_FRAMES[0], layerB);
+  // resolve frames (prefer API-built photographic frames)
+  (async () => {
+    const apiFrames = await framesPromise.catch(() => null);
+    const frames = apiFrames && apiFrames.length ? apiFrames : WILDLIFE_BACKDROP_FRAMES;
+    applyFrame(frames[0], layerA);
+    applyFrame(frames[1] || frames[0], layerB);
+    frames.slice(0, 16).forEach((frame) => preloadBackdropFrame(frame.image));
 
-  WILDLIFE_BACKDROP_FRAMES.slice(0, 12).forEach((frame) => preloadBackdropFrame(frame.image));
+    if (reducedMotion) return;
 
-  if (reducedMotion) {
-    return;
-  }
-
-  window.setInterval(() => {
-    frameIndex = (frameIndex + 1) % WILDLIFE_BACKDROP_FRAMES.length;
-    activateFrame(WILDLIFE_BACKDROP_FRAMES[frameIndex]);
-    preloadBackdropFrame(WILDLIFE_BACKDROP_FRAMES[(frameIndex + 8) % WILDLIFE_BACKDROP_FRAMES.length].image);
-  }, 7600);
+    window.setInterval(() => {
+      frameIndex = (frameIndex + 1) % frames.length;
+      activateFrame(frames[frameIndex]);
+      preloadBackdropFrame(frames[(frameIndex + 8) % frames.length].image);
+    }, 7600);
+  })();
 }
 
 function bootstrapApiBase() {

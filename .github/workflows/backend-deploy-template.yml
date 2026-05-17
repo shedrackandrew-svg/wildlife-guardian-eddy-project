@@ -1,0 +1,33 @@
+name: Backend Deploy (template)
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ github.repository_owner }}/wildguard-backend:latest ./server
+      - name: Push image to registry (requires secrets)
+        run: |
+          echo "This step is a template. Configure your registry login and push commands here, e.g. Docker Hub or GitHub Container Registry."
+
+  # Example: Render deploy via API (requires RENDER_API_KEY and RENDER_SERVICE_ID)
+  render-deploy-example:
+    runs-on: ubuntu-latest
+    if: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Trigger Render deploy
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Accept: application/json" \
+            "https://api.render.com/deploy/srv-${RENDER_SERVICE_ID}"
