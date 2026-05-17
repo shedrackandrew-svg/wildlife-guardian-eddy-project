@@ -13,4 +13,4 @@ git commit -m $Message
 git push origin HEAD
 
 Write-Host "Pushed to GitHub."
-Write-Host "Deploy on Render with: https://render.com/deploy?repo=https://github.com/shedrackandrew-svg/wildlife-guardian-eddy-project"
+Write-Host "Deploy on Render with: https://render.com/deploy?repo=https://github.com/shedrackandrew-svg/wildguard"

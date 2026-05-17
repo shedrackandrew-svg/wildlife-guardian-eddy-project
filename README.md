@@ -124,7 +124,7 @@ If you do not have a custom domain or Cloudflare token, use Render connected to 
 1. Push your latest code to GitHub.
 2. Open this one-click deploy URL:
 
-	https://render.com/deploy?repo=https://github.com/shedrackandrew-svg/wildlife-guardian-eddy-project
+	https://render.com/deploy?repo=https://github.com/shedrackandrew-svg/wildguard
 
 3. Approve the `wildguard-live` web service from `render.yaml`.
 4. Keep plan as `starter` (or higher) for always-on behavior.
@@ -136,7 +136,7 @@ This URL is the closest to a permanent 24-hour link without buying a domain.
 
 This repo now includes `.github/workflows/pages.yml` to deploy a permanent free frontend on GitHub Pages.
 
-- Pages URL format: `https://shedrackandrew-svg.github.io/wildlife-guardian-eddy-project/`
+- Pages URL format: `https://shedrackandrew-svg.github.io/wildguard/`
 - GitHub Pages is static-only: Python/FastAPI does not run there.
 
 How it works:
