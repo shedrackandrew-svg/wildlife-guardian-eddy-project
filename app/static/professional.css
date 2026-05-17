@@ -18,13 +18,19 @@
   box-sizing: border-box;
 }
 
-/* Fix Bootstrap navbar-collapse to always be visible */
-.navbar-collapse {
-  display: flex !important;
+/* Keep Bootstrap navbar behavior; ensure horizontal nav on large screens */
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.8rem;
 }
 
-.navbar-collapse.collapse {
-  display: flex !important;
+@media (max-width: 991px) {
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 * {
@@ -334,6 +340,12 @@ body {
 .hero-carousel {
   min-height: 660px;
   padding: 0;
+}
+
+@media (max-width: 768px) {
+  .hero-carousel {
+    min-height: 420px;
+  }
 }
 
 .hero-carousel-track {
