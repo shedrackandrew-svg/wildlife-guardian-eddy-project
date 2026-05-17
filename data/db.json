@@ -3,7 +3,7 @@
     {
       "id": 1,
       "username": "admin",
-      "password_hash": "$2a$10$5m212fSz7mEFwtCtcKQEheimjvg3OoM5sTFhX8tZxwa37XLaDPAmO",
+      "password_hash": "$2a$10$/NidE8pY6nUQqyHkgrSlYOYoy/SK24b2ZN20waoTS/1bvwogL8tt6",
       "is_admin": 1
     }
   ],
@@ -34,7 +34,7 @@
         "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg"
       ],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg",
+      "image_url": "/static/images/wildlife/lion.jpg",
       "source": "json",
       "sightings": 0
     },
@@ -64,7 +64,7 @@
         "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bald_Eagle_Portrait.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bald_Eagle_Portrait.jpg"
       ],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bald_Eagle_Portrait.jpg",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -94,7 +94,7 @@
         "https://upload.wikimedia.org/wikipedia/commons/9/99/Komodo_dragon_with_tongue.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/9/99/Komodo_dragon_with_tongue.jpg"
       ],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Komodo_dragon_with_tongue.jpg",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -124,7 +124,7 @@
         "https://upload.wikimedia.org/wikipedia/commons/6/63/Ambystoma_mexicanum_1.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/6/63/Ambystoma_mexicanum_1.jpg"
       ],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Ambystoma_mexicanum_1.jpg",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -154,7 +154,7 @@
         "https://upload.wikimedia.org/wikipedia/commons/4/4c/Danaus_plexippus_Male_Dorsal.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/4/4c/Danaus_plexippus_Male_Dorsal.jpg"
       ],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Danaus_plexippus_Male_Dorsal.jpg",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -184,7 +184,7 @@
         "https://upload.wikimedia.org/wikipedia/commons/3/30/Marpissa_muscosa_-_side.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/3/30/Marpissa_muscosa_-_side.jpg"
       ],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Marpissa_muscosa_-_side.jpg",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -214,7 +214,7 @@
         "https://upload.wikimedia.org/wikipedia/commons/3/31/Salmo_salar.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/3/31/Salmo_salar.jpg"
       ],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Salmo_salar.jpg",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -243,7 +243,7 @@
         "https://upload.wikimedia.org/wikipedia/commons/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg"
       ],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -324,7 +324,7 @@
         "https://source.unsplash.com/1600x900/?orchid&sig=2",
         "https://source.unsplash.com/1600x900/?orchid&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?orchid&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -354,7 +354,7 @@
         "https://source.unsplash.com/1600x900/?mangrove&sig=2",
         "https://source.unsplash.com/1600x900/?mangrove&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?mangrove&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -384,7 +384,7 @@
         "https://source.unsplash.com/1600x900/?water-lily&sig=2",
         "https://source.unsplash.com/1600x900/?water-lily&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?water-lily&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -414,7 +414,7 @@
         "https://source.unsplash.com/1600x900/?fern&sig=2",
         "https://source.unsplash.com/1600x900/?fern&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?fern&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -446,7 +446,7 @@
         "https://source.unsplash.com/1600x900/?bamboo&sig=2",
         "https://source.unsplash.com/1600x900/?bamboo&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?bamboo&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -476,7 +476,7 @@
         "https://source.unsplash.com/1600x900/?cactus&sig=2",
         "https://source.unsplash.com/1600x900/?cactus&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?cactus&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -506,7 +506,7 @@
         "https://source.unsplash.com/1600x900/?palm-tree&sig=2",
         "https://source.unsplash.com/1600x900/?palm-tree&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?palm-tree&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -536,7 +536,7 @@
         "https://source.unsplash.com/1600x900/?moss&sig=2",
         "https://source.unsplash.com/1600x900/?moss&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?moss&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -566,7 +566,7 @@
         "https://source.unsplash.com/1600x900/?wildflower&sig=2",
         "https://source.unsplash.com/1600x900/?wildflower&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?wildflower&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -596,7 +596,7 @@
         "https://source.unsplash.com/1600x900/?pine-tree&sig=2",
         "https://source.unsplash.com/1600x900/?pine-tree&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?pine-tree&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -627,7 +627,7 @@
         "https://source.unsplash.com/1600x900/?lotus&sig=2",
         "https://source.unsplash.com/1600x900/?lotus&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?lotus&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },
@@ -658,7 +658,7 @@
         "https://source.unsplash.com/1600x900/?aloe&sig=2",
         "https://source.unsplash.com/1600x900/?aloe&sig=3"
       ],
-      "image_url": "https://source.unsplash.com/1600x900/?aloe&sig=1",
+      "image_url": "",
       "source": "json",
       "sightings": 0
     },

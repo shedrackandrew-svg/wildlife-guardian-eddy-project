@@ -64,8 +64,8 @@
               <div class="container h-100 d-flex align-items-center">
                 <div class="hero-copy text-white col-lg-8">
                   <p class="eyebrow">Global Wildlife Platform</p>
-                  <h1 class="display-4 fw-bold mb-3">WildGuard</h1>
-                  <p class="lead mb-4">A clean conservation platform for wildlife scanning, species intelligence, and habitat awareness.</p>
+                  <h1 class="display-4 fw-bold mb-3">Global Wildlife Platform.</h1>
+                  <p class="lead mb-4">Real wildlife imagery, live observation updates, and field-ready conservation tools in one modern interface.</p>
                   <div class="d-flex flex-wrap gap-3">
                     <a class="btn btn-success btn-lg" href="/live">Start AI Scanning</a>
                     <a class="btn btn-outline-light btn-lg" href="/dashboard">Open Dashboard</a>
@@ -79,7 +79,7 @@
                 <div class="hero-copy text-white col-lg-8">
                   <p class="eyebrow">Global Wildlife Platform</p>
                   <h2 class="display-5 fw-bold mb-3">Species Tracking with Real-Time Intelligence</h2>
-                  <p class="lead mb-4">Bootstrap-style slide motion, strong visuals, and practical conservation workflow in one page.</p>
+                  <p class="lead mb-4">Recent observations, curated species records, and high-resolution image cards keep the experience current.</p>
                   <div class="d-flex flex-wrap gap-3">
                     <a class="btn btn-success btn-lg" href="/library">Browse Species</a>
                     <a class="btn btn-outline-light btn-lg" href="/map">View Habitat Map</a>
@@ -121,6 +121,21 @@
             <div class="col-6 col-lg-3"><div class="metric-card"><strong>Live</strong><span>AI Scanning</span></div></div>
             <div class="col-6 col-lg-3"><div class="metric-card"><strong>Global</strong><span>Coverage</span></div></div>
           </div>
+        </div>
+      </section>
+
+      <section class="py-5 wildlife-spotlight-section">
+        <div class="container">
+          <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3">
+            <div>
+              <p class="section-label mb-2">Live from the field</p>
+              <h2 class="section-title mb-1">Current wildlife spotlight</h2>
+              <p class="text-muted mb-0">Recent observations and catalog imagery update with the current time.</p>
+            </div>
+            <div class="live-clock" id="wildlifeClock">Loading current time...</div>
+          </div>
+          <p class="text-muted mb-3" id="wildlifeSpotlightStatus">Loading live wildlife feed...</p>
+          <div id="wildlifeSpotlight" class="wildlife-spotlight-grid"></div>
         </div>
       </section>
 

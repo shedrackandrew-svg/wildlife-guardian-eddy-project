@@ -1633,3 +1633,224 @@ body.auth-open {
     color: black;
   }
 }
+
+/* ============ WILDGUARD HOMEPAGE OVERRIDES ============ */
+.wildguard-home .navbar {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(31, 74, 47, 0.1);
+}
+
+.wildguard-home .navbar-brand {
+  color: #16301f;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.03em;
+}
+
+.wildguard-home .navbar-brand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 74, 47, 0.14);
+}
+
+.wildguard-home .navbar-nav .nav-link,
+.wildguard-home .navbar-nav .nav-button {
+  border-radius: 999px;
+  border: 1px solid rgba(31, 74, 47, 0.12);
+  background: rgba(255, 255, 255, 0.78);
+  color: #183221 !important;
+  padding-inline: 1rem;
+  box-shadow: 0 6px 16px rgba(22, 49, 31, 0.06);
+}
+
+.wildguard-home .navbar-nav .nav-link:hover,
+.wildguard-home .navbar-nav .nav-button:hover {
+  background: rgba(88, 165, 110, 0.12);
+  border-color: rgba(40, 123, 76, 0.24);
+}
+
+.wildguard-home .navbar-nav .nav-link-cta,
+.wildguard-home .navbar-nav .nav-link-ghost {
+  padding-inline: 1rem;
+}
+
+.wildguard-home .hero-carousel {
+  min-height: calc(100vh - 120px);
+}
+
+.wildguard-home .carousel-inner,
+.wildguard-home .carousel-item {
+  min-height: calc(100vh - 120px);
+}
+
+.wildguard-home .hero-slide-bg {
+  background-size: cover;
+  background-position: center;
+}
+
+.wildguard-home .hero-slide-one {
+  background-image: linear-gradient(130deg, rgba(16, 29, 18, 0.28), rgba(16, 29, 18, 0.28)), url('/static/images/wildlife/lion.jpg');
+}
+
+.wildguard-home .hero-slide-two {
+  background-image: linear-gradient(130deg, rgba(17, 34, 21, 0.52), rgba(17, 34, 21, 0.24));
+}
+
+.wildguard-home .hero-slide-three {
+  background-image: linear-gradient(130deg, rgba(10, 28, 18, 0.48), rgba(10, 28, 18, 0.24));
+}
+
+.wildguard-home .carousel-overlay {
+  background: linear-gradient(115deg, rgba(9, 18, 12, 0.84), rgba(9, 18, 12, 0.52) 48%, rgba(9, 18, 12, 0.72));
+}
+
+.wildguard-home .hero-copy {
+  max-width: 760px;
+}
+
+.wildguard-home .hero-copy .display-4,
+.wildguard-home .hero-copy .display-5 {
+  text-wrap: balance;
+}
+
+.wildguard-home .metric-card,
+.wildguard-home .mini-card,
+.wildguard-home .cta-banner,
+.wildguard-home .wildlife-spotlight-section .container > .d-flex,
+.wildguard-home .wildlife-spotlight-grid .spotlight-card {
+  border: 1px solid rgba(31, 74, 47, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 40px rgba(22, 49, 31, 0.08);
+}
+
+.wildguard-home .cta-banner {
+  background: linear-gradient(135deg, #21482e, #2f6c43);
+}
+
+.wildguard-home .wildlife-spotlight-section {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(237, 247, 239, 0.92));
+}
+
+.wildguard-home .live-clock {
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(31, 74, 47, 0.14);
+  background: rgba(255, 255, 255, 0.9);
+  color: #1d3825;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+
+.wildguard-home .wildlife-spotlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.wildguard-home .spotlight-card {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(180px, 42%) 1fr;
+  min-height: 220px;
+}
+
+.wildguard-home .spotlight-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wildguard-home .spotlight-copy {
+  padding: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.wildguard-home .spotlight-kicker {
+  margin: 0;
+  color: #2c7c4c;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+}
+
+.wildguard-home .spotlight-copy h3 {
+  margin: 0;
+  color: #17321f;
+  font-family: 'Cinzel', serif;
+}
+
+.wildguard-home .spotlight-copy p,
+.wildguard-home .spotlight-meta {
+  color: #506255;
+}
+
+.wildguard-home .spotlight-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  font-size: 0.85rem;
+}
+
+.wildguard-home .wildguard-footer {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 246, 240, 0.98));
+  color: #17321f;
+  border-top: 1px solid rgba(31, 74, 47, 0.12);
+}
+
+.wildguard-home .footer-title,
+.wildguard-home .footer-text,
+.wildguard-home .footer-links a,
+.wildguard-home .footer-bottom small {
+  color: #244230;
+}
+
+.wildguard-home .footer-links a:hover {
+  color: #2f7d4f;
+}
+
+@media (max-width: 991px) {
+  .wildguard-home .hero-carousel,
+  .wildguard-home .carousel-inner,
+  .wildguard-home .carousel-item {
+    min-height: 620px;
+  }
+
+  .wildguard-home .spotlight-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .wildguard-home .hero-carousel,
+  .wildguard-home .carousel-inner,
+  .wildguard-home .carousel-item {
+    min-height: 580px;
+  }
+
+  .wildguard-home .hero-copy {
+    padding: 0 0.25rem;
+  }
+
+  .wildguard-home .navbar-nav .nav-link,
+  .wildguard-home .navbar-nav .nav-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  .wildguard-home .hero-carousel,
+  .wildguard-home .carousel-inner,
+  .wildguard-home .carousel-item {
+    min-height: 520px;
+  }
+
+  .wildguard-home .hero-copy .display-4,
+  .wildguard-home .hero-copy .display-5 {
+    font-size: clamp(2rem, 10vw, 2.6rem);
+  }
+}
+

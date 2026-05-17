@@ -10,17 +10,21 @@ async function seed() {
   }
   const raw = fs.readFileSync(catalogPath, 'utf8');
   const rows = JSON.parse(raw);
+  const localImageMap = {
+    lion: '/static/images/wildlife/lion.jpg',
+  };
   await db.read();
   const existing = db.data.species || [];
   let imported = 0;
   for (const r of rows) {
     const slug = r.slug || (r.species_name || r.common_name || '').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+    const normalizedImage = localImageMap[String(r.common_name || r.species_name || '').toLowerCase()] || (typeof r.image_url === 'string' && r.image_url.startsWith('/static/') ? r.image_url : '');
     const found = existing.find(s => s.slug === slug || String(s.id) === String(r.id));
     if (found) {
-      Object.assign(found, { ...r, slug });
+      Object.assign(found, { ...r, slug, image_url: normalizedImage });
     } else {
       const id = (existing.reduce((m, s) => Math.max(m, s.id || 0), 0) || 0) + 1;
-      existing.push({ id, slug, name: r.common_name || r.species_name || r.scientific_name || slug, ...r });
+      existing.push({ id, slug, name: r.common_name || r.species_name || r.scientific_name || slug, ...r, image_url: normalizedImage });
       imported++;
     }
   }

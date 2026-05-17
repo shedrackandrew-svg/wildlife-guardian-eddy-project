@@ -154,8 +154,9 @@ function initWildlifeBackdrop() {
       const rows = await res.json();
       if (!Array.isArray(rows) || !rows.length) return null;
       const photoFrames = [];
+      const isSafeLocalSource = (src) => typeof src === 'string' && (src.startsWith('/static/') || src.startsWith('data:') || src.startsWith('blob:'));
       for (const r of rows) {
-        const imgs = Array.isArray(r.gallery_images) && r.gallery_images.length ? r.gallery_images : (r.image_url ? [r.image_url] : []);
+        const imgs = Array.isArray(r.gallery_images) && r.gallery_images.length ? r.gallery_images.filter(isSafeLocalSource) : (isSafeLocalSource(r.image_url) ? [r.image_url] : []);
         if (!imgs.length) continue;
         for (const img of imgs.slice(0, 3)) {
           photoFrames.push({ title: r.name || r.common_name || r.species_name, alt: `${r.name || r.species_name}`, image: img });
@@ -608,6 +609,113 @@ function hidePreloader() {
   }, 420);
 }
 
+function formatLiveTime(value) {
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }).format(new Date(value));
+  } catch {
+    return String(value || "");
+  }
+}
+
+async function initWildlifeSpotlight() {
+  const spotlight = document.getElementById("wildlifeSpotlight");
+  const clock = document.getElementById("wildlifeClock");
+  const status = document.getElementById("wildlifeSpotlightStatus");
+  if (!spotlight && !clock && !status) return;
+
+  const updateClock = () => {
+    if (!clock) return;
+    clock.textContent = formatLiveTime(new Date());
+  };
+
+  updateClock();
+  window.setInterval(updateClock, 60 * 1000);
+
+  const renderCards = (cards) => {
+    if (!spotlight) return;
+    spotlight.innerHTML = cards
+      .map((card) => `
+        <article class="spotlight-card">
+          <img src="${card.image}" alt="${card.title}" />
+          <div class="spotlight-copy">
+            <p class="spotlight-kicker">${card.kicker}</p>
+            <h3>${card.title}</h3>
+            <p>${card.summary}</p>
+            <div class="spotlight-meta">
+              <span>${card.meta}</span>
+              <span>${card.time}</span>
+            </div>
+          </div>
+        </article>
+      `)
+      .join("");
+  };
+
+  const pickPhoto = (row) => {
+    if (Array.isArray(row.gallery_images) && row.gallery_images.length) return row.gallery_images[0];
+    if (row.image_url) return row.image_url;
+    return "";
+  };
+
+  try {
+    const response = await fetch("https://api.inaturalist.org/v1/observations?photos=true&quality_grade=research&order_by=created_at&order=desc&per_page=3", { cache: "no-store" });
+    if (response.ok) {
+      const payload = await response.json();
+      const results = Array.isArray(payload.results) ? payload.results : [];
+      if (results.length) {
+        const cards = results
+          .map((result) => {
+            const photo = result.photos && result.photos[0] && result.photos[0].url ? result.photos[0].url.replace("square", "large") : "";
+            const title = result.taxon && (result.taxon.preferred_common_name || result.taxon.name) ? (result.taxon.preferred_common_name || result.taxon.name) : "Wildlife observation";
+            const place = result.place_guess || "Recent observation";
+            const observed = result.observed_on || result.created_at || result.observed_on_string || new Date().toISOString();
+            return {
+              image: photo,
+              title,
+              kicker: "Live observation",
+              summary: `${place}. ${result.taxon && result.taxon.name ? result.taxon.name : "Current wildlife record"}.`,
+              meta: place,
+              time: formatLiveTime(observed),
+            };
+          })
+          .filter((card) => card.image);
+        if (cards.length) {
+          renderCards(cards);
+          if (status) status.textContent = `Live observations loaded from iNaturalist at ${formatLiveTime(new Date())}.`;
+          return;
+        }
+      }
+    }
+  } catch {
+    // fall back to local catalog
+  }
+
+  try {
+    const fallbackResponse = await fetch("/static/wildlife-catalog.json", { cache: "no-store" });
+    const fallbackRows = fallbackResponse.ok ? await fallbackResponse.json() : [];
+    const cards = (Array.isArray(fallbackRows) ? fallbackRows : [])
+      .map((row) => ({
+        image: pickPhoto(row),
+        title: row.common_name || row.species_name || "Wildlife",
+        kicker: "Catalog highlight",
+        summary: row.details || row.historical_note || "Featured conservation record.",
+        meta: (row.habitats || ["Natural habitat"]).join(", "),
+        time: `Updated ${formatLiveTime(new Date())}`,
+      }))
+      .filter((card) => card.image)
+      .slice(0, 3);
+    if (cards.length) {
+      renderCards(cards);
+      if (status) status.textContent = `Loaded local catalog imagery at ${formatLiveTime(new Date())}.`;
+    }
+  } catch {
+    if (status) status.textContent = `Live wildlife feed unavailable right now.`;
+  }
+}
+
 bootstrapApiBase();
 normalizePageLinks();
 setActiveNav();
@@ -622,6 +730,7 @@ window.setTimeout(normalizePageLinks, 50);
 window.setTimeout(normalizePageLinks, 400);
 initHomeSettings();
 initWildlifeBackdrop();
+initWildlifeSpotlight();
 ensureGlobalFooter();
 if (document.readyState === "complete") {
   hidePreloader();
