@@ -1931,3 +1931,357 @@ html { scroll-behavior: smooth; }
 }
 
 /* ============ END MOBILE ENHANCEMENTS ============ */
+
+/* ============ LIGHT PLATFORM OVERRIDES ============ */
+:root {
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-strong: rgba(255, 255, 255, 0.9);
+  --line: rgba(20, 74, 44, 0.14);
+  --text: #132217;
+  --muted: #526558;
+  --accent: #2d8f57;
+  --accent-2: #57b56f;
+  --nav-bg: rgba(255, 255, 255, 0.82);
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(119, 187, 132, 0.16), transparent 34%),
+    radial-gradient(circle at 82% 18%, rgba(157, 221, 187, 0.12), transparent 28%),
+    #f7fbf6;
+}
+
+.preloader {
+  background: radial-gradient(circle at 50% 30%, rgba(118, 184, 131, 0.2), rgba(248, 252, 248, 0.96) 60%);
+}
+
+.preloader p {
+  color: #214033;
+}
+
+.frame-shell {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(123, 194, 138, 0.16), transparent 38%),
+    radial-gradient(circle at 80% 90%, rgba(171, 225, 184, 0.2), transparent 35%),
+    linear-gradient(180deg, #f7fbf6, #edf6ef 45%, #f8fbf7);
+}
+
+.noise-layer {
+  opacity: 0.025;
+}
+
+.wildlife-slideback .slide-layer {
+  filter: saturate(1.02) contrast(0.9) brightness(0.98);
+  opacity: 0.56;
+}
+
+.wildlife-slideback .overlay-a {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.38));
+}
+
+.wildlife-slideback .overlay-b {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(86, 181, 111, 0.12), transparent 32%),
+    radial-gradient(circle at 82% 68%, rgba(69, 153, 108, 0.1), transparent 30%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.26));
+}
+
+.site-nav {
+  border-bottom: 1px solid rgba(20, 74, 44, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 12px 36px rgba(51, 98, 68, 0.08);
+}
+
+.nav-brand,
+.nav-links a,
+.nav-links .ghost-btn {
+  color: #16301f;
+}
+
+.nav-brand img {
+  border-color: rgba(20, 74, 44, 0.14);
+}
+
+.nav-links a,
+.quick-links a,
+.ghost-btn,
+.tab-btn,
+button {
+  border-color: rgba(20, 74, 44, 0.14);
+  background: rgba(255, 255, 255, 0.88);
+  color: #17311f;
+}
+
+.nav-links a.active,
+.nav-links a:hover,
+.quick-links a:hover,
+.ghost-btn:hover,
+.tab-btn.active {
+  background: rgba(82, 165, 101, 0.12);
+  border-color: rgba(45, 143, 87, 0.28);
+}
+
+.layout,
+.layout.single {
+  width: min(1360px, calc(100vw - 1rem));
+}
+
+.panel,
+.stack,
+.profile-box,
+.landing-hero,
+.about-card,
+.premium-block,
+.spotlight-strip,
+.trust-card,
+.feature-tile,
+.mission-card,
+.stats-strip,
+.cinema-stage,
+.auth-card,
+.settings-card,
+.inventory-card,
+.gallery-card,
+.inventory-modal-info,
+.inventory-thumb-card,
+.inventory-detail-panel .profile-box {
+  background: rgba(255, 255, 255, 0.76);
+  border-color: rgba(20, 74, 44, 0.12);
+  box-shadow: 0 14px 34px rgba(69, 119, 86, 0.08);
+}
+
+.panel,
+.stack,
+.profile-box,
+.landing-hero,
+.about-card,
+.premium-block,
+.spotlight-strip,
+.trust-card,
+.feature-tile,
+.mission-card,
+.stats-strip,
+.auth-card,
+.settings-card,
+.inventory-card,
+.gallery-card,
+.inventory-modal-info,
+.inventory-thumb-card,
+.inventory-detail-panel .profile-box {
+  color: var(--text);
+}
+
+.hero p,
+.panel-head p,
+.tiny-note,
+.feature-tile p,
+.trust-card p,
+.spotlight-head p,
+.stats-strip span,
+.premium-block p,
+.about-card p,
+.landing-hero .brand-row p,
+.mission-card .label,
+.mission-card strong,
+.cinema-meta p,
+.inventory-thumb-card figcaption,
+.inventory-meta,
+.gallery-card p,
+.profile-box,
+.link-btn,
+input,
+select,
+textarea {
+  color: var(--text);
+}
+
+.stack,
+.profile-box,
+.landing-hero .profile-box,
+.inventory-modal-info {
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.hero,
+.telemetry,
+.inventory-shell,
+.about-card,
+.landing-hero {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.lookup-row,
+.actions {
+  padding: 0;
+}
+
+input,
+select,
+textarea {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.gallery-card,
+.inventory-card,
+.inventory-thumb-card,
+.mission-card,
+.feature-tile,
+.trust-card {
+  border-radius: 18px;
+}
+
+.gallery-card {
+  overflow: hidden;
+}
+
+.gallery-card h4,
+.gallery-card p,
+.inventory-card,
+.inventory-modal-card,
+.inventory-modal-head,
+.inventory-modal-body,
+.inventory-modal-info,
+.site-footer,
+.site-footer a {
+  color: var(--text);
+}
+
+.gallery-fallback,
+.species-card-image.fallback,
+.inventory-thumb.fallback {
+  background: linear-gradient(180deg, rgba(221, 239, 225, 0.92), rgba(240, 248, 242, 0.96));
+  color: #254232;
+}
+
+.site-footer {
+  width: min(1360px, calc(100vw - 1rem));
+  margin: 1.25rem auto 0;
+  padding: 1rem 1rem 1.25rem;
+}
+
+.site-footer__inner {
+  border-top: 1px solid rgba(20, 74, 44, 0.12);
+  padding-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-footer__inner strong {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+}
+
+.site-footer__inner p {
+  margin: 0.28rem 0 0;
+  color: var(--muted);
+  max-width: 42rem;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site-footer__links a {
+  text-decoration: none;
+  border: 1px solid rgba(20, 74, 44, 0.14);
+  border-radius: 999px;
+  padding: 0.4rem 0.7rem;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.site-footer__links a:hover {
+  background: rgba(82, 165, 101, 0.12);
+}
+
+.detail-view {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 0.95rem;
+}
+
+.detail-gallery,
+.detail-side {
+  border: 1px solid rgba(20, 74, 44, 0.12);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.84);
+  padding: 0.85rem;
+}
+
+.detail-gallery-main {
+  width: 100%;
+  min-height: 280px;
+  border-radius: 16px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(20, 74, 44, 0.12);
+}
+
+.detail-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.detail-thumb {
+  border: 1px solid rgba(20, 74, 44, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.detail-thumb img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-side h3 {
+  margin-bottom: 0.25rem;
+}
+
+.detail-side p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+
+.detail-side strong {
+  color: var(--text);
+}
+
+.catalog-shell {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+@media (max-width: 980px) {
+  .detail-view {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__inner {
+    align-items: flex-start;
+  }
+}
+
+/* ============ END LIGHT PLATFORM OVERRIDES ============ */

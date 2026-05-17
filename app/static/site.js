@@ -62,15 +62,74 @@ const WILDLIFE_BACKDROP_VARIANTS = [
   { key: "rain", label: "After rain", suffix: "after a light rain" },
 ];
 
+function backdropPalette(scene) {
+  if (scene.type === "plant") {
+    return ["#f2fbf2", "#d5efd9", "#9ccfa5", "#4c9d68"];
+  }
+  return ["#f8f7ef", "#ebdeaf", "#c9ad68", "#7f6534"];
+}
+
+function backdropSvgDataUri(scene, variant, sceneIndex, variantIndex) {
+  const [bg1, bg2, bg3, accent] = backdropPalette(scene);
+  const title = String(scene.name || "Wildlife");
+  const habitat = String(scene.habitat || "natural habitat");
+  const subject = scene.type === "plant" ? `
+    <path d="M600 560 C 600 470, 590 380, 600 260" stroke="#245335" stroke-width="24" stroke-linecap="round" fill="none" />
+    <path d="M600 390 C 515 345, 430 285, 385 220 C 470 225, 540 270, 600 330" fill="#4a9d68" fill-opacity="0.44" />
+    <path d="M600 355 C 690 320, 765 250, 820 172 C 735 174, 670 222, 600 305" fill="#5bb877" fill-opacity="0.42" />
+    <path d="M600 475 C 515 455, 440 415, 365 346 C 445 338, 525 384, 600 438" fill="#67c081" fill-opacity="0.34" />
+    <circle cx="600" cy="244" r="48" fill="#ddf4df" fill-opacity="0.92" />
+  ` : `
+    <ellipse cx="610" cy="430" rx="185" ry="112" fill="#231f16" fill-opacity="0.22" />
+    <circle cx="760" cy="350" r="42" fill="#231f16" fill-opacity="0.24" />
+    <circle cx="784" cy="335" r="10" fill="#ffffff" fill-opacity="0.42" />
+    <path d="M430 430 Q 330 360 250 430" fill="none" stroke="#231f16" stroke-width="22" stroke-linecap="round" stroke-opacity="0.22" />
+    <path d="M520 520 Q 470 620 380 660" fill="none" stroke="#231f16" stroke-width="18" stroke-linecap="round" stroke-opacity="0.2" />
+    <path d="M675 520 Q 730 620 820 656" fill="none" stroke="#231f16" stroke-width="18" stroke-linecap="round" stroke-opacity="0.2" />
+  `;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-label="${title}">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${bg1}" />
+          <stop offset="55%" stop-color="${bg2}" />
+          <stop offset="100%" stop-color="${bg3}" />
+        </linearGradient>
+        <radialGradient id="glow" cx="50%" cy="35%" r="72%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.84" />
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#g)" />
+      <ellipse cx="960" cy="360" rx="760" ry="430" fill="url(#glow)" />
+      <rect x="0" y="710" width="1920" height="370" fill="#ffffff" fill-opacity="0.18" />
+      <path d="M0 730 C 260 620, 510 690, 760 648 S 1240 606, 1560 694 S 1790 724, 1920 658 L1920 1080 L0 1080 Z" fill="#ffffff" fill-opacity="0.2" />
+      <path d="M0 820 C 320 760, 520 890, 840 822 S 1360 720, 1920 834 L1920 1080 L0 1080 Z" fill="#ffffff" fill-opacity="0.12" />
+      <circle cx="1560" cy="174" r="104" fill="#ffffff" fill-opacity="0.24" />
+      <circle cx="280" cy="170" r="72" fill="#ffffff" fill-opacity="0.18" />
+      <g transform="translate(300 140) scale(1.18)">${subject}</g>
+      <g fill="#1b2d22" fill-opacity="0.1">
+        <circle cx="220" cy="540" r="16" />
+        <circle cx="280" cy="570" r="10" />
+        <circle cx="1670" cy="530" r="14" />
+        <circle cx="1620" cy="600" r="9" />
+      </g>
+      <g font-family="Manrope, Arial, sans-serif" text-anchor="middle">
+        <text x="960" y="90" font-size="42" font-weight="700" fill="#19311f">${title}</text>
+        <text x="960" y="136" font-size="24" fill="#254736">${variant.label} • ${habitat}</text>
+        <text x="960" y="1000" font-size="28" fill="#203d29">${scene.caption}</text>
+      </g>
+    </svg>
+  `)}`;
+}
+
 const WILDLIFE_BACKDROP_FRAMES = WILDLIFE_BACKDROP_SPECIES.flatMap((scene, sceneIndex) =>
   WILDLIFE_BACKDROP_VARIANTS.map((variant, variantIndex) => {
-    const query = `${scene.tags},${variant.suffix}`;
-    const lock = `${scene.name}-${variant.key}-${sceneIndex}-${variantIndex}`;
     return {
       title: `${scene.name} - ${variant.label}`,
       caption: `${scene.caption} ${scene.habitat}`,
       alt: `${scene.name} in ${scene.habitat}`,
-      image: `https://loremflickr.com/1920/1080/${encodeURIComponent(query)}?lock=${encodeURIComponent(lock)}`,
+      image: backdropSvgDataUri(scene, variant, sceneIndex, variantIndex),
     };
   }),
 ).slice(0, 128);
@@ -176,6 +235,7 @@ function appRoute(path) {
     "/": "/index.html",
     "/dashboard": "/dashboard.html",
     "/library": "/library.html",
+    "/plants": "/plants.html",
     "/inventory": "/inventory.html",
     "/history": "/history.html",
     "/map": "/map.html",
@@ -231,6 +291,42 @@ function ensureSettingsLink() {
     link.textContent = "Settings";
     nav.appendChild(link);
   }
+}
+
+function ensurePlantsLink() {
+  const navs = Array.from(document.querySelectorAll(".nav-links"));
+  for (const nav of navs) {
+    const existing = Array.from(nav.querySelectorAll("a")).find((a) => {
+      const href = a.getAttribute("href") || "";
+      return href.includes("/plants") || href.includes("plants.html");
+    });
+    if (existing) continue;
+    const link = document.createElement("a");
+    link.href = appRoute("/plants");
+    link.textContent = "Plants";
+    nav.appendChild(link);
+  }
+}
+
+function ensureGlobalFooter() {
+  if (document.querySelector("footer")) return;
+  const footer = document.createElement("footer");
+  footer.className = "site-footer";
+  footer.innerHTML = `
+    <div class="site-footer__inner">
+      <div>
+        <strong>Global Wildlife Platform</strong>
+        <p>Wildlife and plant intelligence for conservation, learning, and field readiness.</p>
+      </div>
+      <div class="site-footer__links">
+        <a href="${appRoute("/")}">Home</a>
+        <a href="${appRoute("/library")}">Animals</a>
+        <a href="${appRoute("/plants")}">Plants</a>
+        <a href="${appRoute("/map")}">Map</a>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(footer);
 }
 
 function getGlobalSettings() {
@@ -489,6 +585,7 @@ bootstrapApiBase();
 normalizePageLinks();
 setActiveNav();
 ensureSettingsLink();
+ensurePlantsLink();
 applyGlobalTheme();
 applyMenuFeatures();
 applyAuthState();
@@ -498,6 +595,7 @@ window.setTimeout(normalizePageLinks, 50);
 window.setTimeout(normalizePageLinks, 400);
 initHomeSettings();
 initWildlifeBackdrop();
+ensureGlobalFooter();
 if (document.readyState === "complete") {
   hidePreloader();
 } else {

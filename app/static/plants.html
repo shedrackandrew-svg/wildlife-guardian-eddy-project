@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WildGuard Animal Library</title>
+    <title>WildGuard Plant Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
-  <body data-page-mode="animals">
+  <body data-page-mode="plants">
     <div class="slideshow-bg" aria-hidden="true"></div>
     <div class="overlay-mask" aria-hidden="true"></div>
     <header class="site-nav">
@@ -21,7 +21,7 @@
         <nav class="nav-links">
           <a href="/">Home</a>
           <a href="/dashboard">Dashboard</a>
-          <a href="/library">Library</a>
+          <a href="/library">Animals</a>
           <a href="/plants">Plants</a>
           <a href="/history">History</a>
           <a href="/map">Map</a>
@@ -32,37 +32,33 @@
     <main class="layout single">
       <section class="panel telemetry">
         <div class="panel-head">
-          <h1>Global Animal Library</h1>
-          <p>Interactive intelligence library across animals, reptiles, birds, insects, fungi, bacteria, and viruses.</p>
+          <h1>Global Plant Library</h1>
+          <p>Interactive plant intelligence across forests, wetlands, coastlines, deserts, and botanical habitats.</p>
         </div>
         <div class="stack">
           <div class="lookup-row">
-            <input id="librarySearch" type="text" placeholder="Search species, region, alias" />
+            <input id="librarySearch" type="text" placeholder="Search plant, habitat, region" />
             <select id="libraryGroup">
-              <option value="">All Classes / Groups</option>
-              <option value="Mammalia">Mammalia</option>
-              <option value="Aves">Aves</option>
-              <option value="Reptilia">Reptilia</option>
-              <option value="Amphibia">Amphibia</option>
-              <option value="Insecta">Insecta</option>
-              <option value="Arachnida">Arachnida</option>
-              <option value="Actinopterygii">Fish</option>
-              <option value="Agaricomycetes">Fungi</option>
-              <option value="Gammaproteobacteria">Bacteria</option>
-              <option value="Pisoniviricetes">Virus</option>
+              <option value="">All Plant Groups</option>
+              <option value="Plantae">Plantae</option>
+              <option value="Magnoliopsida">Flowering Plants</option>
+              <option value="Liliopsida">Monocots</option>
+              <option value="Coniferophyta">Conifers</option>
+              <option value="Bryophyta">Mosses</option>
+              <option value="Pteridophyta">Ferns</option>
             </select>
             <button id="librarySearchBtn" type="button">Search</button>
           </div>
           <div class="lookup-row">
             <button id="librarySeedBtn" type="button">Seed Foundation Data</button>
-            <button id="librarySyncMammalsBtn" type="button">Sync Mammals</button>
-            <button id="librarySyncBirdsBtn" type="button">Sync Birds</button>
-            <button id="librarySyncInsectsBtn" type="button">Sync Insects</button>
+            <button id="librarySyncMammalsBtn" type="button">Sync Forest Plants</button>
+            <button id="librarySyncBirdsBtn" type="button">Sync Wetland Plants</button>
+            <button id="librarySyncInsectsBtn" type="button">Sync Desert Plants</button>
           </div>
           <div id="libraryMeta" class="profile-box">Loading species...</div>
         </div>
         <div id="libraryGrid" class="gallery-grid large-grid"></div>
-        <div id="libraryDetail" class="profile-box">Select a species card to open the image slideshow and side-panel details.</div>
+        <div id="libraryDetail" class="profile-box">Select a plant card to open the image slideshow and side-panel details.</div>
       </section>
     </main>
     <script src="/static/site.js" type="module"></script>
