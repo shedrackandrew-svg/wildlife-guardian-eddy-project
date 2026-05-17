@@ -40,6 +40,21 @@ API endpoints (examples):
 
 To publish frontend to GitHub Pages using the workflow, push to `master` branch; the workflow will deploy `app/static` to `gh-pages` branch. To use a custom `.wldg` domain, add a `CNAME` file in `app/static` with your domain and configure DNS to point to GitHub Pages.
 
+Backend deploy (Render)
+
+- This repository contains a GitHub Actions workflow to trigger a Render deploy on push to `master`:
+	`.github/workflows/deploy-backend-render.yml`.
+- What you need to do on Render:
+	- Create a new Web Service on Render for this repository (choose "Docker" or "Node") and connect it to this GitHub repo.
+	- Note the Service ID (it looks like `srv-xxxxxxxx`).
+	- Create an API key in Render (Account or Service API key).
+- Add repository secrets on GitHub (Repository Settings → Secrets):
+	- `RENDER_API_KEY` — the API key value from Render.
+	- `RENDER_SERVICE_ID` — the Render service id (without the `srv-` prefix is fine; the workflow prefixes it).
+- Once those secrets are added, pushing to `master` will call the Render deploy API and start a deploy for your service.
+
+If you prefer another host (Cloud Run, Railway, Heroku, Vercel), tell me which one and I will add an equivalent Actions workflow and setup steps.
+
 Seeding and admin user
 - I added a seed script at `server/seed_catalog.js` and ran it locally to import the bundled `wildlife-catalog.json` into the server store.
 - A default admin user was created: username `admin` and password `ChangeMe123!`. Please change this password immediately by creating a new admin user or updating `.env` and re-seeding.
