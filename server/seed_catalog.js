@@ -31,17 +31,21 @@ async function seed() {
 
 async function createAdmin() {
   await db.read();
-  const hasAdmin = db.data.users && db.data.users.some(u => u.is_admin);
-  if (hasAdmin) {
-    console.log('Admin user already exists');
-    return;
-  }
   const bcrypt = require('bcryptjs');
   const username = process.env.ADMIN_USER || 'admin';
   const password = process.env.ADMIN_PASS || 'ChangeMe123!';
-  const id = (db.data.users.reduce((m, u) => Math.max(m, u.id || 0), 0) || 0) + 1;
+  const users = db.data.users || [];
+  const existing = users.find(u => u.username === username || u.is_admin);
   const hash = bcrypt.hashSync(password, 10);
-  db.data.users.push({ id, username, password_hash: hash, is_admin: 1 });
+  if (existing) {
+    existing.username = username;
+    existing.password_hash = hash;
+    existing.is_admin = 1;
+  } else {
+    const id = (users.reduce((m, u) => Math.max(m, u.id || 0), 0) || 0) + 1;
+    users.push({ id, username, password_hash: hash, is_admin: 1 });
+  }
+  db.data.users = users;
   await db.write();
   console.log(`Created admin user '${username}' with password '${password}'`);
 }

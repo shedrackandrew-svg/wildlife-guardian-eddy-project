@@ -51,9 +51,23 @@ app.use('/api/sightings', sightings(db));
 app.use('/api/comments', comments(db));
 app.use('/api/favorites', favorites(db));
 
-// Serve static frontend
-const staticPath = path.join(__dirname, '..', 'app', 'static');
-app.use(express.static(staticPath));
+// Serve the app root so /static assets and pretty routes both work
+const appRoot = path.join(__dirname, '..', 'app');
+app.use(express.static(appRoot));
+
+const prettyPages = new Set([
+	'library', 'plants', 'dashboard', 'history', 'map', 'live', 'onboarding', 'settings', 'inventory', 'admin', 'remote_camera'
+]);
+
+app.get('/:page', (req, res, next) => {
+	const page = String(req.params.page || '').replace(/\/+$/g, '');
+	if (!prettyPages.has(page)) return next();
+	return res.redirect(`/static/${page}.html`);
+});
+
+app.get('/', (req, res) => {
+	res.sendFile(path.join(appRoot, 'index.html'));
+});
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 

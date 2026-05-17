@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WildGuard</title>
+    <script>
+      (function () {
+        var path = window.location.pathname.replace(/^\/+/, '');
+        if (!path || path === 'index.html') {
+          window.location.replace('/static/index.html');
+          return;
+        }
+        var clean = path.replace(/\/$/, '');
+        if (clean.indexOf('static/') === 0) {
+          window.location.replace('/' + clean);
+          return;
+        }
+        window.location.replace('/static/' + clean + '.html');
+      }());
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>

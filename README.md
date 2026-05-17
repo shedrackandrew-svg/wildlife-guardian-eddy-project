@@ -1,6 +1,6 @@
 # WildGuard — Local dev and deployment
 
-This repo now contains a minimal Express + SQLite backend that serves the static frontend in `app/static` and provides a simple REST API (`/api/*`).
+This repo now contains an Express backend that serves the frontend from `app/` and provides a simple REST API (`/api/*`).
 
 Quick start (node 18+):
 
@@ -14,7 +14,7 @@ npm start
 What I added:
 - `server/` — Express API and static file serving
 - `data/wildguard.db` — created at runtime, contains users, species, sightings, favorites, comments
-- `.github/workflows/deploy.yml` — CI that deploys `app/static` to `gh-pages` branch on push (configured in repo)
+- `.github/workflows/deploy.yml` — CI that deploys `app/` to `gh-pages` branch on push (configured in repo)
 
 Next steps I can do when you confirm:
 - Add JWT secret to repo secrets and enable Actions to deploy automatically.
@@ -38,7 +38,7 @@ API endpoints (examples):
 - `POST /api/users/signup` — create user
 - `POST /api/users/login` — login -> returns JWT
 
-To publish frontend to GitHub Pages using the workflow, push to `master` branch; the workflow will deploy `app/static` to `gh-pages` branch. To use a custom `.wldg` domain, add a `CNAME` file in `app/static` with your domain and configure DNS to point to GitHub Pages.
+To publish frontend to GitHub Pages using the workflow, push to `master` branch; the workflow will deploy `app/` to `gh-pages` branch. The custom domain file is now `app/CNAME`, and DNS should point `shedrack-andrew.wldg` to GitHub Pages.
 
 Backend deploy (Render)
 
@@ -57,7 +57,7 @@ If you prefer another host (Cloud Run, Railway, Heroku, Vercel), tell me which o
 
 Seeding and admin user
 - I added a seed script at `server/seed_catalog.js` and ran it locally to import the bundled `wildlife-catalog.json` into the server store.
-- A default admin user was created: username `admin` and password `ChangeMe123!`. Please change this password immediately by creating a new admin user or updating `.env` and re-seeding.
+- The admin account is created or rotated from `server/seed_catalog.js` using `ADMIN_PASS`. I have rotated it locally to a stronger password; set your own secret in production and re-run the seed if needed.
 
 # WildGuard (AI + IoT + Web)
 
