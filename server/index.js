@@ -12,8 +12,37 @@ const comments = require('./routes/comments');
 const favorites = require('./routes/favorites');
 
 const app = express();
+app.set('trust proxy', 1);
 app.use(cors());
 app.use(express.json());
+
+const windowMs = 60 * 1000;
+const maxRequests = Number(process.env.RATE_LIMIT_MAX || 120);
+const rateBuckets = new Map();
+
+app.use((req, res, next) => {
+	const key = req.ip || req.headers['x-forwarded-for'] || 'local';
+	const now = Date.now();
+	const bucket = rateBuckets.get(key) || { count: 0, resetAt: now + windowMs };
+	if (now > bucket.resetAt) {
+		bucket.count = 0;
+		bucket.resetAt = now + windowMs;
+	}
+	bucket.count += 1;
+	rateBuckets.set(key, bucket);
+	if (bucket.count > maxRequests) {
+		res.setHeader('Retry-After', String(Math.ceil((bucket.resetAt - now) / 1000)));
+		return res.status(429).json({ error: 'rate limited' });
+	}
+	next();
+});
+
+setInterval(() => {
+	const now = Date.now();
+	for (const [key, bucket] of rateBuckets.entries()) {
+		if (bucket.resetAt <= now) rateBuckets.delete(key);
+	}
+}, windowMs).unref();
 
 // API
 app.use('/api/users', users(db));

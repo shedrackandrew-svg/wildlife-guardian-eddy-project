@@ -3,6 +3,15 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
 
+function normalizeUsername(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function isStrongPassword(value) {
+  const password = String(value || '');
+  return password.length >= 12 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password);
+}
+
 function authMiddleware(req, res, next) {
   const auth = req.headers.authorization;
   if (!auth) return res.status(401).json({ error: 'missing auth' });
@@ -21,8 +30,11 @@ module.exports = (db) => {
   const router = express.Router();
 
   router.post('/signup', async (req, res) => {
-    const { username, password } = req.body;
+    const username = normalizeUsername(req.body.username);
+    const password = String(req.body.password || '');
     if (!username || !password) return res.status(400).json({ error: 'missing' });
+    if (username.length < 3 || username.length > 40) return res.status(400).json({ error: 'bad username' });
+    if (!isStrongPassword(password)) return res.status(400).json({ error: 'weak password' });
     const hash = bcrypt.hashSync(password, 10);
     await db.read();
     const exists = db.data.users.find(u => u.username === username);
@@ -36,7 +48,9 @@ module.exports = (db) => {
   });
 
   router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+    const username = normalizeUsername(req.body.username);
+    const password = String(req.body.password || '');
+    if (!username || !password) return res.status(400).json({ error: 'missing' });
     await db.read();
     const row = db.data.users.find(u => u.username === username);
     if (!row) return res.status(400).json({ error: 'no user' });
@@ -52,8 +66,10 @@ module.exports = (db) => {
   });
 
   router.post('/change-password', authMiddleware, async (req, res) => {
-    const { old_password, new_password } = req.body;
+    const old_password = String(req.body.old_password || '');
+    const new_password = String(req.body.new_password || '');
     if (!old_password || !new_password) return res.status(400).json({ error: 'missing' });
+    if (!isStrongPassword(new_password)) return res.status(400).json({ error: 'weak password' });
     await db.read();
     const user = db.data.users.find(u => u.id === req.user.id);
     if (!user) return res.status(404).json({ error: 'no user' });
@@ -76,8 +92,9 @@ module.exports = (db) => {
   router.post('/reset/:id', authMiddleware, async (req, res) => {
     if (!req.user || !req.user.is_admin) return res.status(403).json({ error: 'forbidden' });
     const { id } = req.params;
-    const { new_password } = req.body;
+    const new_password = String(req.body.new_password || '');
     if (!new_password) return res.status(400).json({ error: 'missing' });
+    if (!isStrongPassword(new_password)) return res.status(400).json({ error: 'weak password' });
     await db.read();
     const user = db.data.users.find(u => String(u.id) === String(id));
     if (!user) return res.status(404).json({ error: 'no user' });

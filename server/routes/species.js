@@ -1,5 +1,9 @@
 const express = require('express');
 
+function nonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
 module.exports = (db) => {
   const router = express.Router();
 
@@ -17,6 +21,9 @@ module.exports = (db) => {
 
   router.post('/', async (req, res) => {
     const { slug, name, data } = req.body;
+    if (!nonEmptyString(slug) || !nonEmptyString(name)) {
+      return res.status(400).json({ error: 'missing' });
+    }
     await db.read();
     const id = (db.data.species.reduce((m, s) => Math.max(m, s.id || 0), 0) || 0) + 1;
     const item = { id, slug, name, data: data || {} };
@@ -30,6 +37,9 @@ module.exports = (db) => {
     const item = db.data.species.find(s => String(s.id) === String(req.params.id));
     if (!item) return res.status(404).end();
     Object.assign(item, req.body);
+    if (!nonEmptyString(item.slug) || !nonEmptyString(item.name)) {
+      return res.status(400).json({ error: 'bad species' });
+    }
     await db.write();
     res.json({ ok: true });
   });
