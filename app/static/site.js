@@ -16,6 +16,131 @@ function normalizeApiBase(raw) {
   return value;
 }
 
+const WILDLIFE_BACKDROP_SPECIES = [
+  { type: "animal", name: "lion", tags: "lion,savanna,grassland", habitat: "African savanna", caption: "Lion pride crossing open grassland." },
+  { type: "animal", name: "elephant", tags: "elephant,forest,africa", habitat: "River woodland", caption: "Elephants moving through shaded woodland." },
+  { type: "animal", name: "giraffe", tags: "giraffe,savanna,acacia", habitat: "Acacia savanna", caption: "Giraffes feeding under acacia trees." },
+  { type: "animal", name: "zebra", tags: "zebra,grassland,savanna", habitat: "Open grassland", caption: "Zebra herd grazing in open grassland." },
+  { type: "animal", name: "rhino", tags: "rhinoceros,grassland,africa", habitat: "Grassland basin", caption: "Rhinos moving across tall grass." },
+  { type: "animal", name: "cheetah", tags: "cheetah,savanna,africa", habitat: "Warm savanna", caption: "Cheetah scanning the horizon." },
+  { type: "animal", name: "leopard", tags: "leopard,forest,africa", habitat: "Misty forest", caption: "Leopard resting in a forest canopy." },
+  { type: "animal", name: "gorilla", tags: "gorilla,rainforest,congo", habitat: "Tropical rainforest", caption: "Mountain gorillas in dense rainforest." },
+  { type: "animal", name: "panda", tags: "panda,forest,bamboo", habitat: "Bamboo forest", caption: "Pandas feeding in a bamboo grove." },
+  { type: "animal", name: "koala", tags: "koala,eucalyptus,forest", habitat: "Eucalyptus woodland", caption: "Koalas resting among eucalyptus leaves." },
+  { type: "animal", name: "tiger", tags: "tiger,jungle,forest", habitat: "Rainforest edge", caption: "Tiger moving through lush jungle." },
+  { type: "animal", name: "penguin", tags: "penguin,ice,coast", habitat: "Polar coast", caption: "Penguins clustered on a cold shoreline." },
+  { type: "animal", name: "flamingo", tags: "flamingo,wetland,lake", habitat: "Wetland lagoon", caption: "Flamingos feeding in shallow water." },
+  { type: "animal", name: "otter", tags: "otter,river,wetland", habitat: "Freshwater river", caption: "Otters playing in a river channel." },
+  { type: "animal", name: "eagle", tags: "eagle,mountain,sky", habitat: "Mountain ridge", caption: "Eagle soaring above a mountain ridge." },
+  { type: "animal", name: "camel", tags: "camel,desert,dune", habitat: "Desert dunes", caption: "Camels traveling across desert dunes." },
+  { type: "plant", name: "orchid", tags: "orchid,rainforest,flower", habitat: "Rainforest understory", caption: "Orchids growing in humid forest shade." },
+  { type: "plant", name: "mangrove", tags: "mangrove,coast,wetland", habitat: "Coastal wetland", caption: "Mangrove roots along the shoreline." },
+  { type: "plant", name: "water-lily", tags: "water-lily,pond,wetland", habitat: "Freshwater pond", caption: "Water lilies on a still pond." },
+  { type: "plant", name: "fern", tags: "fern,forest,green", habitat: "Temperate forest", caption: "Ferns carpeting a forest floor." },
+  { type: "plant", name: "bamboo", tags: "bamboo,forest,green", habitat: "Bamboo grove", caption: "Tall bamboo in soft green light." },
+  { type: "plant", name: "cactus", tags: "cactus,desert,plant", habitat: "Desert scrub", caption: "Cactus standing in desert scrub." },
+  { type: "plant", name: "palm", tags: "palm,coast,tropical", habitat: "Tropical coast", caption: "Palm trees swaying at the coast." },
+  { type: "plant", name: "moss", tags: "moss,forest,macro", habitat: "Mossy woodland", caption: "Moss covering a damp woodland floor." },
+  { type: "plant", name: "wildflower", tags: "wildflower,meadow,flower", habitat: "Wildflower meadow", caption: "Wildflowers blooming in a meadow." },
+  { type: "plant", name: "pine", tags: "pine,forest,trees", habitat: "Mountain forest", caption: "Pine forest on a mountain slope." },
+  { type: "plant", name: "lotus", tags: "lotus,pond,flower", habitat: "Garden pond", caption: "Lotus blossoms over calm water." },
+  { type: "plant", name: "seagrass", tags: "seagrass,ocean,coast", habitat: "Shallow coast", caption: "Seagrass below a clear coastal surface." },
+  { type: "plant", name: "baobab", tags: "baobab,savanna,tree", habitat: "Savanna plain", caption: "Baobab silhouette across the savanna." },
+  { type: "plant", name: "mushroom", tags: "mushroom,forest,macro", habitat: "Forest floor", caption: "Mushrooms on a shaded forest floor." },
+  { type: "plant", name: "lily", tags: "lily,garden,flower", habitat: "Botanical garden", caption: "Lilies blooming in a botanical garden." },
+  { type: "plant", name: "aloe", tags: "aloe,desert,succulent", habitat: "Dry hillside", caption: "Aloe thriving on a dry hillside." },
+];
+
+const WILDLIFE_BACKDROP_VARIANTS = [
+  { key: "dawn", label: "Dawn light", suffix: "soft dawn light" },
+  { key: "morning", label: "Morning calm", suffix: "bright morning calm" },
+  { key: "midday", label: "Midday sun", suffix: "clear midday sun" },
+  { key: "golden", label: "Golden hour", suffix: "golden hour glow" },
+  { key: "canopy", label: "Canopy shade", suffix: "green canopy shade" },
+  { key: "water", label: "Water edge", suffix: "at the water edge" },
+  { key: "mist", label: "Forest mist", suffix: "forest mist and dew" },
+  { key: "rain", label: "After rain", suffix: "after a light rain" },
+];
+
+const WILDLIFE_BACKDROP_FRAMES = WILDLIFE_BACKDROP_SPECIES.flatMap((scene, sceneIndex) =>
+  WILDLIFE_BACKDROP_VARIANTS.map((variant, variantIndex) => {
+    const query = `${scene.tags},${variant.suffix}`;
+    const lock = `${scene.name}-${variant.key}-${sceneIndex}-${variantIndex}`;
+    return {
+      title: `${scene.name} - ${variant.label}`,
+      caption: `${scene.caption} ${scene.habitat}`,
+      alt: `${scene.name} in ${scene.habitat}`,
+      image: `https://loremflickr.com/1920/1080/${encodeURIComponent(query)}?lock=${encodeURIComponent(lock)}`,
+    };
+  }),
+).slice(0, 128);
+
+function preloadBackdropFrame(src) {
+  if (!src) return;
+  const image = new Image();
+  image.decoding = "async";
+  image.loading = "eager";
+  image.src = src;
+}
+
+function initWildlifeBackdrop() {
+  const body = document.body;
+  if (!body || !WILDLIFE_BACKDROP_FRAMES.length) return;
+
+  let backdrop = document.querySelector(".wildlife-slideback");
+  if (!backdrop) {
+    backdrop = document.createElement("div");
+    backdrop.className = "wildlife-slideback";
+    backdrop.innerHTML = `
+      <div class="slide-layer layer-a"></div>
+      <div class="slide-layer layer-b"></div>
+      <div class="overlay-a"></div>
+      <div class="overlay-b"></div>
+    `;
+    body.prepend(backdrop);
+  }
+
+  const layerA = backdrop.querySelector(".layer-a");
+  const layerB = backdrop.querySelector(".layer-b");
+  if (!layerA || !layerB) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let activeLayer = layerA;
+  let frameIndex = 0;
+
+  const applyFrame = (frame, layer) => {
+    layer.style.backgroundImage = `url("${frame.image}")`;
+    layer.style.backgroundSize = "cover";
+    layer.style.backgroundPosition = "center";
+    layer.setAttribute("aria-label", frame.alt);
+  };
+
+  const activateFrame = (frame) => {
+    const nextLayer = activeLayer === layerA ? layerB : layerA;
+    applyFrame(frame, nextLayer);
+    backdrop.classList.add("is-transitioning");
+    window.setTimeout(() => {
+      backdrop.classList.remove("is-transitioning");
+      activeLayer = nextLayer;
+    }, 50);
+  };
+
+  applyFrame(WILDLIFE_BACKDROP_FRAMES[0], layerA);
+  applyFrame(WILDLIFE_BACKDROP_FRAMES[1] || WILDLIFE_BACKDROP_FRAMES[0], layerB);
+
+  WILDLIFE_BACKDROP_FRAMES.slice(0, 12).forEach((frame) => preloadBackdropFrame(frame.image));
+
+  if (reducedMotion) {
+    return;
+  }
+
+  window.setInterval(() => {
+    frameIndex = (frameIndex + 1) % WILDLIFE_BACKDROP_FRAMES.length;
+    activateFrame(WILDLIFE_BACKDROP_FRAMES[frameIndex]);
+    preloadBackdropFrame(WILDLIFE_BACKDROP_FRAMES[(frameIndex + 8) % WILDLIFE_BACKDROP_FRAMES.length].image);
+  }, 7600);
+}
+
 function bootstrapApiBase() {
   const query = new URLSearchParams(window.location.search);
   const queryBase = normalizeApiBase(query.get("api_base"));
@@ -372,6 +497,7 @@ normalizePageLinks();
 window.setTimeout(normalizePageLinks, 50);
 window.setTimeout(normalizePageLinks, 400);
 initHomeSettings();
+initWildlifeBackdrop();
 if (document.readyState === "complete") {
   hidePreloader();
 } else {
