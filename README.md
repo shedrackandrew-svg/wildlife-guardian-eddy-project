@@ -1,3 +1,44 @@
+# WildGuard — Local dev and deployment
+
+This repo now contains a minimal Express + SQLite backend that serves the static frontend in `app/static` and provides a simple REST API (`/api/*`).
+
+Quick start (node 18+):
+
+```powershell
+cd server
+npm install
+npm start
+# open http://localhost:3000/
+```
+
+What I added:
+- `server/` — Express API and static file serving
+- `data/wildguard.db` — created at runtime, contains users, species, sightings, favorites, comments
+- `.github/workflows/deploy.yml` — CI that deploys `app/static` to `gh-pages` branch on push (configured in repo)
+
+Next steps I can do when you confirm:
+- Add JWT secret to repo secrets and enable Actions to deploy automatically.
+- Configure Render/Cloud Run deployment for the backend (requires provider credentials).
+
+Full stack start (server serves the frontend):
+
+```powershell
+# From repository root
+cd server
+npm install
+set -Path .env (copy .env.example to .env and set JWT_SECRET)
+npm start
+# Visit http://localhost:3000/
+```
+
+API endpoints (examples):
+- `GET /api/health` — health check
+- `GET /api/species` — list species
+- `GET /api/species/:id` — get species detail
+- `POST /api/users/signup` — create user
+- `POST /api/users/login` — login -> returns JWT
+
+To publish frontend to GitHub Pages using the workflow, push to `master` branch; the workflow will deploy `app/static` to `gh-pages` branch. To use a custom `.wldg` domain, add a `CNAME` file in `app/static` with your domain and configure DNS to point to GitHub Pages.
 # WildGuard (AI + IoT + Web)
 
 This project detects animals from images/sensors and serves a live dashboard.

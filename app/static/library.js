@@ -283,35 +283,28 @@ function renderCards(rows) {
 }
 
 async function fetchCatalogRows() {
+  // Prefer backend API when available, otherwise fall back to bundled JSON or foundation
   try {
-    const staticResponse = await fetch(catalogUrl, { cache: "no-store" });
+    const res = await fetch('/api/species', { cache: 'no-store' });
+    if (res.ok) {
+      const rows = await res.json();
+      if (Array.isArray(rows) && rows.length) return rows;
+    }
+  } catch (e) {
+    // ignore and try static file
+  }
+
+  try {
+    const staticResponse = await fetch(catalogUrl, { cache: 'no-store' });
     if (staticResponse.ok) {
       const staticRows = await staticResponse.json();
-      if (Array.isArray(staticRows) && staticRows.length) {
-        return staticRows;
-      }
+      if (Array.isArray(staticRows) && staticRows.length) return staticRows;
     }
-  } catch {
-    // Fall back to the embedded catalog.
+  } catch (e) {
+    // fall back
   }
 
-  if (!hasConfiguredBackend()) {
-    return FOUNDATION_LIBRARY;
-  }
-
-  const params = new URLSearchParams({ limit: "1500", offset: "0" });
-  const q = (searchInput.value || "").trim();
-  const group = (groupSelect.value || "").trim();
-  if (q) params.set("search", q);
-  if (group) params.set("tax_class", group);
-
-  const response = await fetch(`/api/species-catalog?${params.toString()}`);
-  if (!response.ok) {
-    throw new Error(`Catalog fetch failed (${response.status})`);
-  }
-
-  const rows = await response.json();
-  return Array.isArray(rows) && rows.length ? rows : FOUNDATION_LIBRARY;
+  return FOUNDATION_LIBRARY;
 }
 
 async function refreshLibrary() {
