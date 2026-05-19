@@ -10,124 +10,90 @@
     <link rel="stylesheet" href="/static/professional.css" />
   </head>
   <body class="wildguard-home d-flex flex-column min-vh-100">
-    <header class="landing-header">
-      <div class="landing-nav container">
-        <a class="landing-brand" href="/">
-          <img src="/static/tiger-logo.svg" alt="WildGuard logo" />
-          <span>WildGuard</span>
-        </a>
-        <nav class="landing-links" aria-label="Primary">
-          <a href="/">Home</a>
-          <a href="/library">Wildlife</a>
-          <a href="/map">Conservation</a>
-          <a href="/live">Gallery</a>
-          <a href="/history">Contact</a>
-          <a class="landing-cta" href="/dashboard">Donate Now</a>
-        </nav>
-      </div>
-    </header>
+    <main class="template-home">
+      <section class="template-board container">
+        <header class="template-head">
+          <p class="template-kicker">WildGuard Conservation Platform</p>
+          <h1>WildGuard Wildlife Website</h1>
+          <p class="template-sub">Explore. Protect. Preserve. Your existing wildlife data, camera workflows, maps, and conservation pages all in one upgraded visual structure.</p>
+          <nav class="template-top-links" aria-label="Primary">
+            <a href="/">Home</a>
+            <a href="/library">Wildlife</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/map">Map</a>
+            <a href="/live">Live Feed</a>
+            <a href="/history">History</a>
+            <a href="/inventory">Inventory</a>
+            <a href="/settings">Settings</a>
+            <a href="/admin">Admin</a>
+            <a href="/onboarding">Onboarding</a>
+          </nav>
+        </header>
 
-    <main>
-      <section class="hero-landing">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">Wildlife Protection Initiative</p>
-            <h1>Protecting Nature's Wonders</h1>
-            <p class="hero-subtitle">Join us in preserving wildlife and the habitats they depend on through modern conservation intelligence.</p>
+        <section class="template-hero">
+          <article class="hero-copy-card">
+            <h2>Protecting Nature's Wonders</h2>
+            <p>Maintain every feature you already built, now with a more professional wildlife showcase structure inspired by your reference layout.</p>
             <div class="hero-actions">
-              <a class="button button-primary" href="/library">Learn More</a>
-              <a class="button button-secondary" href="/dashboard">Open Command Center</a>
+              <a class="button button-primary" href="/dashboard">Open Command Center</a>
+              <a class="button button-secondary" href="/library">Browse Species</a>
             </div>
-          </div>
+          </article>
+          <article class="hero-image-card">
+            <img src="/static/images/wildlife/lion.jpg" alt="WildGuard hero lion" />
+          </article>
+        </section>
 
-          <div class="hero-illustration" aria-hidden="true">
-            <img src="/static/images/wildlife/lion.jpg" alt="Lion" />
+        <section class="pages-overview">
+          <h2>Pages Overview</h2>
+          <div class="pages-grid">
+            <a class="page-card" href="/dashboard">
+              <img src="/static/images/wildlife/lion.jpg" alt="Dashboard preview" />
+              <h3>1. Dashboard</h3>
+              <p>Mission summary, quick stats, and command tools.</p>
+            </a>
+            <a class="page-card" href="/library">
+              <img src="/static/images/species/giraffe/cover.svg" alt="Library preview" />
+              <h3>2. Wildlife Library</h3>
+              <p>Species records, taxonomy, and knowledge details.</p>
+            </a>
+            <a class="page-card" href="/map">
+              <img src="/static/images/wildlife/lion.jpg" alt="Conservation map preview" />
+              <h3>3. Conservation Map</h3>
+              <p>Habitats, sightings, and protected area intelligence.</p>
+            </a>
+            <a class="page-card" href="/live">
+              <img src="/static/images/species/bald-eagle/cover.jpg" alt="Live feed preview" />
+              <h3>4. Live Camera</h3>
+              <p>Remote camera and real-time wildlife detection feed.</p>
+            </a>
+            <a class="page-card" href="/history">
+              <img src="/static/images/species/monarch-butterfly/cover.svg" alt="History preview" />
+              <h3>5. History</h3>
+              <p>Detection logs, records, and timeline exploration.</p>
+            </a>
+            <a class="page-card" href="/inventory">
+              <img src="/static/images/species/palm/cover.svg" alt="Inventory preview" />
+              <h3>6. Inventory</h3>
+              <p>Asset tracking, stock status, and resource monitoring.</p>
+            </a>
+            <a class="page-card" href="/settings">
+              <img src="/static/images/species/lotus/cover.svg" alt="Settings preview" />
+              <h3>7. Settings</h3>
+              <p>System controls, account preferences, and environment setup.</p>
+            </a>
+            <a class="page-card" href="/admin">
+              <img src="/static/images/wildlife/lion.jpg" alt="Admin preview" />
+              <h3>8. Admin</h3>
+              <p>User management, role controls, and moderation tools.</p>
+            </a>
+            <a class="page-card" href="/onboarding">
+              <img src="/static/images/wildlife/lion.jpg" alt="Onboarding preview" />
+              <h3>9. Onboarding</h3>
+              <p>Device setup and guided launch for new operators.</p>
+            </a>
           </div>
-        </div>
-      </section>
-
-      <section class="section-light">
-        <div class="container">
-          <div class="section-heading">
-            <span class="section-rule"></span>
-            <div>
-              <h2>Explore Wildlife</h2>
-              <p>Discover the amazing animals we protect.</p>
-            </div>
-            <span class="section-rule"></span>
-          </div>
-
-          <div class="feature-grid">
-            <article class="feature-card">
-              <img src="/static/images/wildlife/lion.jpg" alt="Big cat" />
-              <div class="feature-card-body">
-                <h3>Majestic Big Cats</h3>
-                <p>Learn about our big cats.</p>
-              </div>
-            </article>
-            <article class="feature-card">
-              <img src="/static/images/species/bald-eagle/cover.jpg" alt="Bird" />
-              <div class="feature-card-body">
-                <h3>Beautiful Birds</h3>
-                <p>See our diverse bird species.</p>
-              </div>
-            </article>
-            <article class="feature-card">
-              <img src="/static/images/species/giraffe/cover.svg" alt="Forest wildlife" />
-              <div class="feature-card-body">
-                <h3>Wildlife of the Forest</h3>
-                <p>Meet the creatures of the woods.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section-dark">
-        <div class="container">
-          <div class="section-heading section-heading-dark">
-            <span class="section-rule"></span>
-            <div>
-              <h2>Our Conservation Efforts</h2>
-              <p>Working to save endangered species.</p>
-            </div>
-            <span class="section-rule"></span>
-          </div>
-
-          <div class="effort-grid">
-            <article class="effort-card effort-card-left">
-              <div class="effort-label">Restoring natural habitats</div>
-            </article>
-            <article class="effort-card effort-card-right">
-              <div class="effort-label">Protecting wildlife from poaching</div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section-light section-gallery">
-        <div class="container">
-          <div class="section-heading">
-            <span class="section-rule"></span>
-            <div>
-              <h2>Photo Gallery</h2>
-              <p>Captured in the wild.</p>
-            </div>
-            <span class="section-rule"></span>
-          </div>
-
-          <div class="gallery-strip">
-            <figure>
-              <img src="/static/images/species/monarch-butterfly/cover.svg" alt="Butterfly" />
-            </figure>
-            <figure>
-              <img src="/static/images/species/lotus/cover.svg" alt="Lotus" />
-            </figure>
-            <figure>
-              <img src="/static/images/species/palm/cover.svg" alt="Palm" />
-            </figure>
-          </div>
-        </div>
+        </section>
       </section>
     </main>
   </body>
