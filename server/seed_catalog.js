@@ -9,7 +9,7 @@ async function seed() {
     process.exit(1);
   }
   const raw = fs.readFileSync(catalogPath, 'utf8');
-  const rows = JSON.parse(raw);
+  const rows = JSON.parse(raw.replace(/^\uFEFF/, ''));
   const localImageMap = {
     lion: '/static/images/wildlife/lion.jpg',
   };

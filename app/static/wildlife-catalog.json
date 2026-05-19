@@ -1,622 +1,820 @@
 [
-  {
-    "kind": "animal",
-    "species_name": "lion",
-    "scientific_name": "Panthera leo",
-    "common_name": "Lion",
-    "taxonomy_class": "Mammalia",
-    "family": "Felidae",
-    "conservation_status": "Vulnerable",
-    "habitats": ["Savanna", "Open grassland"],
-    "regions": ["Africa"],
-    "details": "Apex social predator.",
-    "historical_note": "Lions have long been central to conservation, ecology, and cultural symbolism across Africa and beyond.",
-    "biological_note": "Lions are large social cats with cooperative hunting, territorial behavior, and strong pride structure.",
-    "gallery_images": [
-      "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg"
-    ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "bald eagle",
-    "scientific_name": "Haliaeetus leucocephalus",
-    "common_name": "Bald Eagle",
-    "taxonomy_class": "Aves",
-    "family": "Accipitridae",
-    "conservation_status": "Least Concern",
-    "habitats": ["Rivers", "Coasts"],
-    "regions": ["North America"],
-    "details": "Large fish-hunting raptor.",
-    "historical_note": "Once threatened by pesticide exposure, the bald eagle became a conservation success story in North America.",
-    "biological_note": "Bald eagles are powerful raptors with hooked beaks, broad wings, and exceptional eyesight.",
-    "gallery_images": [
-      "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bald_Eagle_Portrait.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bald_Eagle_Portrait.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bald_Eagle_Portrait.jpg"
-    ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bald_Eagle_Portrait.jpg",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "komodo dragon",
-    "scientific_name": "Varanus komodoensis",
-    "common_name": "Komodo Dragon",
-    "taxonomy_class": "Reptilia",
-    "family": "Varanidae",
-    "conservation_status": "Endangered",
-    "habitats": ["Dry forest", "Grassland"],
-    "regions": ["Indonesia"],
-    "details": "Largest extant lizard.",
-    "historical_note": "The species was formally described in the twentieth century and remains a flagship reptile for island conservation.",
-    "biological_note": "Komodo dragons are large, carnivorous monitor lizards with acute senses and powerful bites.",
-    "gallery_images": [
-      "https://upload.wikimedia.org/wikipedia/commons/9/99/Komodo_dragon_with_tongue.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/9/99/Komodo_dragon_with_tongue.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/9/99/Komodo_dragon_with_tongue.jpg"
-    ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Komodo_dragon_with_tongue.jpg",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "axolotl",
-    "scientific_name": "Ambystoma mexicanum",
-    "common_name": "Axolotl",
-    "taxonomy_class": "Amphibia",
-    "family": "Ambystomatidae",
-    "conservation_status": "Critically Endangered",
-    "habitats": ["Freshwater", "Canals"],
-    "regions": ["Mexico"],
-    "details": "Regeneration model amphibian.",
-    "historical_note": "The axolotl became a scientific icon because of its regenerative biology and its long connection to Mexican freshwater systems.",
-    "biological_note": "Axolotls retain larval traits into adulthood and regenerate limbs, spinal tissue, and other structures.",
-    "gallery_images": [
-      "https://upload.wikimedia.org/wikipedia/commons/6/63/Ambystoma_mexicanum_1.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/6/63/Ambystoma_mexicanum_1.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/6/63/Ambystoma_mexicanum_1.jpg"
-    ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Ambystoma_mexicanum_1.jpg",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "monarch butterfly",
-    "scientific_name": "Danaus plexippus",
-    "common_name": "Monarch Butterfly",
-    "taxonomy_class": "Insecta",
-    "family": "Nymphalidae",
-    "conservation_status": "Endangered",
-    "habitats": ["Meadows", "Roadside milkweed"],
-    "regions": ["North America"],
-    "details": "Long-distance migratory insect.",
-    "historical_note": "Monarch migration has become one of the most studied insect migrations in the world.",
-    "biological_note": "Monarchs rely on milkweed plants and use seasonal migration routes across North America.",
-    "gallery_images": [
-      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Danaus_plexippus_Male_Dorsal.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Danaus_plexippus_Male_Dorsal.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Danaus_plexippus_Male_Dorsal.jpg"
-    ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Danaus_plexippus_Male_Dorsal.jpg",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "jumping spider",
-    "scientific_name": "Salticidae",
-    "common_name": "Jumping Spider",
-    "taxonomy_class": "Arachnida",
-    "family": "Salticidae",
-    "conservation_status": "Not evaluated",
-    "habitats": ["Forests", "Urban edge"],
-    "regions": ["Worldwide"],
-    "details": "Visually guided predatory spider.",
-    "historical_note": "Jumping spiders are a major research group for vision, motion, and small-scale hunting strategies.",
-    "biological_note": "They use precise jumps, strong eyesight, and complex courtship behaviors.",
-    "gallery_images": [
-      "https://upload.wikimedia.org/wikipedia/commons/3/30/Marpissa_muscosa_-_side.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/30/Marpissa_muscosa_-_side.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/30/Marpissa_muscosa_-_side.jpg"
-    ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Marpissa_muscosa_-_side.jpg",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "atlantic salmon",
-    "scientific_name": "Salmo salar",
-    "common_name": "Atlantic Salmon",
-    "taxonomy_class": "Actinopterygii",
-    "family": "Salmonidae",
-    "conservation_status": "Least Concern",
-    "habitats": ["Rivers", "Ocean"],
-    "regions": ["North Atlantic"],
-    "details": "Anadromous migratory fish.",
-    "historical_note": "Atlantic salmon have long been important in river ecology, fisheries, and restoration work.",
-    "biological_note": "They migrate between freshwater and ocean habitats and return to spawn in rivers.",
-    "gallery_images": [
-      "https://upload.wikimedia.org/wikipedia/commons/3/31/Salmo_salar.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/31/Salmo_salar.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/31/Salmo_salar.jpg"
-    ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Salmo_salar.jpg",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "amanita muscaria",
-    "scientific_name": "Amanita muscaria",
-    "common_name": "Fly Agaric",
-    "taxonomy_class": "Agaricomycetes",
-    "family": "Amanitaceae",
-    "conservation_status": "Not evaluated",
-    "habitats": ["Temperate forest"],
-    "regions": ["Northern Hemisphere"],
-    "details": "Iconic mushroom species.",
-    "historical_note": "Fly agaric is culturally iconic and often appears in forest folklore and natural history references.",
-    "biological_note": "The species forms ectomycorrhizal partnerships with trees and contains bioactive compounds.",
-    "gallery_images": [
-      "https://upload.wikimedia.org/wikipedia/commons/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg"
-    ],
-    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "escherichia coli",
-    "scientific_name": "Escherichia coli",
-    "common_name": "E. coli",
-    "taxonomy_class": "Gammaproteobacteria",
-    "family": "Enterobacteriaceae",
-    "conservation_status": "Not evaluated",
-    "habitats": ["Gut", "Water"],
-    "regions": ["Worldwide"],
-    "details": "Model bacterium used in genetics and molecular biology.",
-    "historical_note": "E. coli has been central to microbiology, genetics, and biotechnology for decades.",
-    "biological_note": "The species includes harmless commensal strains and some pathogenic variants.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "sars-cov-2",
-    "scientific_name": "Severe acute respiratory syndrome coronavirus 2",
-    "common_name": "SARS-CoV-2",
-    "taxonomy_class": "Pisoniviricetes",
-    "family": "Coronaviridae",
-    "conservation_status": "Not applicable",
-    "habitats": ["Host-associated"],
-    "regions": ["Worldwide"],
-    "details": "Coronavirus with global public health impact.",
-    "historical_note": "The virus became globally significant in 2019 and reshaped public health systems worldwide.",
-    "biological_note": "SARS-CoV-2 is an enveloped RNA virus that infects host cells through ACE2-related entry mechanisms.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "orchid",
-    "scientific_name": "Orchidaceae",
-    "common_name": "Orchid",
-    "taxonomy_class": "Plantae",
-    "family": "Orchidaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Rainforest understory", "Cloud forest"],
-    "regions": ["Worldwide"],
-    "details": "Diverse flowering plant family.",
-    "historical_note": "Orchids have been cultivated and studied for centuries because of their beauty and ecological specialization.",
-    "biological_note": "Orchids often rely on specialized pollination systems and symbiotic fungi during development.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?orchid&sig=1",
-      "https://source.unsplash.com/1600x900/?orchid&sig=2",
-      "https://source.unsplash.com/1600x900/?orchid&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?orchid&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "mangrove",
-    "scientific_name": "Rhizophora spp.",
-    "common_name": "Mangrove",
-    "taxonomy_class": "Plantae",
-    "family": "Rhizophoraceae",
-    "conservation_status": "Vulnerable",
-    "habitats": ["Coastal wetland", "Estuary"],
-    "regions": ["Tropics"],
-    "details": "Salt-tolerant coastal tree.",
-    "historical_note": "Mangroves are essential for shoreline protection, fish nurseries, and carbon storage.",
-    "biological_note": "Their aerial roots and salt-handling physiology help them survive tidal habitats.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?mangrove&sig=1",
-      "https://source.unsplash.com/1600x900/?mangrove&sig=2",
-      "https://source.unsplash.com/1600x900/?mangrove&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?mangrove&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "water lily",
-    "scientific_name": "Nymphaeaceae",
-    "common_name": "Water Lily",
-    "taxonomy_class": "Plantae",
-    "family": "Nymphaeaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Freshwater pond", "Lakes"],
-    "regions": ["Worldwide"],
-    "details": "Floating aquatic flowering plant.",
-    "historical_note": "Water lilies are widely associated with wetland ecology, art, and botanical gardens.",
-    "biological_note": "Broad floating leaves and submerged roots allow the plant to anchor while maximizing sunlight capture.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?water-lily&sig=1",
-      "https://source.unsplash.com/1600x900/?water-lily&sig=2",
-      "https://source.unsplash.com/1600x900/?water-lily&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?water-lily&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "fern",
-    "scientific_name": "Polypodiopsida",
-    "common_name": "Fern",
-    "taxonomy_class": "Plantae",
-    "family": "Polypodiopsida",
-    "conservation_status": "Varies by species",
-    "habitats": ["Temperate forest", "Moist understory"],
-    "regions": ["Worldwide"],
-    "details": "Ancient spore-producing plant group.",
-    "historical_note": "Ferns are among the oldest surviving plant lineages and shaped early terrestrial ecosystems.",
-    "biological_note": "Ferns reproduce with spores and thrive in shaded, moist environments.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?fern&sig=1",
-      "https://source.unsplash.com/1600x900/?fern&sig=2",
-      "https://source.unsplash.com/1600x900/?fern&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?fern&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "bamboo",
-    "scientific_name": "Bambusoideae",
-    "common_name": "Bamboo",
-    "taxonomy_class": "Plantae",
-    "family": "Poaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Bamboo grove", "Subtropical forest"],
-    "regions": ["Asia", "Africa", "Americas"],
-    "details": "Fast-growing woody grass.",
-    "historical_note": "Bamboo has been used in architecture, food, crafts, and conservation planting for centuries.",
-    "biological_note": "It grows rapidly through rhizomes and can dominate favorable habitats.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?bamboo&sig=1",
-      "https://source.unsplash.com/1600x900/?bamboo&sig=2",
-      "https://source.unsplash.com/1600x900/?bamboo&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?bamboo&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "cactus",
-    "scientific_name": "Cactaceae",
-    "common_name": "Cactus",
-    "taxonomy_class": "Plantae",
-    "family": "Cactaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Desert scrub", "Dry hillside"],
-    "regions": ["Americas"],
-    "details": "Water-storing desert plant.",
-    "historical_note": "Cacti are emblematic of arid ecosystems and are important in dryland restoration.",
-    "biological_note": "They have adapted stems for water storage and modified leaves for reduced water loss.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?cactus&sig=1",
-      "https://source.unsplash.com/1600x900/?cactus&sig=2",
-      "https://source.unsplash.com/1600x900/?cactus&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?cactus&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "palm",
-    "scientific_name": "Arecaceae",
-    "common_name": "Palm",
-    "taxonomy_class": "Plantae",
-    "family": "Arecaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Tropical coast", "Forest edge"],
-    "regions": ["Tropics"],
-    "details": "Iconic tropical tree-like plant.",
-    "historical_note": "Palms have long been tied to coastal settlement, food production, and tropical landscapes.",
-    "biological_note": "Palm stems are unbranched and topped by a crown of large leaves.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?palm-tree&sig=1",
-      "https://source.unsplash.com/1600x900/?palm-tree&sig=2",
-      "https://source.unsplash.com/1600x900/?palm-tree&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?palm-tree&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "moss",
-    "scientific_name": "Bryophyta",
-    "common_name": "Moss",
-    "taxonomy_class": "Plantae",
-    "family": "Bryophyta",
-    "conservation_status": "Varies by species",
-    "habitats": ["Mossy woodland", "Rocky shade"],
-    "regions": ["Worldwide"],
-    "details": "Small non-vascular plant group.",
-    "historical_note": "Mosses are among the earliest land plants and remain important indicators of moisture and microclimate.",
-    "biological_note": "They lack true vascular tissue and absorb water across their surfaces.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?moss&sig=1",
-      "https://source.unsplash.com/1600x900/?moss&sig=2",
-      "https://source.unsplash.com/1600x900/?moss&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?moss&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "wildflower",
-    "scientific_name": "Angiospermae",
-    "common_name": "Wildflower",
-    "taxonomy_class": "Plantae",
-    "family": "Angiosperms",
-    "conservation_status": "Varies by species",
-    "habitats": ["Meadow", "Roadside verge"],
-    "regions": ["Worldwide"],
-    "details": "General meadow flowering plant group.",
-    "historical_note": "Wildflowers support pollinators and are central to meadow restoration work.",
-    "biological_note": "Many wildflowers depend on insects for pollination and seasonal seed set.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?wildflower&sig=1",
-      "https://source.unsplash.com/1600x900/?wildflower&sig=2",
-      "https://source.unsplash.com/1600x900/?wildflower&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?wildflower&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "pine",
-    "scientific_name": "Pinus",
-    "common_name": "Pine",
-    "taxonomy_class": "Plantae",
-    "family": "Pinaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Mountain forest", "Cold woodland"],
-    "regions": ["Northern Hemisphere"],
-    "details": "Evergreen conifer genus.",
-    "historical_note": "Pines are central to forestry, watershed protection, and boreal ecology.",
-    "biological_note": "They produce cones and needle-like leaves adapted to cold and dry conditions.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?pine-tree&sig=1",
-      "https://source.unsplash.com/1600x900/?pine-tree&sig=2",
-      "https://source.unsplash.com/1600x900/?pine-tree&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?pine-tree&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "lotus",
-    "scientific_name": "Nelumbo nucifera",
-    "common_name": "Lotus",
-    "taxonomy_class": "Plantae",
-    "family": "Nelumbonaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Garden pond", "Shallow wetland"],
-    "regions": ["Asia", "Australia"],
-    "details": "Aquatic flowering plant.",
-    "historical_note": "Lotus plants are culturally important and also valuable for wetland and botanical displays.",
-    "biological_note": "Their floating leaves and emergent flowers rise above still water surfaces.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?lotus&sig=1",
-      "https://source.unsplash.com/1600x900/?lotus&sig=2",
-      "https://source.unsplash.com/1600x900/?lotus&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?lotus&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "aloe",
-    "scientific_name": "Aloe vera",
-    "common_name": "Aloe",
-    "taxonomy_class": "Plantae",
-    "family": "Asphodelaceae",
-    "conservation_status": "Least Concern",
-    "habitats": ["Dry hillside", "Rocky scrub"],
-    "regions": ["Africa", "Mediterranean"],
-    "details": "Succulent medicinal plant.",
-    "historical_note": "Aloe has a long history in traditional medicine and dryland gardening.",
-    "biological_note": "Thick fleshy leaves store water and help the plant survive arid conditions.",
-    "gallery_images": [
-      "https://source.unsplash.com/1600x900/?aloe&sig=1",
-      "https://source.unsplash.com/1600x900/?aloe&sig=2",
-      "https://source.unsplash.com/1600x900/?aloe&sig=3"
-    ],
-    "image_url": "https://source.unsplash.com/1600x900/?aloe&sig=1",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "cheetah",
-    "scientific_name": "Acinonyx jubatus",
-    "common_name": "Cheetah",
-    "taxonomy_class": "Mammalia",
-    "family": "Felidae",
-    "conservation_status": "Vulnerable",
-    "habitats": ["Savanna", "Open woodland"],
-    "regions": ["Africa", "Iran"],
-    "details": "Fastest land mammal.",
-    "historical_note": "Cheetahs have long represented speed-focused conservation challenges in open African ecosystems.",
-    "biological_note": "They have lightweight builds, non-retractile claws, and enlarged nasal passages for rapid oxygen intake.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "giraffe",
-    "scientific_name": "Giraffa camelopardalis",
-    "common_name": "Giraffe",
-    "taxonomy_class": "Mammalia",
-    "family": "Giraffidae",
-    "conservation_status": "Vulnerable",
-    "habitats": ["Savanna", "Acacia woodland"],
-    "regions": ["Africa"],
-    "details": "Tall browsing mammal.",
-    "historical_note": "Giraffes are key savanna browsers and important flagship animals for African wildlife tourism.",
-    "biological_note": "Their long necks, prehensile tongues, and specialized cardiovascular system support high browsing.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "african elephant",
-    "scientific_name": "Loxodonta africana",
-    "common_name": "African Elephant",
-    "taxonomy_class": "Mammalia",
-    "family": "Elephantidae",
-    "conservation_status": "Endangered",
-    "habitats": ["Savanna", "Forest edge"],
-    "regions": ["Africa"],
-    "details": "Largest land mammal.",
-    "historical_note": "African elephants shape habitats and are central to conservation and anti-poaching efforts.",
-    "biological_note": "They use trunks for feeding and communication and maintain complex matriarchal social structures.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "animal",
-    "species_name": "leopard",
-    "scientific_name": "Panthera pardus",
-    "common_name": "Leopard",
-    "taxonomy_class": "Mammalia",
-    "family": "Felidae",
-    "conservation_status": "Vulnerable",
-    "habitats": ["Forest", "Rocky outcrop"],
-    "regions": ["Africa", "Asia"],
-    "details": "Adaptable solitary predator.",
-    "historical_note": "Leopards are among the most adaptable big cats and remain a key species in many protected landscapes.",
-    "biological_note": "They are stealth hunters with climbing ability and a broad prey range.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "seagrass",
-    "scientific_name": "Posidonia and related genera",
-    "common_name": "Seagrass",
-    "taxonomy_class": "Plantae",
-    "family": "Seagrass group",
-    "conservation_status": "Varies by species",
-    "habitats": ["Shallow coast", "Seabed meadow"],
-    "regions": ["Global coasts"],
-    "details": "Underwater flowering plant meadow.",
-    "historical_note": "Seagrass meadows are important coastal carbon sinks and nursery habitats.",
-    "biological_note": "These marine angiosperms anchor in sediment and photosynthesize underwater.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "baobab",
-    "scientific_name": "Adansonia",
-    "common_name": "Baobab",
-    "taxonomy_class": "Plantae",
-    "family": "Malvaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Savanna", "Dry woodland"],
-    "regions": ["Africa", "Madagascar", "Australia"],
-    "details": "Iconic water-storing tree.",
-    "historical_note": "Baobabs are cultural landmarks in drylands and support both wildlife and human communities.",
-    "biological_note": "Their trunks store water and their flowers are adapted to pollination by bats and other animals.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "eucalyptus",
-    "scientific_name": "Eucalyptus",
-    "common_name": "Eucalyptus",
-    "taxonomy_class": "Plantae",
-    "family": "Myrtaceae",
-    "conservation_status": "Varies by species",
-    "habitats": ["Woodland", "Dry forest"],
-    "regions": ["Australia", "Cultivated globally"],
-    "details": "Aromatic evergreen tree group.",
-    "historical_note": "Eucalyptus trees are widely planted for timber, shelter belts, and landscape restoration.",
-    "biological_note": "They contain aromatic oils, sclerophyll leaves, and can be highly drought tolerant.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  },
-  {
-    "kind": "plant",
-    "species_name": "sunflower",
-    "scientific_name": "Helianthus annuus",
-    "common_name": "Sunflower",
-    "taxonomy_class": "Plantae",
-    "family": "Asteraceae",
-    "conservation_status": "Least Concern",
-    "habitats": ["Field", "Cultivated land"],
-    "regions": ["North America", "Worldwide"],
-    "details": "Tall sun-loving flowering plant.",
-    "historical_note": "Sunflowers are important for pollinators, oils, and educational gardens.",
-    "biological_note": "Their flower heads follow the sun when young and later provide seeds rich in nutrients.",
-    "gallery_images": [],
-    "image_url": "",
-    "source": "json",
-    "sightings": 0
-  }
+    {
+        "kind":  "animal",
+        "species_name":  "lion",
+        "scientific_name":  "Panthera leo",
+        "common_name":  "Lion",
+        "taxonomy_class":  "Mammalia",
+        "family":  "Felidae",
+        "conservation_status":  "Vulnerable",
+        "habitats":  [
+                         "Savanna",
+                         "Open grassland"
+                     ],
+        "regions":  [
+                        "Africa"
+                    ],
+        "details":  "Apex social predator.",
+        "historical_note":  "Lions have long been central to conservation, ecology, and cultural symbolism across Africa and beyond.",
+        "biological_note":  "Lions are large social cats with cooperative hunting, territorial behavior, and strong pride structure.",
+        "gallery_images":  [
+                               "/static/images/species/lion/cover.jpg",
+                               "/static/images/species/lion/cover.jpg",
+                               "/static/images/species/lion/cover.jpg"
+                           ],
+        "image_url":  "/static/images/species/lion/cover.jpg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "bald eagle",
+        "scientific_name":  "Haliaeetus leucocephalus",
+        "common_name":  "Bald Eagle",
+        "taxonomy_class":  "Aves",
+        "family":  "Accipitridae",
+        "conservation_status":  "Least Concern",
+        "habitats":  [
+                         "Rivers",
+                         "Coasts"
+                     ],
+        "regions":  [
+                        "North America"
+                    ],
+        "details":  "Large fish-hunting raptor.",
+        "historical_note":  "Once threatened by pesticide exposure, the bald eagle became a conservation success story in North America.",
+        "biological_note":  "Bald eagles are powerful raptors with hooked beaks, broad wings, and exceptional eyesight.",
+        "gallery_images":  [
+                               "/static/images/species/bald-eagle/cover.jpg",
+                               "/static/images/species/bald-eagle/cover.jpg",
+                               "/static/images/species/bald-eagle/cover.jpg"
+                           ],
+        "image_url":  "/static/images/species/bald-eagle/cover.jpg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "komodo dragon",
+        "scientific_name":  "Varanus komodoensis",
+        "common_name":  "Komodo Dragon",
+        "taxonomy_class":  "Reptilia",
+        "family":  "Varanidae",
+        "conservation_status":  "Endangered",
+        "habitats":  [
+                         "Dry forest",
+                         "Grassland"
+                     ],
+        "regions":  [
+                        "Indonesia"
+                    ],
+        "details":  "Largest extant lizard.",
+        "historical_note":  "The species was formally described in the twentieth century and remains a flagship reptile for island conservation.",
+        "biological_note":  "Komodo dragons are large, carnivorous monitor lizards with acute senses and powerful bites.",
+        "gallery_images":  [
+                               "/static/images/species/komodo-dragon/cover.jpg",
+                               "/static/images/species/komodo-dragon/cover.jpg",
+                               "/static/images/species/komodo-dragon/cover.jpg"
+                           ],
+        "image_url":  "/static/images/species/komodo-dragon/cover.jpg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "axolotl",
+        "scientific_name":  "Ambystoma mexicanum",
+        "common_name":  "Axolotl",
+        "taxonomy_class":  "Amphibia",
+        "family":  "Ambystomatidae",
+        "conservation_status":  "Critically Endangered",
+        "habitats":  [
+                         "Freshwater",
+                         "Canals"
+                     ],
+        "regions":  [
+                        "Mexico"
+                    ],
+        "details":  "Regeneration model amphibian.",
+        "historical_note":  "The axolotl became a scientific icon because of its regenerative biology and its long connection to Mexican freshwater systems.",
+        "biological_note":  "Axolotls retain larval traits into adulthood and regenerate limbs, spinal tissue, and other structures.",
+        "gallery_images":  [
+                               "/static/images/species/axolotl/cover.svg",
+                               "/static/images/species/axolotl/cover.svg",
+                               "/static/images/species/axolotl/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/axolotl/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "monarch butterfly",
+        "scientific_name":  "Danaus plexippus",
+        "common_name":  "Monarch Butterfly",
+        "taxonomy_class":  "Insecta",
+        "family":  "Nymphalidae",
+        "conservation_status":  "Endangered",
+        "habitats":  [
+                         "Meadows",
+                         "Roadside milkweed"
+                     ],
+        "regions":  [
+                        "North America"
+                    ],
+        "details":  "Long-distance migratory insect.",
+        "historical_note":  "Monarch migration has become one of the most studied insect migrations in the world.",
+        "biological_note":  "Monarchs rely on milkweed plants and use seasonal migration routes across North America.",
+        "gallery_images":  [
+                               "/static/images/species/monarch-butterfly/cover.svg",
+                               "/static/images/species/monarch-butterfly/cover.svg",
+                               "/static/images/species/monarch-butterfly/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/monarch-butterfly/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "jumping spider",
+        "scientific_name":  "Salticidae",
+        "common_name":  "Jumping Spider",
+        "taxonomy_class":  "Arachnida",
+        "family":  "Salticidae",
+        "conservation_status":  "Not evaluated",
+        "habitats":  [
+                         "Forests",
+                         "Urban edge"
+                     ],
+        "regions":  [
+                        "Worldwide"
+                    ],
+        "details":  "Visually guided predatory spider.",
+        "historical_note":  "Jumping spiders are a major research group for vision, motion, and small-scale hunting strategies.",
+        "biological_note":  "They use precise jumps, strong eyesight, and complex courtship behaviors.",
+        "gallery_images":  [
+                               "/static/images/species/jumping-spider/cover.svg",
+                               "/static/images/species/jumping-spider/cover.svg",
+                               "/static/images/species/jumping-spider/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/jumping-spider/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "atlantic salmon",
+        "scientific_name":  "Salmo salar",
+        "common_name":  "Atlantic Salmon",
+        "taxonomy_class":  "Actinopterygii",
+        "family":  "Salmonidae",
+        "conservation_status":  "Least Concern",
+        "habitats":  [
+                         "Rivers",
+                         "Ocean"
+                     ],
+        "regions":  [
+                        "North Atlantic"
+                    ],
+        "details":  "Anadromous migratory fish.",
+        "historical_note":  "Atlantic salmon have long been important in river ecology, fisheries, and restoration work.",
+        "biological_note":  "They migrate between freshwater and ocean habitats and return to spawn in rivers.",
+        "gallery_images":  [
+                               "/static/images/species/atlantic-salmon/cover.svg",
+                               "/static/images/species/atlantic-salmon/cover.svg",
+                               "/static/images/species/atlantic-salmon/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/atlantic-salmon/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "amanita muscaria",
+        "scientific_name":  "Amanita muscaria",
+        "common_name":  "Fly Agaric",
+        "taxonomy_class":  "Agaricomycetes",
+        "family":  "Amanitaceae",
+        "conservation_status":  "Not evaluated",
+        "habitats":  [
+                         "Temperate forest"
+                     ],
+        "regions":  [
+                        "Northern Hemisphere"
+                    ],
+        "details":  "Iconic mushroom species.",
+        "historical_note":  "Fly agaric is culturally iconic and often appears in forest folklore and natural history references.",
+        "biological_note":  "The species forms ectomycorrhizal partnerships with trees and contains bioactive compounds.",
+        "gallery_images":  [
+                               "/static/images/species/amanita-muscaria/cover.svg",
+                               "/static/images/species/amanita-muscaria/cover.svg",
+                               "/static/images/species/amanita-muscaria/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/amanita-muscaria/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "escherichia coli",
+        "scientific_name":  "Escherichia coli",
+        "common_name":  "E. coli",
+        "taxonomy_class":  "Gammaproteobacteria",
+        "family":  "Enterobacteriaceae",
+        "conservation_status":  "Not evaluated",
+        "habitats":  [
+                         "Gut",
+                         "Water"
+                     ],
+        "regions":  [
+                        "Worldwide"
+                    ],
+        "details":  "Model bacterium used in genetics and molecular biology.",
+        "historical_note":  "E. coli has been central to microbiology, genetics, and biotechnology for decades.",
+        "biological_note":  "The species includes harmless commensal strains and some pathogenic variants.",
+        "gallery_images":  [
+                               "/static/images/species/escherichia-coli/cover.svg",
+                               "/static/images/species/escherichia-coli/cover.svg",
+                               "/static/images/species/escherichia-coli/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/escherichia-coli/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "sars-cov-2",
+        "scientific_name":  "Severe acute respiratory syndrome coronavirus 2",
+        "common_name":  "SARS-CoV-2",
+        "taxonomy_class":  "Pisoniviricetes",
+        "family":  "Coronaviridae",
+        "conservation_status":  "Not applicable",
+        "habitats":  [
+                         "Host-associated"
+                     ],
+        "regions":  [
+                        "Worldwide"
+                    ],
+        "details":  "Coronavirus with global public health impact.",
+        "historical_note":  "The virus became globally significant in 2019 and reshaped public health systems worldwide.",
+        "biological_note":  "SARS-CoV-2 is an enveloped RNA virus that infects host cells through ACE2-related entry mechanisms.",
+        "gallery_images":  [
+                               "/static/images/species/sars-cov-2/cover.svg",
+                               "/static/images/species/sars-cov-2/cover.svg",
+                               "/static/images/species/sars-cov-2/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/sars-cov-2/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "orchid",
+        "scientific_name":  "Orchidaceae",
+        "common_name":  "Orchid",
+        "taxonomy_class":  "Plantae",
+        "family":  "Orchidaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Rainforest understory",
+                         "Cloud forest"
+                     ],
+        "regions":  [
+                        "Worldwide"
+                    ],
+        "details":  "Diverse flowering plant family.",
+        "historical_note":  "Orchids have been cultivated and studied for centuries because of their beauty and ecological specialization.",
+        "biological_note":  "Orchids often rely on specialized pollination systems and symbiotic fungi during development.",
+        "gallery_images":  [
+                               "/static/images/species/orchid/cover.svg",
+                               "/static/images/species/orchid/cover.svg",
+                               "/static/images/species/orchid/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/orchid/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "mangrove",
+        "scientific_name":  "Rhizophora spp.",
+        "common_name":  "Mangrove",
+        "taxonomy_class":  "Plantae",
+        "family":  "Rhizophoraceae",
+        "conservation_status":  "Vulnerable",
+        "habitats":  [
+                         "Coastal wetland",
+                         "Estuary"
+                     ],
+        "regions":  [
+                        "Tropics"
+                    ],
+        "details":  "Salt-tolerant coastal tree.",
+        "historical_note":  "Mangroves are essential for shoreline protection, fish nurseries, and carbon storage.",
+        "biological_note":  "Their aerial roots and salt-handling physiology help them survive tidal habitats.",
+        "gallery_images":  [
+                               "/static/images/species/mangrove/cover.svg",
+                               "/static/images/species/mangrove/cover.svg",
+                               "/static/images/species/mangrove/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/mangrove/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "water lily",
+        "scientific_name":  "Nymphaeaceae",
+        "common_name":  "Water Lily",
+        "taxonomy_class":  "Plantae",
+        "family":  "Nymphaeaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Freshwater pond",
+                         "Lakes"
+                     ],
+        "regions":  [
+                        "Worldwide"
+                    ],
+        "details":  "Floating aquatic flowering plant.",
+        "historical_note":  "Water lilies are widely associated with wetland ecology, art, and botanical gardens.",
+        "biological_note":  "Broad floating leaves and submerged roots allow the plant to anchor while maximizing sunlight capture.",
+        "gallery_images":  [
+                               "/static/images/species/water-lily/cover.svg",
+                               "/static/images/species/water-lily/cover.svg",
+                               "/static/images/species/water-lily/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/water-lily/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "fern",
+        "scientific_name":  "Polypodiopsida",
+        "common_name":  "Fern",
+        "taxonomy_class":  "Plantae",
+        "family":  "Polypodiopsida",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Temperate forest",
+                         "Moist understory"
+                     ],
+        "regions":  [
+                        "Worldwide"
+                    ],
+        "details":  "Ancient spore-producing plant group.",
+        "historical_note":  "Ferns are among the oldest surviving plant lineages and shaped early terrestrial ecosystems.",
+        "biological_note":  "Ferns reproduce with spores and thrive in shaded, moist environments.",
+        "gallery_images":  [
+                               "/static/images/species/fern/cover.svg",
+                               "/static/images/species/fern/cover.svg",
+                               "/static/images/species/fern/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/fern/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "bamboo",
+        "scientific_name":  "Bambusoideae",
+        "common_name":  "Bamboo",
+        "taxonomy_class":  "Plantae",
+        "family":  "Poaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Bamboo grove",
+                         "Subtropical forest"
+                     ],
+        "regions":  [
+                        "Asia",
+                        "Africa",
+                        "Americas"
+                    ],
+        "details":  "Fast-growing woody grass.",
+        "historical_note":  "Bamboo has been used in architecture, food, crafts, and conservation planting for centuries.",
+        "biological_note":  "It grows rapidly through rhizomes and can dominate favorable habitats.",
+        "gallery_images":  [
+                               "/static/images/species/bamboo/cover.svg",
+                               "/static/images/species/bamboo/cover.svg",
+                               "/static/images/species/bamboo/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/bamboo/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "cactus",
+        "scientific_name":  "Cactaceae",
+        "common_name":  "Cactus",
+        "taxonomy_class":  "Plantae",
+        "family":  "Cactaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Desert scrub",
+                         "Dry hillside"
+                     ],
+        "regions":  [
+                        "Americas"
+                    ],
+        "details":  "Water-storing desert plant.",
+        "historical_note":  "Cacti are emblematic of arid ecosystems and are important in dryland restoration.",
+        "biological_note":  "They have adapted stems for water storage and modified leaves for reduced water loss.",
+        "gallery_images":  [
+                               "/static/images/species/cactus/cover.svg",
+                               "/static/images/species/cactus/cover.svg",
+                               "/static/images/species/cactus/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/cactus/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "palm",
+        "scientific_name":  "Arecaceae",
+        "common_name":  "Palm",
+        "taxonomy_class":  "Plantae",
+        "family":  "Arecaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Tropical coast",
+                         "Forest edge"
+                     ],
+        "regions":  [
+                        "Tropics"
+                    ],
+        "details":  "Iconic tropical tree-like plant.",
+        "historical_note":  "Palms have long been tied to coastal settlement, food production, and tropical landscapes.",
+        "biological_note":  "Palm stems are unbranched and topped by a crown of large leaves.",
+        "gallery_images":  [
+                               "/static/images/species/palm/cover.svg",
+                               "/static/images/species/palm/cover.svg",
+                               "/static/images/species/palm/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/palm/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "moss",
+        "scientific_name":  "Bryophyta",
+        "common_name":  "Moss",
+        "taxonomy_class":  "Plantae",
+        "family":  "Bryophyta",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Mossy woodland",
+                         "Rocky shade"
+                     ],
+        "regions":  [
+                        "Worldwide"
+                    ],
+        "details":  "Small non-vascular plant group.",
+        "historical_note":  "Mosses are among the earliest land plants and remain important indicators of moisture and microclimate.",
+        "biological_note":  "They lack true vascular tissue and absorb water across their surfaces.",
+        "gallery_images":  [
+                               "/static/images/species/moss/cover.svg",
+                               "/static/images/species/moss/cover.svg",
+                               "/static/images/species/moss/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/moss/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "wildflower",
+        "scientific_name":  "Angiospermae",
+        "common_name":  "Wildflower",
+        "taxonomy_class":  "Plantae",
+        "family":  "Angiosperms",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Meadow",
+                         "Roadside verge"
+                     ],
+        "regions":  [
+                        "Worldwide"
+                    ],
+        "details":  "General meadow flowering plant group.",
+        "historical_note":  "Wildflowers support pollinators and are central to meadow restoration work.",
+        "biological_note":  "Many wildflowers depend on insects for pollination and seasonal seed set.",
+        "gallery_images":  [
+                               "/static/images/species/wildflower/cover.svg",
+                               "/static/images/species/wildflower/cover.svg",
+                               "/static/images/species/wildflower/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/wildflower/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "pine",
+        "scientific_name":  "Pinus",
+        "common_name":  "Pine",
+        "taxonomy_class":  "Plantae",
+        "family":  "Pinaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Mountain forest",
+                         "Cold woodland"
+                     ],
+        "regions":  [
+                        "Northern Hemisphere"
+                    ],
+        "details":  "Evergreen conifer genus.",
+        "historical_note":  "Pines are central to forestry, watershed protection, and boreal ecology.",
+        "biological_note":  "They produce cones and needle-like leaves adapted to cold and dry conditions.",
+        "gallery_images":  [
+                               "/static/images/species/pine/cover.svg",
+                               "/static/images/species/pine/cover.svg",
+                               "/static/images/species/pine/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/pine/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "lotus",
+        "scientific_name":  "Nelumbo nucifera",
+        "common_name":  "Lotus",
+        "taxonomy_class":  "Plantae",
+        "family":  "Nelumbonaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Garden pond",
+                         "Shallow wetland"
+                     ],
+        "regions":  [
+                        "Asia",
+                        "Australia"
+                    ],
+        "details":  "Aquatic flowering plant.",
+        "historical_note":  "Lotus plants are culturally important and also valuable for wetland and botanical displays.",
+        "biological_note":  "Their floating leaves and emergent flowers rise above still water surfaces.",
+        "gallery_images":  [
+                               "/static/images/species/lotus/cover.svg",
+                               "/static/images/species/lotus/cover.svg",
+                               "/static/images/species/lotus/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/lotus/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "aloe",
+        "scientific_name":  "Aloe vera",
+        "common_name":  "Aloe",
+        "taxonomy_class":  "Plantae",
+        "family":  "Asphodelaceae",
+        "conservation_status":  "Least Concern",
+        "habitats":  [
+                         "Dry hillside",
+                         "Rocky scrub"
+                     ],
+        "regions":  [
+                        "Africa",
+                        "Mediterranean"
+                    ],
+        "details":  "Succulent medicinal plant.",
+        "historical_note":  "Aloe has a long history in traditional medicine and dryland gardening.",
+        "biological_note":  "Thick fleshy leaves store water and help the plant survive arid conditions.",
+        "gallery_images":  [
+                               "/static/images/species/aloe/cover.svg",
+                               "/static/images/species/aloe/cover.svg",
+                               "/static/images/species/aloe/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/aloe/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "cheetah",
+        "scientific_name":  "Acinonyx jubatus",
+        "common_name":  "Cheetah",
+        "taxonomy_class":  "Mammalia",
+        "family":  "Felidae",
+        "conservation_status":  "Vulnerable",
+        "habitats":  [
+                         "Savanna",
+                         "Open woodland"
+                     ],
+        "regions":  [
+                        "Africa",
+                        "Iran"
+                    ],
+        "details":  "Fastest land mammal.",
+        "historical_note":  "Cheetahs have long represented speed-focused conservation challenges in open African ecosystems.",
+        "biological_note":  "They have lightweight builds, non-retractile claws, and enlarged nasal passages for rapid oxygen intake.",
+        "gallery_images":  [
+                               "/static/images/species/cheetah/cover.svg",
+                               "/static/images/species/cheetah/cover.svg",
+                               "/static/images/species/cheetah/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/cheetah/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "giraffe",
+        "scientific_name":  "Giraffa camelopardalis",
+        "common_name":  "Giraffe",
+        "taxonomy_class":  "Mammalia",
+        "family":  "Giraffidae",
+        "conservation_status":  "Vulnerable",
+        "habitats":  [
+                         "Savanna",
+                         "Acacia woodland"
+                     ],
+        "regions":  [
+                        "Africa"
+                    ],
+        "details":  "Tall browsing mammal.",
+        "historical_note":  "Giraffes are key savanna browsers and important flagship animals for African wildlife tourism.",
+        "biological_note":  "Their long necks, prehensile tongues, and specialized cardiovascular system support high browsing.",
+        "gallery_images":  [
+                               "/static/images/species/giraffe/cover.svg",
+                               "/static/images/species/giraffe/cover.svg",
+                               "/static/images/species/giraffe/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/giraffe/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "african elephant",
+        "scientific_name":  "Loxodonta africana",
+        "common_name":  "African Elephant",
+        "taxonomy_class":  "Mammalia",
+        "family":  "Elephantidae",
+        "conservation_status":  "Endangered",
+        "habitats":  [
+                         "Savanna",
+                         "Forest edge"
+                     ],
+        "regions":  [
+                        "Africa"
+                    ],
+        "details":  "Largest land mammal.",
+        "historical_note":  "African elephants shape habitats and are central to conservation and anti-poaching efforts.",
+        "biological_note":  "They use trunks for feeding and communication and maintain complex matriarchal social structures.",
+        "gallery_images":  [
+                               "/static/images/species/african-elephant/cover.svg",
+                               "/static/images/species/african-elephant/cover.svg",
+                               "/static/images/species/african-elephant/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/african-elephant/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "animal",
+        "species_name":  "leopard",
+        "scientific_name":  "Panthera pardus",
+        "common_name":  "Leopard",
+        "taxonomy_class":  "Mammalia",
+        "family":  "Felidae",
+        "conservation_status":  "Vulnerable",
+        "habitats":  [
+                         "Forest",
+                         "Rocky outcrop"
+                     ],
+        "regions":  [
+                        "Africa",
+                        "Asia"
+                    ],
+        "details":  "Adaptable solitary predator.",
+        "historical_note":  "Leopards are among the most adaptable big cats and remain a key species in many protected landscapes.",
+        "biological_note":  "They are stealth hunters with climbing ability and a broad prey range.",
+        "gallery_images":  [
+                               "/static/images/species/leopard/cover.svg",
+                               "/static/images/species/leopard/cover.svg",
+                               "/static/images/species/leopard/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/leopard/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "seagrass",
+        "scientific_name":  "Posidonia and related genera",
+        "common_name":  "Seagrass",
+        "taxonomy_class":  "Plantae",
+        "family":  "Seagrass group",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Shallow coast",
+                         "Seabed meadow"
+                     ],
+        "regions":  [
+                        "Global coasts"
+                    ],
+        "details":  "Underwater flowering plant meadow.",
+        "historical_note":  "Seagrass meadows are important coastal carbon sinks and nursery habitats.",
+        "biological_note":  "These marine angiosperms anchor in sediment and photosynthesize underwater.",
+        "gallery_images":  [
+                               "/static/images/species/seagrass/cover.svg",
+                               "/static/images/species/seagrass/cover.svg",
+                               "/static/images/species/seagrass/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/seagrass/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "baobab",
+        "scientific_name":  "Adansonia",
+        "common_name":  "Baobab",
+        "taxonomy_class":  "Plantae",
+        "family":  "Malvaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Savanna",
+                         "Dry woodland"
+                     ],
+        "regions":  [
+                        "Africa",
+                        "Madagascar",
+                        "Australia"
+                    ],
+        "details":  "Iconic water-storing tree.",
+        "historical_note":  "Baobabs are cultural landmarks in drylands and support both wildlife and human communities.",
+        "biological_note":  "Their trunks store water and their flowers are adapted to pollination by bats and other animals.",
+        "gallery_images":  [
+                               "/static/images/species/baobab/cover.svg",
+                               "/static/images/species/baobab/cover.svg",
+                               "/static/images/species/baobab/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/baobab/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "eucalyptus",
+        "scientific_name":  "Eucalyptus",
+        "common_name":  "Eucalyptus",
+        "taxonomy_class":  "Plantae",
+        "family":  "Myrtaceae",
+        "conservation_status":  "Varies by species",
+        "habitats":  [
+                         "Woodland",
+                         "Dry forest"
+                     ],
+        "regions":  [
+                        "Australia",
+                        "Cultivated globally"
+                    ],
+        "details":  "Aromatic evergreen tree group.",
+        "historical_note":  "Eucalyptus trees are widely planted for timber, shelter belts, and landscape restoration.",
+        "biological_note":  "They contain aromatic oils, sclerophyll leaves, and can be highly drought tolerant.",
+        "gallery_images":  [
+                               "/static/images/species/eucalyptus/cover.svg",
+                               "/static/images/species/eucalyptus/cover.svg",
+                               "/static/images/species/eucalyptus/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/eucalyptus/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    },
+    {
+        "kind":  "plant",
+        "species_name":  "sunflower",
+        "scientific_name":  "Helianthus annuus",
+        "common_name":  "Sunflower",
+        "taxonomy_class":  "Plantae",
+        "family":  "Asteraceae",
+        "conservation_status":  "Least Concern",
+        "habitats":  [
+                         "Field",
+                         "Cultivated land"
+                     ],
+        "regions":  [
+                        "North America",
+                        "Worldwide"
+                    ],
+        "details":  "Tall sun-loving flowering plant.",
+        "historical_note":  "Sunflowers are important for pollinators, oils, and educational gardens.",
+        "biological_note":  "Their flower heads follow the sun when young and later provide seeds rich in nutrients.",
+        "gallery_images":  [
+                               "/static/images/species/sunflower/cover.svg",
+                               "/static/images/species/sunflower/cover.svg",
+                               "/static/images/species/sunflower/cover.svg"
+                           ],
+        "image_url":  "/static/images/species/sunflower/cover.svg",
+        "source":  "json",
+        "sightings":  0
+    }
 ]

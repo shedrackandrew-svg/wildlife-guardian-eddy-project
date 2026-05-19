@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-label="Forest bear illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d9e2cb"/>
+      <stop offset="100%" stop-color="#97b07c"/>
+    </linearGradient>
+    <linearGradient id="bear" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8d6a43"/>
+      <stop offset="100%" stop-color="#4a321f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="700" fill="url(#bg)"/>
+  <path d="M0 520 C 180 450, 352 470, 520 525 S 804 590, 1000 520 L 1000 700 L 0 700 Z" fill="#50723f" opacity="0.28"/>
+  <circle cx="140" cy="130" r="84" fill="#fff3dc" opacity="0.6"/>
+  <path d="M300 400 C 332 300, 412 232, 514 220 C 628 206, 734 264, 772 372 C 809 477, 784 573, 694 619 C 602 665, 478 662, 392 608 C 316 560, 269 484, 300 400 Z" fill="url(#bear)"/>
+  <circle cx="626" cy="336" r="76" fill="#5d4228"/>
+  <circle cx="545" cy="320" r="24" fill="#5d4228"/>
+  <circle cx="708" cy="320" r="24" fill="#5d4228"/>
+  <circle cx="610" cy="352" r="10" fill="#fff8ea"/>
+  <circle cx="595" cy="350" r="6" fill="#2c2216"/>
+  <circle cx="630" cy="350" r="6" fill="#2c2216"/>
+  <path d="M590 382 C 606 394, 625 394, 641 382" fill="none" stroke="#2a1e13" stroke-width="6" stroke-linecap="round"/>
+  <path d="M390 512 C 352 590, 326 650, 304 700" fill="none" stroke="#4b3320" stroke-width="30" stroke-linecap="round"/>
+  <path d="M540 590 C 536 640, 534 670, 535 700" fill="none" stroke="#4b3320" stroke-width="28" stroke-linecap="round"/>
+  <path d="M680 578 C 708 626, 742 662, 786 700" fill="none" stroke="#4b3320" stroke-width="28" stroke-linecap="round"/>
+  <path d="M765 470 C 835 492, 885 534, 926 606" fill="none" stroke="#5f442e" stroke-width="20" stroke-linecap="round"/>
+  <path d="M248 250 C 290 208, 344 186, 404 174" fill="none" stroke="#6f9251" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+  <path d="M292 216 C 322 240, 352 276, 372 320" fill="none" stroke="#6f9251" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+</svg>

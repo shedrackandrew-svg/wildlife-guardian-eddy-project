@@ -32,6 +32,10 @@ const settingsPanel = document.getElementById("settingsPanel");
 const themeToneSelect = document.getElementById("themeTone");
 const voiceStyleSelect = document.getElementById("voiceStyle");
 const voiceRateInput = document.getElementById("voiceRate");
+const simulationScenarioSelect = document.getElementById("simulationScenario");
+const startSimulationBtn = document.getElementById("startSimulation");
+const stopSimulationBtn = document.getElementById("stopSimulation");
+const simulationStatus = document.getElementById("simulationStatus");
 
 const authGate = document.getElementById("authGate");
 const authForm = document.getElementById("authForm");
@@ -81,6 +85,9 @@ let lastLocalObservationAt = 0;
 let localPulse = 0;
 let bluetoothSelections = [];
 let bluetoothStatusMessage = "Nearby scan not started.";
+let simulationTimer = null;
+let simulationActive = false;
+let speciesPool = [];
 
 function isGithubPagesHost() {
   return window.location.hostname.endsWith("github.io");
@@ -409,7 +416,12 @@ function speakProfile(label, profile) {
 }
 
 async function loadModel() {
-  if (!localModel) localModel = await cocoSsd.load();
+  if (localModel) return;
+  if (window.cocoSsd?.load) {
+    localModel = await window.cocoSsd.load();
+    return;
+  }
+  localModel = null;
 }
 
 function drawPredictions(predictions) {
@@ -461,6 +473,92 @@ async function localDetectLoop() {
   }
 
   localLoopHandle = requestAnimationFrame(localDetectLoop);
+}
+
+function simulationSpeciesByScenario() {
+  const mode = simulationScenarioSelect?.value || "mixed";
+  const all = speciesPool.length ? speciesPool : [
+    { species_name: "lion", taxonomy_class: "Mammalia", conservation_status: "Vulnerable" },
+    { species_name: "bald eagle", taxonomy_class: "Aves", conservation_status: "Least Concern" },
+    { species_name: "komodo dragon", taxonomy_class: "Reptilia", conservation_status: "Endangered" },
+    { species_name: "axolotl", taxonomy_class: "Amphibia", conservation_status: "Critically Endangered" },
+  ];
+
+  if (mode === "savanna") {
+    return all.filter((s) => /lion|giraffe|elephant|zebra|leopard|cheetah/i.test(String(s.species_name || "")));
+  }
+  if (mode === "forest") {
+    return all.filter((s) => /gorilla|panda|tiger|otter|eagle|fern|mushroom/i.test(String(s.species_name || "")));
+  }
+  if (mode === "wetland") {
+    return all.filter((s) => /flamingo|salmon|water|mangrove|lotus|axolotl/i.test(String(s.species_name || "")));
+  }
+  return all;
+}
+
+function startSimulation() {
+  if (simulationActive) return;
+  const picked = simulationSpeciesByScenario();
+  if (!picked.length) {
+    if (simulationStatus) simulationStatus.textContent = "No species available for this simulation scenario.";
+    return;
+  }
+
+  simulationActive = true;
+  if (simulationStatus) {
+    simulationStatus.textContent = `Simulation running (${simulationScenarioSelect?.value || "mixed"}). Digital scanner is generating wildlife events.`;
+  }
+
+  simulationTimer = window.setInterval(() => {
+    const item = picked[Math.floor(Math.random() * picked.length)];
+    const confidence = Math.min(0.99, 0.62 + Math.random() * 0.36);
+    const speciesName = String(item.species_name || item.common_name || "wildlife");
+
+    resultBox.textContent = `Simulated detection: ${speciesName} (${Math.round(confidence * 100)}%)`;
+    recordLocalObservation(speciesName, confidence, "simulation");
+    renderAnimalProfile({
+      species_name: speciesName,
+      scientific_name: item.scientific_name || speciesName,
+      conservation_status: item.conservation_status || "Not evaluated",
+      habitats: item.habitats || ["Digital simulation zone"],
+      regions: item.regions || ["Virtual field"],
+      facts: ["Generated in simulation mode for training and demonstration."],
+      image_urls: item.image_url ? [item.image_url] : [],
+    });
+    speakProfile(speciesName, {
+      conservation_status: item.conservation_status || "Not evaluated",
+      facts: ["Simulation event confirmed by digital scan workflow."],
+    });
+
+    if (video && video.readyState < 2) {
+      const width = overlay.width || 640;
+      const height = overlay.height || 360;
+      overlay.width = width;
+      overlay.height = height;
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = "#70e2a3";
+      ctx.lineWidth = 3;
+      const boxW = Math.max(120, Math.floor(width * 0.32));
+      const boxH = Math.max(90, Math.floor(height * 0.28));
+      const x = Math.floor(Math.random() * Math.max(1, width - boxW));
+      const y = Math.floor(Math.random() * Math.max(1, height - boxH));
+      ctx.strokeRect(x, y, boxW, boxH);
+      ctx.fillStyle = "rgba(8, 20, 14, 0.72)";
+      ctx.fillRect(x, Math.max(0, y - 28), boxW, 24);
+      ctx.fillStyle = "#f0fff6";
+      ctx.font = "12px JetBrains Mono";
+      ctx.fillText(`${speciesName} ${Math.round(confidence * 100)}%`, x + 8, Math.max(12, y - 11));
+    }
+  }, Math.max(1300, globalSettings.autoCaptureMs));
+}
+
+function stopSimulation() {
+  if (simulationTimer) {
+    window.clearInterval(simulationTimer);
+    simulationTimer = null;
+  }
+  simulationActive = false;
+  if (simulationStatus) simulationStatus.textContent = "Simulation stopped.";
 }
 
 async function uploadSnapshot() {
@@ -567,6 +665,7 @@ async function startCamera() {
     ? { video: { deviceId: { exact: selected } }, audio: false }
     : { video: { facingMode: "environment" }, audio: false };
   stream = await navigator.mediaDevices.getUserMedia(constraints);
+  stopSimulation();
   video.srcObject = stream;
   if (voiceEnabled) {
     speakProfile("system", { conservation_status: "active", facts: ["Camera connected. Live wildlife voice updates enabled."] });
@@ -792,7 +891,17 @@ async function initQrCode() {
       margin: 1,
       color: { dark: "#0f1f15", light: "#f4f1df" },
     });
+    return;
   }
+  const qrCtx = qrCanvas.getContext("2d");
+  qrCtx.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
+  qrCtx.fillStyle = "#f4f1df";
+  qrCtx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+  qrCtx.fillStyle = "#0f1f15";
+  qrCtx.font = "12px JetBrains Mono";
+  qrCtx.fillText("Share link:", 10, 24);
+  qrCtx.fillText("/live", 10, 44);
+  qrCtx.fillText("(QR library offline)", 10, 64);
 }
 
 function bluetoothRequestOptions(mode) {
@@ -857,16 +966,25 @@ async function handleAuthSubmit(event) {
 function attachEvents() {
   startBtn.addEventListener("click", () => {
     primeVoice();
-    startCamera().catch((err) => (resultBox.textContent = `Camera error: ${err.message}`));
+    startCamera().catch((err) => {
+      resultBox.textContent = `Camera error: ${err.message}. Starting simulation mode.`;
+      startSimulation();
+    });
   });
   stopBtn.addEventListener("click", stopCamera);
   refreshCamerasBtn.addEventListener("click", () => loadCameraDevices().catch(() => {}));
   if (connectExternalCameraBtn) {
     connectExternalCameraBtn.addEventListener("click", () => {
       connectExternalCamera().catch((err) => {
-        if (externalCameraHint) externalCameraHint.textContent = `External camera link error: ${err.message}`;
+        if (externalCameraHint) externalCameraHint.textContent = `External camera link error: ${err.message}. Use Simulation Studio when physical camera is unavailable.`;
       });
     });
+  }
+  if (startSimulationBtn) {
+    startSimulationBtn.addEventListener("click", startSimulation);
+  }
+  if (stopSimulationBtn) {
+    stopSimulationBtn.addEventListener("click", stopSimulation);
   }
   searchSpeciesBtn.addEventListener("click", () => searchSpecies().catch((err) => (animalProfile.textContent = `Lookup error: ${err.message}`)));
   speciesSearchInput.addEventListener("keydown", (event) => {
@@ -953,6 +1071,15 @@ async function init() {
   }
 
   attachEvents();
+  try {
+    const catalogRes = await fetch("/static/wildlife-catalog.json", { cache: "no-store" });
+    if (catalogRes.ok) {
+      const rows = await catalogRes.json();
+      speciesPool = Array.isArray(rows) ? rows.filter((row) => String(row.kind || "animal").toLowerCase() !== "plant") : [];
+    }
+  } catch {
+    speciesPool = [];
+  }
   loadBluetoothSelections();
   renderBluetoothStatus();
   resultBox.classList.add("feed-live");

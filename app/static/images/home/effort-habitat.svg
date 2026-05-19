@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-label="Habitat restoration scene">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#15331f"/>
+      <stop offset="100%" stop-color="#4f7947"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg)"/>
+  <path d="M0 460 C 220 410, 420 430, 620 484 S 1000 580, 1200 520 L 1200 700 L 0 700 Z" fill="#c7a86a" opacity="0.24"/>
+  <path d="M120 470 C 228 392, 340 394, 420 470" fill="none" stroke="#ceb57a" stroke-width="14" stroke-linecap="round"/>
+  <path d="M160 496 C 256 442, 360 446, 450 518" fill="none" stroke="#dfd0a5" stroke-width="8" stroke-linecap="round" opacity="0.8"/>
+  <rect x="474" y="310" width="170" height="120" rx="12" fill="#d6b58d" transform="rotate(-10 474 310)"/>
+  <path d="M528 314 C 520 340, 530 372, 554 404" fill="none" stroke="#7a5d39" stroke-width="9" stroke-linecap="round"/>
+  <path d="M544 312 C 540 348, 560 378, 582 404" fill="none" stroke="#7a5d39" stroke-width="9" stroke-linecap="round"/>
+  <path d="M586 310 C 596 340, 592 372, 572 404" fill="none" stroke="#7a5d39" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="950" cy="180" r="90" fill="#f3efcc" opacity="0.44"/>
+  <path d="M1000 236 C 962 252, 934 272, 900 320" fill="none" stroke="#233f25" stroke-width="12" stroke-linecap="round" opacity="0.5"/>
+</svg>

@@ -357,6 +357,73 @@ function ensureGlobalFooter() {
   document.body.appendChild(footer);
 }
 
+function initGlobalMenuDrawer() {
+  const navLinks = Array.from(document.querySelectorAll(".nav-links a, .navbar-nav a")).filter((link) => {
+    const href = link.getAttribute("href") || "";
+    return href.startsWith("/") && !href.startsWith("/api/");
+  });
+  if (!navLinks.length) return;
+
+  let toggle = document.querySelector(".global-menu-toggle");
+  let drawer = document.querySelector(".global-menu-drawer");
+  if (!toggle) {
+    toggle = document.createElement("button");
+    toggle.className = "global-menu-toggle";
+    toggle.type = "button";
+    toggle.setAttribute("aria-label", "Open menu");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = '<span></span><span></span><span></span>';
+    document.body.appendChild(toggle);
+  }
+
+  if (!drawer) {
+    drawer = document.createElement("aside");
+    drawer.className = "global-menu-drawer";
+    drawer.setAttribute("aria-hidden", "true");
+    drawer.innerHTML = '<div class="global-menu-head"><strong>Menu</strong><button type="button" class="global-menu-close" aria-label="Close menu">Close</button></div><nav class="global-menu-links"></nav>';
+    document.body.appendChild(drawer);
+  }
+
+  const linksContainer = drawer.querySelector(".global-menu-links");
+  if (linksContainer) {
+    const uniqueByText = new Map();
+    for (const link of navLinks) {
+      const text = (link.textContent || "").trim();
+      const href = link.getAttribute("href") || "#";
+      if (!text || uniqueByText.has(text.toLowerCase())) continue;
+      uniqueByText.set(text.toLowerCase(), href);
+    }
+    linksContainer.innerHTML = Array.from(uniqueByText.entries())
+      .map(([label, href]) => `<a href="${appRoute(href)}">${label.replace(/\b\w/g, (m) => m.toUpperCase())}</a>`)
+      .join("");
+  }
+
+  const closeButton = drawer.querySelector(".global-menu-close");
+
+  const closeDrawer = () => {
+    drawer.classList.remove("open");
+    drawer.setAttribute("aria-hidden", "true");
+    toggle.setAttribute("aria-expanded", "false");
+  };
+
+  const openDrawer = () => {
+    drawer.classList.add("open");
+    drawer.setAttribute("aria-hidden", "false");
+    toggle.setAttribute("aria-expanded", "true");
+  };
+
+  toggle.onclick = () => {
+    if (drawer.classList.contains("open")) closeDrawer(); else openDrawer();
+  };
+  if (closeButton) closeButton.onclick = closeDrawer;
+  drawer.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeDrawer));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && drawer.classList.contains("open")) {
+      closeDrawer();
+    }
+  });
+}
+
 function getGlobalSettings() {
   const defaults = {
     theme: "forest",
@@ -722,6 +789,7 @@ setActiveNav();
 ensureSettingsLink();
 ensurePlantsLink();
 applyGlobalTheme();
+initGlobalMenuDrawer();
 applyMenuFeatures();
 applyAuthState();
 initAuthModal();

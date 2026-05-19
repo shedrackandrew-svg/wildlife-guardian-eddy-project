@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-label="Forest wolf illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ecede4"/>
+      <stop offset="100%" stop-color="#b7c2a2"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="700" fill="url(#bg)"/>
+  <path d="M0 520 C 160 470, 312 460, 450 505 S 728 574, 900 516 L 900 700 L 0 700 Z" fill="#81925f" opacity="0.3"/>
+  <path d="M310 472 C 324 372, 376 304, 470 286 C 565 268, 653 303, 702 376 C 750 448, 750 540, 697 596 C 648 648, 552 662, 458 642 C 373 624, 297 568, 310 472 Z" fill="#7b6b55"/>
+  <path d="M448 292 L 395 200 L 470 238 L 520 182 L 550 268 Z" fill="#6a5a47"/>
+  <path d="M578 282 L 637 202 L 663 279 L 728 248 L 706 338 Z" fill="#6a5a47"/>
+  <ellipse cx="585" cy="386" rx="40" ry="28" fill="#2a241a"/>
+  <circle cx="570" cy="378" r="7" fill="#fff8ec"/>
+  <path d="M562 406 C 582 420, 603 420, 624 406" fill="none" stroke="#281f17" stroke-width="5" stroke-linecap="round"/>
+  <path d="M404 524 C 372 590, 348 640, 330 700" fill="none" stroke="#504231" stroke-width="26" stroke-linecap="round"/>
+  <path d="M526 548 C 522 612, 520 654, 520 700" fill="none" stroke="#504231" stroke-width="24" stroke-linecap="round"/>
+  <path d="M652 520 C 680 590, 718 646, 760 700" fill="none" stroke="#504231" stroke-width="24" stroke-linecap="round"/>
+</svg>

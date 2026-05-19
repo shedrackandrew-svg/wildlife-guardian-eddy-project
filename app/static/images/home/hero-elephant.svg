@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 860" role="img" aria-label="Elephant and calf illustration">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6ecd7"/>
+      <stop offset="100%" stop-color="#d9c29a"/>
+    </linearGradient>
+    <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d5b36a"/>
+      <stop offset="100%" stop-color="#b78d45"/>
+    </linearGradient>
+    <linearGradient id="elephant" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b79469"/>
+      <stop offset="100%" stop-color="#7a5a33"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="860" fill="url(#sky)"/>
+  <ellipse cx="950" cy="140" rx="180" ry="80" fill="#fff4e0" opacity="0.5"/>
+  <ellipse cx="240" cy="148" rx="120" ry="62" fill="#fff4e0" opacity="0.35"/>
+  <path d="M0 610 C 180 552, 330 590, 470 570 S 760 530, 980 590 S 1140 620, 1280 570 L 1280 860 L 0 860 Z" fill="url(#grass)"/>
+  <path d="M640 540 C 540 544, 490 468, 496 382 C 500 304, 566 244, 660 236 C 769 227, 851 289, 858 382 C 864 476, 796 540, 702 547 Z" fill="url(#elephant)"/>
+  <path d="M836 384 C 892 380, 948 410, 974 468 C 1000 528, 987 606, 932 657 C 889 697, 838 699, 796 678 C 842 635, 854 577, 849 528 C 844 476, 824 430, 836 384 Z" fill="url(#elephant)"/>
+  <path d="M690 547 C 689 639, 644 735, 575 795" fill="none" stroke="#785632" stroke-width="62" stroke-linecap="round"/>
+  <path d="M743 548 C 755 644, 794 735, 846 795" fill="none" stroke="#785632" stroke-width="58" stroke-linecap="round"/>
+  <path d="M565 338 C 511 330, 468 354, 444 400 C 419 448, 421 510, 453 557 C 476 591, 520 615, 562 614 C 543 570, 537 511, 545 451 C 553 394, 565 355, 565 338 Z" fill="#8c6a41" opacity="0.8"/>
+  <ellipse cx="914" cy="655" rx="132" ry="95" fill="#8e6d43" opacity="0.82"/>
+  <path d="M582 370 C 606 380, 622 400, 624 430 C 627 480, 604 530, 581 559 C 544 605, 496 618, 468 611 C 500 564, 514 507, 518 447 C 521 401, 541 376, 582 370 Z" fill="#70512c" opacity="0.22"/>
+  <path d="M706 287 C 748 252, 804 253, 847 286 C 864 299, 882 319, 894 344 C 848 332, 803 329, 758 334 C 719 338, 687 344, 651 354 C 661 329, 681 305, 706 287 Z" fill="#d4b07c" opacity="0.8"/>
+  <circle cx="746" cy="374" r="10" fill="#3c2d1c"/>
+  <circle cx="796" cy="382" r="10" fill="#3c2d1c"/>
+  <path d="M722 430 C 748 450, 787 447, 816 433" fill="none" stroke="#5c4127" stroke-width="8" stroke-linecap="round"/>
+  <path d="M818 430 C 885 418, 931 434, 986 479" fill="none" stroke="#5c4127" stroke-width="20" stroke-linecap="round"/>
+  <path d="M996 480 C 1019 510, 1008 547, 979 576 C 938 617, 890 631, 851 615" fill="none" stroke="#5c4127" stroke-width="18" stroke-linecap="round"/>
+  <path d="M986 479 C 988 449, 982 418, 968 394" fill="none" stroke="#5c4127" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="382" cy="202" r="9" fill="#6a8f55"/>
+  <circle cx="438" cy="168" r="6" fill="#6a8f55"/>
+  <circle cx="520" cy="176" r="7" fill="#6a8f55"/>
+  <circle cx="1110" cy="200" r="9" fill="#6a8f55"/>
+  <circle cx="1048" cy="172" r="6" fill="#6a8f55"/>
+</svg>

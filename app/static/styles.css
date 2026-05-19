@@ -1,10 +1,15 @@
 :root {
+  --color-jungle: #1B5E20;
+  --color-white: #FFFFFF;
+  --color-soft-white: #F7FBF7;
+  --color-accent: #A8D5BA;
+  --color-text-dark: #0B2B18;
   --panel: rgba(6, 18, 12, 0.78);
   --panel-strong: rgba(5, 14, 9, 0.93);
   --line: rgba(108, 190, 148, 0.24);
   --text: #e7f5ea;
   --muted: #7fa78e;
-  --accent: #61e08d;
+  --accent: var(--color-accent);
   --accent-2: #1f9d6d;
   --nav-bg: rgba(3, 9, 7, 0.88);
 }
@@ -2357,3 +2362,123 @@ textarea:focus {
 }
 
 /* ============ END LIGHT PLATFORM OVERRIDES ============ */
+
+/* ============ GLOBAL MENU + CONTRAST IMPROVEMENTS ============ */
+.global-menu-toggle {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 120;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(26, 74, 48, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 22px rgba(20, 48, 31, 0.14);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.global-menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #1c3c28;
+  margin: 2px 0;
+  border-radius: 999px;
+}
+
+.global-menu-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(320px, 84vw);
+  z-index: 121;
+  background: rgba(250, 254, 251, 0.98);
+  border-right: 1px solid rgba(26, 74, 48, 0.15);
+  box-shadow: 20px 0 40px rgba(20, 48, 31, 0.18);
+  transform: translateX(-102%);
+  transition: transform 260ms ease;
+  padding: 0.9rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0.8rem;
+}
+
+.global-menu-drawer.open {
+  transform: translateX(0);
+}
+
+.global-menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.global-menu-head strong {
+  font-family: "Cinzel", serif;
+  color: #1c3c28;
+}
+
+.global-menu-close {
+  border: 1px solid rgba(26, 74, 48, 0.16);
+  border-radius: 999px;
+  background: #fff;
+  color: #1c3c28;
+  padding: 0.34rem 0.7rem;
+  font-weight: 700;
+}
+
+.global-menu-links {
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+}
+
+.global-menu-links a {
+  text-decoration: none;
+  color: #173220;
+  border: 1px solid rgba(26, 74, 48, 0.14);
+  border-radius: 12px;
+  padding: 0.62rem 0.75rem;
+  background: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
+}
+
+.global-menu-links a:hover {
+  background: rgba(70, 151, 101, 0.1);
+}
+
+.panel-head p,
+.tiny-note,
+.profile-box,
+.gallery-card p,
+.inventory-meta,
+.detail-side p,
+.hero p {
+  color: #1e3425;
+}
+
+.panel-head h1,
+.panel-head h2,
+.panel-head h3,
+.hero h1,
+.hero h2,
+.hero h3,
+.detail-side h3,
+.gallery-card h4 {
+  color: #10271a;
+}
+
+@media (max-width: 720px) {
+  .global-menu-toggle {
+    width: 42px;
+    height: 42px;
+    top: 10px;
+    left: 10px;
+  }
+}
+

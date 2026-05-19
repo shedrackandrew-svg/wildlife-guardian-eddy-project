@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-label="Sea turtle illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8fd3d0"/>
+      <stop offset="100%" stop-color="#2a8c99"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="700" fill="url(#bg)"/>
+  <path d="M0 520 C 180 480, 360 500, 520 540 S 776 578, 900 548 L 900 700 L 0 700 Z" fill="#1c5f72" opacity="0.25"/>
+  <circle cx="704" cy="132" r="78" fill="#fff4dc" opacity="0.52"/>
+  <ellipse cx="462" cy="360" rx="165" ry="122" fill="#5a6c48"/>
+  <ellipse cx="462" cy="360" rx="120" ry="88" fill="#6f855a" opacity="0.8"/>
+  <circle cx="597" cy="344" r="56" fill="#6f7f63"/>
+  <circle cx="612" cy="334" r="8" fill="#1f1f1f"/>
+  <path d="M343 348 C 282 304, 240 282, 182 272 C 224 330, 258 382, 308 408 C 330 420, 356 426, 382 424 C 366 400, 354 376, 343 348 Z" fill="#60714d"/>
+  <path d="M338 418 C 276 456, 232 500, 196 560 C 248 552, 290 530, 332 490 C 352 472, 370 450, 382 424 C 367 428, 352 426, 338 418 Z" fill="#60714d"/>
+  <path d="M542 416 C 604 454, 650 496, 690 556 C 636 552, 594 530, 552 492 C 532 474, 516 452, 502 424 C 516 428, 529 426, 542 416 Z" fill="#60714d"/>
+  <path d="M404 246 C 430 212, 464 190, 508 180" fill="none" stroke="#617452" stroke-width="14" stroke-linecap="round"/>
+  <path d="M504 224 C 538 208, 576 202, 612 206" fill="none" stroke="#617452" stroke-width="12" stroke-linecap="round"/>
+</svg>

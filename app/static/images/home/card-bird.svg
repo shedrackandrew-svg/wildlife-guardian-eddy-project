@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-label="Colorful bird illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e5efe0"/>
+      <stop offset="100%" stop-color="#9cc596"/>
+    </linearGradient>
+    <linearGradient id="bird" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eb7d43"/>
+      <stop offset="45%" stop-color="#f1bd3b"/>
+      <stop offset="100%" stop-color="#2f7c9a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="700" fill="url(#bg)"/>
+  <circle cx="850" cy="120" r="80" fill="#fff7df" opacity="0.65"/>
+  <path d="M120 520 C 260 460, 430 470, 540 500 S 760 560, 900 520 L 900 700 L 120 700 Z" fill="#5d8d53" opacity="0.26"/>
+  <path d="M520 120 C 482 210, 456 290, 444 368 C 425 483, 470 548, 560 560 C 640 571, 720 542, 766 484 C 806 432, 814 361, 796 292 C 780 232, 740 177, 692 138 C 636 93, 574 93, 520 120 Z" fill="url(#bird)"/>
+  <path d="M525 190 C 446 186, 376 164, 314 122 C 350 206, 386 268, 438 312 C 484 350, 534 370, 570 366 C 544 325, 530 269, 525 190 Z" fill="#1f7f90" opacity="0.96"/>
+  <path d="M640 160 C 708 124, 762 104, 846 96 C 812 156, 772 206, 720 248 C 688 274, 650 292, 612 304 C 628 266, 636 214, 640 160 Z" fill="#4dd0cf" opacity="0.95"/>
+  <path d="M702 344 C 768 350, 826 384, 864 442 C 786 432, 718 412, 656 376 C 630 360, 608 342, 590 320 C 625 332, 661 340, 702 344 Z" fill="#f5d55a" opacity="0.9"/>
+  <ellipse cx="600" cy="336" rx="42" ry="32" fill="#2a2a24"/>
+  <circle cx="612" cy="328" r="7" fill="#fff8e6"/>
+  <path d="M642 342 L 742 384 L 646 420 Z" fill="#f0b339"/>
+  <path d="M553 369 C 508 438, 472 494, 418 548" fill="none" stroke="#4b3a24" stroke-width="18" stroke-linecap="round"/>
+  <path d="M578 379 C 548 470, 528 536, 520 588" fill="none" stroke="#4b3a24" stroke-width="12" stroke-linecap="round"/>
+  <path d="M612 382 C 636 478, 676 550, 722 598" fill="none" stroke="#4b3a24" stroke-width="12" stroke-linecap="round"/>
+</svg>

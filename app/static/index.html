@@ -3,252 +3,134 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="WildGuard - Global Wildlife Intelligence Platform for conservation, monitoring, and species awareness." />
-    <title>WildGuard | Global Wildlife Intelligence</title>
+    <meta name="description" content="WildGuard - Wildlife conservation and awareness." />
+    <title>WildGuard | Protecting Nature's Wonders</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/static/styles.css" />
     <link rel="stylesheet" href="/static/professional.css" />
   </head>
   <body class="wildguard-home d-flex flex-column min-vh-100">
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
-    <header class="bg-white border-bottom shadow-sm sticky-top">
-      <div class="top-strip py-2 text-white small" style="background: var(--primary-color);">
-        <div class="container d-flex flex-wrap justify-content-between gap-2">
-          <span>📞 support@wildguard.dev</span>
-          <span>📧 info@wildguard.dev</span>
-        </div>
+    <header class="landing-header">
+      <div class="landing-nav container">
+        <a class="landing-brand" href="/">
+          <img src="/static/tiger-logo.svg" alt="WildGuard logo" />
+          <span>WildGuard</span>
+        </a>
+        <nav class="landing-links" aria-label="Primary">
+          <a href="/">Home</a>
+          <a href="/library">Wildlife</a>
+          <a href="/map">Conservation</a>
+          <a href="/live">Gallery</a>
+          <a href="/history">Contact</a>
+          <a class="landing-cta" href="/dashboard">Donate Now</a>
+        </nav>
       </div>
-
-      <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold brand-mark" href="/">
-            <img src="/static/tiger-logo.svg" alt="WildGuard Logo" />
-            <span>WildGuard</span>
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#wildguardNav" aria-controls="wildguardNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="wildguardNav">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-1">
-              <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
-              <li class="nav-item"><a class="nav-link" href="/library">Library</a></li>
-              <li class="nav-item"><a class="nav-link" href="/map">Map</a></li>
-              <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
-              <li class="nav-item"><a class="nav-link" href="/live">Live Scan</a></li>
-              <li class="nav-item"><button class="nav-link nav-button" type="button" data-auth-action="signin">Sign In</button></li>
-              <li class="nav-item"><button class="nav-link nav-button nav-link-cta nav-link-ghost ms-lg-2" type="button" data-auth-action="signup">Sign Up</button></li>
-              <li class="nav-item"><a class="nav-link nav-link-cta" href="/onboarding">Pair Device</a></li>
-              <li class="nav-item"><a class="nav-link nav-link-cta nav-link-ghost ms-lg-2" href="/settings">Settings</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
     </header>
 
-    <main id="main-content" class="flex-grow-1">
-      <section class="hero-carousel">
-        <div id="wildguardHero" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="6000">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#wildguardHero" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#wildguardHero" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#wildguardHero" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active hero-slide-bg hero-slide-one">
-              <div class="carousel-overlay"></div>
-              <div class="container h-100 d-flex align-items-center">
-                <div class="hero-copy text-white col-lg-8">
-                  <p class="eyebrow">Global Wildlife Platform</p>
-                  <h1 class="display-4 fw-bold mb-3">Global Wildlife Platform.</h1>
-                  <p class="lead mb-4">Real wildlife imagery, live observation updates, and field-ready conservation tools in one modern interface.</p>
-                  <div class="d-flex flex-wrap gap-3">
-                    <a class="btn btn-success btn-lg" href="/live">Start AI Scanning</a>
-                    <a class="btn btn-outline-light btn-lg" href="/dashboard">Open Dashboard</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item hero-slide-bg hero-slide-two">
-              <div class="carousel-overlay"></div>
-              <div class="container h-100 d-flex align-items-center">
-                <div class="hero-copy text-white col-lg-8">
-                  <p class="eyebrow">Global Wildlife Platform</p>
-                  <h2 class="display-5 fw-bold mb-3">Species Tracking with Real-Time Intelligence</h2>
-                  <p class="lead mb-4">Recent observations, curated species records, and high-resolution image cards keep the experience current.</p>
-                  <div class="d-flex flex-wrap gap-3">
-                    <a class="btn btn-success btn-lg" href="/library">Browse Species</a>
-                    <a class="btn btn-outline-light btn-lg" href="/map">View Habitat Map</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item hero-slide-bg hero-slide-three">
-              <div class="carousel-overlay"></div>
-              <div class="container h-100 d-flex align-items-center">
-                <div class="hero-copy text-white col-lg-8">
-                  <p class="eyebrow">Global Wildlife Platform</p>
-                  <h2 class="display-5 fw-bold mb-3">One Platform for Scanning, History, and Response</h2>
-                  <p class="lead mb-4">Monitor detections, pair devices, and coordinate field teams from a compact, modern front page.</p>
-                  <div class="d-flex flex-wrap gap-3">
-                    <a class="btn btn-success btn-lg" href="/history">Open History</a>
-                    <a class="btn btn-outline-light btn-lg" href="/onboarding">Pair Device</a>
-                  </div>
-                </div>
-              </div>
+    <main>
+      <section class="hero-landing">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Wildlife Protection Initiative</p>
+            <h1>Protecting Nature's Wonders</h1>
+            <p class="hero-subtitle">Join us in preserving wildlife and the habitats they depend on through modern conservation intelligence.</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="/library">Learn More</a>
+              <a class="button button-secondary" href="/dashboard">Open Command Center</a>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#wildguardHero" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#wildguardHero" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </section>
 
-      <section class="py-5 bg-light border-top border-bottom">
-        <div class="container">
-          <div class="row g-4 text-center">
-            <div class="col-6 col-lg-3"><div class="metric-card"><strong>24/7</strong><span>Monitoring</span></div></div>
-            <div class="col-6 col-lg-3"><div class="metric-card"><strong>1000+</strong><span>Species</span></div></div>
-            <div class="col-6 col-lg-3"><div class="metric-card"><strong>Live</strong><span>AI Scanning</span></div></div>
-            <div class="col-6 col-lg-3"><div class="metric-card"><strong>Global</strong><span>Coverage</span></div></div>
+          <div class="hero-illustration" aria-hidden="true">
+            <img src="/static/images/wildlife/lion.jpg" alt="Lion" />
           </div>
         </div>
       </section>
 
-      <section class="py-5 wildlife-spotlight-section">
+      <section class="section-light">
         <div class="container">
-          <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3">
+          <div class="section-heading">
+            <span class="section-rule"></span>
             <div>
-              <p class="section-label mb-2">Live from the field</p>
-              <h2 class="section-title mb-1">Current wildlife spotlight</h2>
-              <p class="text-muted mb-0">Recent observations and catalog imagery update with the current time.</p>
+              <h2>Explore Wildlife</h2>
+              <p>Discover the amazing animals we protect.</p>
             </div>
-            <div class="live-clock" id="wildlifeClock">Loading current time...</div>
+            <span class="section-rule"></span>
           </div>
-          <p class="text-muted mb-3" id="wildlifeSpotlightStatus">Loading live wildlife feed...</p>
-          <div id="wildlifeSpotlight" class="wildlife-spotlight-grid"></div>
-        </div>
-      </section>
 
-      <section class="py-5">
-        <div class="container">
-          <div class="row align-items-center g-4">
-            <div class="col-lg-5">
-              <p class="section-label mb-2">Wildlife First</p>
-              <h3 class="section-title mb-3">Short, clean front page with the core tools up front.</h3>
-              <p class="text-muted mb-0">WildGuard keeps the species scanning focus, while the homepage stays neat, modern, and easy to navigate on any screen.</p>
-            </div>
-            <div class="col-lg-7">
-              <div class="row g-3">
-                <div class="col-md-4"><div class="mini-card h-100"><h4>Live Scan</h4><p>Open field-ready detection with clean status overlays.</p></div></div>
-                <div class="col-md-4"><div class="mini-card h-100"><h4>Species Library</h4><p>Browse animal intelligence, facts, and habitat notes.</p></div></div>
-                <div class="col-md-4"><div class="mini-card h-100"><h4>History & Map</h4><p>Review sightings and zone tracking from one place.</p></div></div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <img src="/static/images/wildlife/lion.jpg" alt="Big cat" />
+              <div class="feature-card-body">
+                <h3>Majestic Big Cats</h3>
+                <p>Learn about our big cats.</p>
               </div>
-            </div>
+            </article>
+            <article class="feature-card">
+              <img src="/static/images/species/bald-eagle/cover.jpg" alt="Bird" />
+              <div class="feature-card-body">
+                <h3>Beautiful Birds</h3>
+                <p>See our diverse bird species.</p>
+              </div>
+            </article>
+            <article class="feature-card">
+              <img src="/static/images/species/giraffe/cover.svg" alt="Forest wildlife" />
+              <div class="feature-card-body">
+                <h3>Wildlife of the Forest</h3>
+                <p>Meet the creatures of the woods.</p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
-      <section class="py-4 pb-5">
+      <section class="section-dark">
         <div class="container">
-          <div class="cta-banner text-white rounded-4 p-4 p-lg-5 d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+          <div class="section-heading section-heading-dark">
+            <span class="section-rule"></span>
             <div>
-              <p class="eyebrow mb-2">Need the scanning console?</p>
-              <h3 class="h2 mb-2">Move directly into Live Wildlife Scanning.</h3>
-              <p class="mb-0">The homepage stays short. The full intelligence lives in the dashboard, live, map, and history screens.</p>
+              <h2>Our Conservation Efforts</h2>
+              <p>Working to save endangered species.</p>
             </div>
-            <a class="btn btn-light btn-lg" href="/live">Open Live Scan</a>
+            <span class="section-rule"></span>
+          </div>
+
+          <div class="effort-grid">
+            <article class="effort-card effort-card-left">
+              <div class="effort-label">Restoring natural habitats</div>
+            </article>
+            <article class="effort-card effort-card-right">
+              <div class="effort-label">Protecting wildlife from poaching</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-light section-gallery">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-rule"></span>
+            <div>
+              <h2>Photo Gallery</h2>
+              <p>Captured in the wild.</p>
+            </div>
+            <span class="section-rule"></span>
+          </div>
+
+          <div class="gallery-strip">
+            <figure>
+              <img src="/static/images/species/monarch-butterfly/cover.svg" alt="Butterfly" />
+            </figure>
+            <figure>
+              <img src="/static/images/species/lotus/cover.svg" alt="Lotus" />
+            </figure>
+            <figure>
+              <img src="/static/images/species/palm/cover.svg" alt="Palm" />
+            </figure>
           </div>
         </div>
       </section>
     </main>
-
-    <div id="authModal" class="auth-modal" hidden>
-      <div class="auth-card">
-        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-          <div>
-            <p class="eyebrow mb-2">Secure Access</p>
-            <h3 class="h4 mb-1" id="authModalTitle">Sign In</h3>
-            <p class="text-muted mb-0" id="authModalHint">Use your account to continue.</p>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary" data-auth-close>Close</button>
-        </div>
-        <form id="authForm" class="auth-form">
-          <div class="d-grid gap-2 auth-type-toggle">
-            <button type="button" class="btn btn-outline-success active" data-auth-mode="signin">Sign In</button>
-            <button type="button" class="btn btn-outline-success" data-auth-mode="signup">Sign Up</button>
-          </div>
-          <label class="d-grid gap-2">
-            Username
-            <input id="authUsername" class="form-control" type="text" placeholder="Username" required />
-          </label>
-          <label class="d-grid gap-2">
-            Password
-            <input id="authPassword" class="form-control" type="password" placeholder="Password" required />
-          </label>
-          <label class="d-grid gap-2">
-            Account Type
-            <select id="authRole" class="form-select">
-              <option value="user">Regular User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </label>
-          <button id="authSubmit" class="btn btn-success" type="submit">Continue</button>
-          <p id="authStatus" class="small text-muted mb-0"></p>
-        </form>
-      </div>
-    </div>
-
-    <footer class="wildguard-footer mt-auto">
-      <div class="container py-5">
-        <div class="row g-4">
-          <div class="col-lg-4">
-            <h4 class="footer-title">About WildGuard</h4>
-            <p class="footer-text">Global wildlife intelligence platform for conservation, monitoring, and species awareness.</p>
-          </div>
-          <div class="col-6 col-lg-2">
-            <h4 class="footer-title">Links</h4>
-            <ul class="footer-links">
-              <li><a href="/">Home</a></li>
-              <li><a href="/dashboard">Dashboard</a></li>
-              <li><a href="/library">Library</a></li>
-              <li><a href="/live">Live</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-lg-2">
-            <h4 class="footer-title">Support</h4>
-            <ul class="footer-links">
-              <li><a href="mailto:support@wildguard.dev">Support</a></li>
-              <li><a href="/settings">Settings</a></li>
-              <li><a href="/onboarding">Pair Device</a></li>
-              <li><a href="/history">History</a></li>
-            </ul>
-          </div>
-          <div class="col-lg-4">
-            <h4 class="footer-title">Contact</h4>
-            <p class="footer-text mb-2">support@wildguard.dev</p>
-            <p class="footer-text mb-0">info@wildguard.dev</p>
-          </div>
-        </div>
-        <div class="footer-bottom mt-4 pt-3 d-flex flex-column flex-lg-row justify-content-between gap-2">
-          <small>© 2026 WildGuard. All rights reserved.</small>
-          <small>Privacy · Terms · Accessibility</small>
-        </div>
-      </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/site.js" type="module"></script>
-    <script src="/static/professional.js"></script>
-    <script src="/static/auth.js"></script>
   </body>
 </html>

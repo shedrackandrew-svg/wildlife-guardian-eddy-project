@@ -15,7 +15,7 @@
     <header class="site-nav">
       <div class="nav-inner">
         <a class="nav-brand" href="/">
-          <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=256&q=80" alt="WildGuard" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" />
+          <img src="/static/tiger-logo.svg" alt="WildGuard" />
           <span>WildGuard</span>
         </a>
         <nav class="nav-links">
@@ -55,7 +55,7 @@
     <main class="layout">
       <header class="hero panel">
         <div class="brand-row">
-          <div class="logo-badge" aria-hidden="true"><img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=320&q=85" alt="WildGuard tiger logo" onerror="this.onerror=null;this.src='/static/tiger-logo.svg';" /></div>
+          <div class="logo-badge" aria-hidden="true"><img src="/static/tiger-logo.svg" alt="WildGuard tiger logo" /></div>
           <div>
             <h1>WildGuard Command Center</h1>
             <p>Advanced wildlife detection, inventory, library, and cross-device live intelligence.</p>
@@ -124,6 +124,22 @@
           <button id="toggleAnimalMode">Animal-Only On</button>
           <button id="toggleVoice">Voice On</button>
           <button id="testVoice">Test Voice</button>
+        </div>
+
+        <div class="stack">
+          <h3>Digital Simulation Studio</h3>
+          <p class="tiny-note">Professional simulated wildlife scanning for demos, training, and low-bandwidth environments.</p>
+          <div class="lookup-row">
+            <select id="simulationScenario" aria-label="Simulation scenario">
+              <option value="savanna">Savanna patrol</option>
+              <option value="forest">Forest sweep</option>
+              <option value="wetland">Wetland watch</option>
+              <option value="mixed" selected>Mixed biodiversity</option>
+            </select>
+            <button id="startSimulation" type="button">Start Simulation</button>
+            <button id="stopSimulation" type="button">Stop Simulation</button>
+          </div>
+          <div id="simulationStatus" class="profile-box">Simulation idle. Start the digital scanner to preview simulated detections.</div>
         </div>
 
         <div class="results">
@@ -211,9 +227,6 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
     <script src="/static/site.js" type="module"></script>
     <script src="/static/app.js" type="module"></script>
   </body>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-label="Colorful parrots illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3d0b7"/>
+      <stop offset="100%" stop-color="#d76a49"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="700" fill="url(#bg)"/>
+  <path d="M0 540 C 160 492, 350 508, 520 548 S 790 582, 900 548 L 900 700 L 0 700 Z" fill="#9a4d33" opacity="0.28"/>
+  <ellipse cx="318" cy="354" rx="110" ry="164" fill="#d73d32"/>
+  <ellipse cx="534" cy="352" rx="110" ry="164" fill="#cf5030"/>
+  <circle cx="288" cy="254" r="48" fill="#ef6634"/>
+  <circle cx="506" cy="250" r="48" fill="#ef6634"/>
+  <circle cx="300" cy="242" r="8" fill="#2d2016"/>
+  <circle cx="518" cy="238" r="8" fill="#2d2016"/>
+  <path d="M338 276 L 400 310 L 336 342 Z" fill="#f2c23d"/>
+  <path d="M558 272 L 618 304 L 556 338 Z" fill="#f2c23d"/>
+  <path d="M208 432 C 170 506, 156 572, 158 640" fill="none" stroke="#6b3824" stroke-width="18" stroke-linecap="round"/>
+  <path d="M358 444 C 352 514, 356 578, 372 640" fill="none" stroke="#6b3824" stroke-width="18" stroke-linecap="round"/>
+  <path d="M436 430 C 398 506, 380 572, 376 640" fill="none" stroke="#6b3824" stroke-width="18" stroke-linecap="round"/>
+  <path d="M614 438 C 620 510, 612 580, 590 642" fill="none" stroke="#6b3824" stroke-width="18" stroke-linecap="round"/>
+  <path d="M732 428 C 772 504, 790 570, 792 640" fill="none" stroke="#6b3824" stroke-width="18" stroke-linecap="round"/>
+  <ellipse cx="318" cy="330" rx="138" ry="48" fill="#7ad1d2" opacity="0.45"/>
+  <ellipse cx="536" cy="330" rx="138" ry="48" fill="#7ad1d2" opacity="0.45"/>
+</svg>
