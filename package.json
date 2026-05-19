@@ -1,0 +1,10 @@
+{
+  "name": "wildguard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node server/index.js",
+    "postinstall": "cd server && npm install --no-audit --no-fund",
+    "lint": "echo \"No root linter configured. Run linters in subprojects.\" && exit 0"
+  }
+}

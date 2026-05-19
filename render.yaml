@@ -1,28 +1,14 @@
 services:
   - type: web
     name: wildguard-live
-    env: python
+    env: node
     plan: starter
     autoDeploy: true
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /health
-    disk:
-      name: wildguard-data
-      mountPath: /var/data
-      sizeGB: 2
+    buildCommand: npm install --no-audit --no-fund
+    startCommand: npm start
+    healthCheckPath: /api/health
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
-      - key: DATABASE_URL
-        value: sqlite:////var/data/wildlife.db
-      - key: IMAGE_SAVE_DIR
-        value: /var/data/images
-      - key: ANIMAL_KNOWLEDGE_DIR
-        value: /var/data/animal_profiles
-      - key: SPECIES_IMAGES_DIR
-        value: /var/data/species_images
-      - key: JWT_SECRET_KEY
-        generateValue: true
-      - key: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
-        value: "120"
+      - key: NODE_VERSION
+        value: "20"
+      - key: RATE_LIMIT_MAX
+        value: "180"
